@@ -5,6 +5,11 @@
   height: 24px;
   padding: 10px;
   color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 401;
 }
 
 .title {

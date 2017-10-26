@@ -1,0 +1,15 @@
+.sidebar {
+  position: absolute;
+  top: 44px;
+  left: -320px;
+  height: 100%;
+  width: 300px;
+  padding: 10px;
+  z-index: 401;
+  transition: left .5s ease-in-out;
+  background-color: white;
+}
+
+.sidebar.open {
+  left: 0;
+}
