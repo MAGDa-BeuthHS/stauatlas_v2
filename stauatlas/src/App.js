@@ -25,7 +25,9 @@ class App extends Component {
       <div className="stauatlas-app">
         <header className="header">
           <h1 className="title">
-            <button onClick={this.handleViewSidebar}>click</button>
+            <button className="btn-icon" onClick={this.handleViewSidebar}>
+              <span className="fa fa-lg fa-bars"/>
+            </button>
             Stauatlas Dresden
           </h1>
         </header>
