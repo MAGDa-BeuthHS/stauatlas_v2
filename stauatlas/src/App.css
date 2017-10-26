@@ -1,0 +1,21 @@
+@import "../node_modules/leaflet/dist/leaflet.css";
+
+.header {
+  background-color: #222;
+  height: 24px;
+  padding: 10px;
+  color: white;
+}
+
+.title {
+  font-size: 1.5em;
+  margin: 0;
+}
+
+
+/*
+@keyframes app-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+*/
