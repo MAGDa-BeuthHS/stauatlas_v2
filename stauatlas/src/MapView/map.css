@@ -3,3 +3,57 @@
   height: 100vh;
   width: 100%;
 }
+
+.box {
+  padding: 6px 12px;
+  background-color: rgb(126, 168, 241);
+  border: 1px solid lightblue;
+  z-index: 401;
+  position: absolute;
+  bottom: 20px;
+}
+
+.box-time {
+  font-size: 20px;
+  right: 222px;
+}
+
+.box-legend {
+  right: 20px;
+}
+
+.box-legend > h5 {
+  font-size: 14px;
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.map-legend {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+.map-legend > li {
+  margin-bottom: 6px;
+}
+
+.map-legend li span {
+  width: 13px;
+  height: 13px;
+  margin-right: 6px;
+  display: inline-flex;
+}
+
+.map-legend > li > span.legend-red {
+  background-color: red;
+}
+.map-legend > li > .legend-orange {
+  background-color: orange;
+}
+.map-legend > li > .legend-yellow {
+  background-color: yellow;
+}
+.map-legend > li > .legend-green {
+  background-color: green;
+}

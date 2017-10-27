@@ -1,5 +1,6 @@
 import React from 'react';
 import { Map, TileLayer } from 'react-leaflet';
+import moment from 'moment';
 
 import './map.css';
 
@@ -12,6 +13,16 @@ const MapView = ({ position, zoom, maxZoom }) => (
       url={url}
       attribution={attribution}
     />
+    <div className="box box-time">{moment().format('DD.MM.YY - HH:mm')}</div>
+    <div className="box box-legend">
+      <h5>Farblegende</h5>
+      <ul className="map-legend">
+        <li><span className="legend-red" />50%</li>
+        <li><span className="legend-orange" />50% - 60%</li>
+        <li><span className="legend-yellow" />60% - 85%</li>
+        <li><span className="legend-green" /> >= 85%</li>
+      </ul>
+    </div>
   </Map>
 )
 

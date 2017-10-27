@@ -3,7 +3,6 @@ import React from 'react';
 import './sidebar.css';
 
 const getClass = (isOpen) => {
-  console.log(isOpen)
   return isOpen ? 'sidebar open' : 'sidebar';
 }
 
