@@ -17,3 +17,9 @@ Make sure you have **Node >= 6** on your machine.
 ```
 Then open [http://localhost:3000/](http://localhost:3000/) to see your app.
 When you’re ready to deploy to production, create a minified bundle with npm run build.
+
+## Libs
+- [react-leaflet](https://github.com/PaulLeCam/react-leaflet)
+- [mapbox](https://www.mapbox.com) # question!
+- [moment.js](http://momentjs.com/docs/)
+- [lodash](https://lodash.com/docs)
