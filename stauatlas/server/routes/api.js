@@ -5,7 +5,9 @@ const express = require('express');
 const router = express.Router();
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('masterprojektgeschwindigkeitsdaten', 'root', '', {
+const dbName = process.env["DB_NAME"] || "masterprojektgeschwindigkeitsdaten";
+
+const sequelize = new Sequelize(dbName, 'root', '', {
   host: 'localhost',
   dialect: 'mysql',
   define: {
