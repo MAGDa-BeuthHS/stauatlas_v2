@@ -15,9 +15,78 @@ First you have to install a local MySQL database
 
   sudo mysql_secure_installation
 ```
-start MySql: `sudo service mysql start`   
+start MySql: `sudo service mysql start`    
 stop MySql: `sudo service mysql stop`    
-restart MySql: `sudo service mysql restart`   
+restart MySql: `sudo service mysql restart`    
+
+
+### Create a database.
+Type ` mysql -u root -p ` to open the MySql Terminal    
+and create a database with
+```
+  CREATE DATABASE masterprojektgeschwindigkeitsdaten;
+
+  USE masterprojektgeschwindigkeitsdaten;
+```
+
+Create the tables with
+```
+  CREATE TABLE speed_limits (
+    sensor_id int(11) NOT NULL,
+    speed_limit float DEFAULT NULL,
+    PRIMARY KEY (sensor_id)
+  ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+  CREATE TABLE gps_coordinates (
+    sensor_id int(11) NOT NULL,
+    latitude double DEFAULT NULL,
+    longitude double DEFAULT NULL,
+    PRIMARY KEY (sensor_id)
+  ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+  CREATE TABLE sensor_data (
+    sensor_id int(11) NOT NULL,
+    speed int(11) NOT NULL,
+    timestamp datetime NOT NULL,
+    KEY sensor_ids (sensor_id),
+    KEY timestamps (timestamp),
+    KEY time_sensor (sensor_id,timestamp)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+```
+
+and fill the tables with data
+
+```
+  LOAD DATA [LOCAL] INFILE 'your/path/to/sensordata_export.csv'
+  INTO TABLE sensor_data
+  FIELDS TERMINATED BY ','
+  ENCLOSED BY '"'
+  LINES TERMINATED BY '\n'
+  IGNORE 1 ROWS;
+
+  LOAD DATA [LOCAL] INFILE 'your/path/to/speed_limits.csv'
+  INTO TABLE speed_limits
+  FIELDS TERMINATED BY ','
+  ENCLOSED BY '"'
+  LINES TERMINATED BY '\n'
+  IGNORE 1 ROWS;
+
+  LOAD DATA [LOCAL] INFILE 'your/path/to/gps_coordinates.csv'
+  INTO TABLE gps_coordinates
+  FIELDS TERMINATED BY ','
+  ENCLOSED BY '"'
+  LINES TERMINATED BY '\n'
+  IGNORE 1 ROWS;
+```
+
+Make sure to set `DB_NAME` environment variable to the name of your local mysql database:
+
+```
+export DB_NAME=<your db name>
+```
+
+### Install the other stuff
 
 ```
 npm install
@@ -33,12 +102,6 @@ Then open [http://localhost:3000/](http://localhost:3000/) to see your app.
 When you’re ready to deploy to production, create a minified bundle with npm run build.
 
 ## Starting back-end server
-
-Make sure to set `DB_NAME` environment variable to the name of your local mysql database:
-
-```
-export DB_NAME=<your db name>
-```
 
 Next, start backend server with:
 
