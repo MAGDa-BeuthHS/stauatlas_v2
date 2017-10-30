@@ -47,7 +47,7 @@ let SensorModel = sequelize.define('sensor_data', {
 
 /* GET api listing. */
 router.get('/', (req,res) => {
-  console.log(1234);
+  console.log('api works');
   res.send('api works');
 });
 // Get all tempolimits

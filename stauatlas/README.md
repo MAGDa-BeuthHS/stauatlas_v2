@@ -9,6 +9,15 @@ You can find the most recent version of this guide [here](https://github.com/fac
 Make sure you have **Node >= 6** on your machine.
 
 ## Install
+First you have to install a local MySQL database
+```
+  sudo apt-get install mysql-server
+
+  sudo mysql_secure_installation
+```
+start MySql: `sudo service mysql start`   
+stop MySql: `sudo service mysql stop`    
+restart MySql: `sudo service mysql restart`   
 
 ```
 npm install
