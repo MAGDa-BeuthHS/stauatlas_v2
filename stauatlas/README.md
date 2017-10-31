@@ -8,7 +8,7 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 Make sure you have **Node >= 6** on your machine.
 
-## Install
+## Install MySQL on Ubuntu
 First you have to install a local MySQL database
 ```
   sudo apt-get install mysql-server
@@ -19,8 +19,26 @@ start MySql: `sudo service mysql start`
 stop MySql: `sudo service mysql stop`    
 restart MySql: `sudo service mysql restart`    
 
+## Install MySQL on Mac OS X
 
-### Create a database.
+```bash
+  brew install mysql
+```
+
+Edit file `~/.my.cnf` (create if not exists) and add the following option:
+
+```ini
+[mysqld]
+secure_file_priv               = ''
+```
+
+Then restart mysql server:
+
+```bash
+  mysql.server restart
+```
+
+## Create a database.
 Type ` mysql -u root -p ` to open the MySql Terminal    
 and create a database with
 ```
