@@ -3,6 +3,7 @@ import './App.css';
 
 import MapView from './MapView/MapView.js';
 import SideBar from './SideBar/SideBar.js';
+import Header from './Header/Header.js';
 
 class App extends Component {
   constructor(props) {
@@ -23,15 +24,7 @@ class App extends Component {
   render() {
     return (
       <div className="stauatlas-app">
-        <header className="header">
-          <h1 className="title">
-            <button className="btn-icon" onClick={this.handleViewSidebar}>
-              <span className="fa fa-lg fa-bars"/>
-            </button>
-            Stauatlas Dresden
-          </h1>
-        </header>
-
+        <Header handleViewSidebar={this.handleViewSidebar}/>
         <SideBar isOpen={this.state.sidebarOpen} />
         <MapView position={[51.050407,13.737262]} zoom={15} />
       </div>
