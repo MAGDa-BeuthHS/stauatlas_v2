@@ -111,6 +111,7 @@ export DB_NAME=<your db name>
 ```
 
 ### Install the other stuff
+Download the [https://fb.me/react-devtools](React DevTools) for a better development experience: 
 
 ```
 npm install
