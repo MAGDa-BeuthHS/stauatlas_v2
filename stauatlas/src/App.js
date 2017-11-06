@@ -26,7 +26,7 @@ class App extends Component {
       <div className="stauatlas-app">
         <Header handleViewSidebar={this.handleViewSidebar}/>
         <SideBar isOpen={this.state.sidebarOpen} />
-        <MapView position={[51.050407,13.737262]} zoom={15} />
+        <MapView position={[51.050407,13.737262]} zoom={13} />
       </div>
     );
   }

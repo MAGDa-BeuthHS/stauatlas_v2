@@ -3,10 +3,16 @@ import { Map, TileLayer } from 'react-leaflet';
 
 import './map.css';
 
-const attribution = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors';
-const url = 'http://{s}.tile.osm.org/{z}/{x}/{y}.png';
+const osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>'
+const cc = '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
+const mapboxLink = '<a href="http://mapbox.com">Mapbox</a>'
+const attribution = 'Map data &copy; ' + osmLink + ' contributors,' + cc + ' , Imagery © ' + mapboxLink;
 
-const MapView = ({ position, zoom, maxZoom }) => (
+const layer = 'https://api.mapbox.com/styles/v1/mapbox/basic-v9/tiles/256/{z}/{x}/{y}';
+const accessToken = 'pk.eyJ1Ijoic2FraW1hIiwiYSI6ImNqMXo5Z3F2bTAwZnUyeG41N210eWRtbGUifQ.vQjupMfaIwku2OMNsaPTDA'
+const url = layer + '?access_token=' + accessToken;
+
+const MapView = ({ position, zoom }) => (
   <Map center={position} zoom={zoom} zoomControl={false}>
     <TileLayer
       url={url}
