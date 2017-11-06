@@ -8,38 +8,44 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 Make sure you have **Node >= 6** on your machine.
 
-## Install MySQL on Ubuntu
+## Install MySQL 
 First you have to install a local MySQL database
+
+** For Ubuntu: **
 ```
   sudo apt-get install mysql-server
 
   sudo mysql_secure_installation
-```
-start MySql: `sudo service mysql start`    
-stop MySql: `sudo service mysql stop`    
-restart MySql: `sudo service mysql restart`    
+```      
 
-## Install MySQL on Mac OS X
+** For Mac OS X **
 
 ```bash
   brew install mysql
 ```
 
-Edit file `~/.my.cnf` (create if not exists) and add the following option:
+Edit the MySQL config-file   
+OSX: `~/.my.cnf` (create if not exists)  
+Ubuntu: `/etc/mysql/my.cnf`  
+and add the following option:
 
 ```ini
 [mysqld]
-secure_file_priv               = ''
+secure_file_priv = ''
 ```
 
 Then restart mysql server:
 
 ```bash
-  mysql.server restart
+  # Mac OS X
+  mysql.server restart    
+
+  # Linux    
+  restart MySql: `sudo service mysql restart` 
 ```
 
-## Create a database.
-Type ` mysql -u root -p ` to open the MySql Terminal    
+### Create a database.
+Type `mysql -u root` to open the MySql Terminal    
 and create a database with
 ```
   CREATE DATABASE masterprojektgeschwindigkeitsdaten;
@@ -73,7 +79,7 @@ Create the tables with
 
 ```
 
-and fill the tables with data
+and import the given data
 
 ```
   LOAD DATA [LOCAL] INFILE 'your/path/to/sensordata_export.csv'
@@ -110,7 +116,8 @@ export DB_NAME=<your db name>
 npm install
 ```
 
-## Starting front-end server
+## Start 
+For starting the **front-end server** use
 
 ```
 npm start
@@ -119,9 +126,8 @@ npm start
 Then open [http://localhost:3000/](http://localhost:3000/) to see your app.
 When you’re ready to deploy to production, create a minified bundle with npm run build.
 
-## Starting back-end server
 
-Next, start backend server with:
+Next, start **backend server** with:
 
 ```
 npm run backend
