@@ -21,11 +21,12 @@ const MapView = ({ position, zoom, traffic}) => (
     />
 
     {traffic.map(light => (
-      <Circle 
-        className="legend-red"
+      <Circle
         key={light.sensor_id}
+        radius={33}
+        color={light.color}
+        fillColor={light.color}
         center={[light.latitude, light.longitude]}
-        radius={11}
       />
     ))}
     <div className="box box-legend">

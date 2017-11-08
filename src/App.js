@@ -13,6 +13,7 @@ class App extends Component {
       sidebarOpen: false,
       trafficData: []
     };
+    this.setColor = this.setColor.bind(this);
   }
 
   componentDidMount() {
@@ -28,6 +29,8 @@ class App extends Component {
     */
     getTrafficInfos()
     .then(traffic => {
+      this.setColor(traffic);
+   
       this.setState((prevState) => {
         if(prevState !== traffic) {
           return {
@@ -36,6 +39,22 @@ class App extends Component {
         }
       })
     });
+  }
+
+  setColor(traffic) {    
+  //const avgSpeed = traffic.averageSpeed.toFixed(0); //inkl. Float formatieren)
+    traffic.map(t => {
+      if (Math.round(t.relativeSpeed) >= 85) {
+        t.color = 'green';
+      } else if (Math.round(t.relativeSpeed) < 85 && Math.round(t.relativeSpeed) >= 60) {
+        t.color = 'yellow';
+      } else if (Math.round(t.relativeSpeed) < 60 && Math.round(t.relativeSpeed) >= 50) {
+        t.color = 'orange';
+      } else if (Math.round(t.relativeSpeed) < 50) {
+        t.color = 'red';
+      }
+      return t;
+    })  
   }
 
   handleViewSidebar = () => {
