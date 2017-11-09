@@ -11,20 +11,20 @@ Make sure you have **Node >= 6** on your machine.
 ## Install MySQL 
 First you have to install a local MySQL database
 
-** For Ubuntu: **
+**For Ubuntu:**
 ```
   sudo apt-get install mysql-server
 
   sudo mysql_secure_installation
 ```      
 
-** For Mac OS X **
+**For Mac OS X**
 
 ```bash
   brew install mysql
 ```
 
-Edit the MySQL config-file   
+Edit the MySQL config-file       
 OSX: `~/.my.cnf` (create if not exists)  
 Ubuntu: `/etc/mysql/my.cnf`  
 and add the following option:
@@ -136,6 +136,6 @@ npm run backend
 
 ## Libs
 - [react-leaflet](https://github.com/PaulLeCam/react-leaflet)
-- [mapbox](https://www.mapbox.com) # question!
+- [mapbox](https://www.mapbox.com)
 - [moment.js](http://momentjs.com/docs/)
 - [lodash](https://lodash.com/docs)
