@@ -1,12 +1,12 @@
 import moment from 'moment';
 //get current Jam-Infos from the API
 
-const API_BASE = 'http://141.64.5.234/excell-stauatlas/api/';
+const API_BASE = 'http://localhost:4200/api/';
 
 export async function getTrafficInfos(option, top10, filter) {
     let url = API_BASE + 'all/';
 
-    // TODO: null or undefined? 
+    // TODO: null or undefined?
     // I'm sure we can use a better url?
     option ? url += option + '/' : url += 'null/';
     top10 ? url += top10 + '/' : url += 'undefined/';

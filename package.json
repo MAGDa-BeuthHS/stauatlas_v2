@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cors": "^2.8.4",
     "express": "^4.16.2",
     "font-awesome": "^4.7.0",
     "leaflet": "^1.2.0",
