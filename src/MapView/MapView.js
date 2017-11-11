@@ -2,7 +2,6 @@ import React from "react";
 import {Circle, Map, TileLayer} from "react-leaflet";
 
 import "./map.css";
-import {randomColor} from "../colors";
 
 const osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>'
 const cc = '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'
@@ -36,15 +35,24 @@ const MapView = ({position, zoom, traffic}) => (
                 className="traffic-light-circle"
             />
         ))}
-        <div className="box box-legend">
-            <h5>Farblegende</h5>
-            <ul className="map-legend">
-                <li><span className="legend-red"/>50%</li>
-                <li><span className="legend-orange"/>50% - 60%</li>
-                <li><span className="legend-yellow"/>60% - 85%</li>
-                <li><span className="legend-green"/> >= 85%</li>
+
+        <div className="box box-zoom">
+            <ul className="zoom-button">
+                <li>+</li>
+                <li className="border"></li>
+                <li>–</li>
             </ul>
         </div>
+
+        <div className="box box-legend">
+            <ul className="map-legend">
+                <li><span className="legend-red"/></li>
+                <li><span className="legend-orange"/></li>
+                <li><span className="legend-yellow"/></li>
+                <li><span className="legend-green"/></li>
+            </ul>
+        </div>
+
     </Map>
 )
 
