@@ -8,9 +8,10 @@ const cc = '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a
 const mapboxLink = '<a href="http://mapbox.com">Mapbox</a>'
 const attribution = 'Map data &copy; ' + osmLink + ' contributors,' + cc + ' , Imagery © ' + mapboxLink;
 
-// const layer = 'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png';
+// Two variants of the TileLayer color
 
-const layer = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png';
+const layer = 'http://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png';
+//const layer = 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/dark_all/{z}/{x}/{y}.png';
 
 const accessToken = 'pk.eyJ1Ijoic2FraW1hIiwiYSI6ImNqMXo5Z3F2bTAwZnUyeG41N210eWRtbGUifQ.vQjupMfaIwku2OMNsaPTDA'
 const url = layer + '?access_token=' + accessToken;
