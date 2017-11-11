@@ -4,13 +4,10 @@ import './header.css';
 
 const Header = ({ handleViewSidebar }) => (      
   <div className="header">
-    <h1 className="title">
-      <button className="btn-icon" onClick={handleViewSidebar}>
-        <span className="fa fa-lg fa-bars"/>
-      </button>
-      Stauatlas Dresden
+      <a href="#" className="sidebar-toggle" onClick={handleViewSidebar}>
+          <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+      </a>
       <div className="time">{moment().format('DD.MM.YY - HH:mm')}</div>
-    </h1>
   </div>       
 );
 

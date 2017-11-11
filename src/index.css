@@ -1,7 +1,11 @@
+@font-face {
+  font-family: "Avenir Light";
+  src: local('Avenir Light'), url(./fonts/AvenirLTStd-Light.otf) format('otf');
+}
 
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: 'Avenir Light', sans-serif;
   overflow: hidden;
 }

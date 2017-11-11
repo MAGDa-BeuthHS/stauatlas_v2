@@ -5,6 +5,7 @@ import MapView from './MapView/MapView.js';
 import SideBar from './SideBar/SideBar.js';
 import Header from './Header/Header.js';
 import { getTrafficInfos } from './trafficService'
+import {green, orange, red, yellow} from "./colors";
 
 class App extends Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    /* 
+    /*
     [{
       averageSpeed: 35,
       latitude:     51.118823986987536,
@@ -30,7 +31,7 @@ class App extends Component {
     getTrafficInfos()
     .then(traffic => {
       this.setColor(traffic);
-   
+
       this.setState((prevState) => {
         if(prevState !== traffic) {
           return {
@@ -41,20 +42,20 @@ class App extends Component {
     });
   }
 
-  setColor(traffic) {    
+  setColor(traffic) {
   //const avgSpeed = traffic.averageSpeed.toFixed(0); //inkl. Float formatieren)
     traffic.map(t => {
       if (Math.round(t.relativeSpeed) >= 85) {
-        t.color = 'green';
+        t.color = green;
       } else if (Math.round(t.relativeSpeed) < 85 && Math.round(t.relativeSpeed) >= 60) {
-        t.color = 'yellow';
+        t.color = yellow;
       } else if (Math.round(t.relativeSpeed) < 60 && Math.round(t.relativeSpeed) >= 50) {
-        t.color = 'orange';
+        t.color = orange;
       } else if (Math.round(t.relativeSpeed) < 50) {
-        t.color = 'red';
+        t.color = red;
       }
       return t;
-    })  
+    })
   }
 
   handleViewSidebar = () => {
@@ -63,14 +64,14 @@ class App extends Component {
         sidebarOpen: !prevState.sidebarOpen
       }
     });
-  }
+  };
 
   render() {
     return (
       <div className="stauatlas-app">
         <Header handleViewSidebar={this.handleViewSidebar}/>
-        <SideBar isOpen={this.state.sidebarOpen} />
-        <MapView 
+        <SideBar isOpen={this.state.sidebarOpen} handleViewSidebar={this.handleViewSidebar}/>
+        <MapView
           position={[51.050407,13.737262]}
           zoom={13}
           traffic={this.state.trafficData}/>
