@@ -6,8 +6,8 @@
   padding: 10px;
   z-index: 401;
   transition: left .5s ease-in-out;
-  background-color: white;
-  border-right: 2px solid #585555;
+  background-color: #D8D8D8;
+  border-right: 2px solid #979797;
 }
 
 .sidebar.open {
@@ -22,10 +22,11 @@
 }
 
 .title {
-  font-size: 2.5em;
+  font-size: 2.6em;
+  font-weight: 200;
   padding-right: 1em;
-  letter-spacing: 2px;
-  color: #979797;
+  letter-spacing: 3px;
+  color: white;
 }
 
 .sidebar-toggle-back i {
@@ -35,7 +36,7 @@
 }
 
 .line {
-  border-bottom: 2px solid #D8D8D8;
+  border-bottom: 1px solid #979797;
   width: 90%;
   margin: 0 auto;
   padding-bottom: .8em;

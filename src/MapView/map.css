@@ -6,7 +6,7 @@
 
 .box {
     padding: 6px 12px;
-    background-color: #585555;
+    background-color: #D8D8D8;
     z-index: 401;
     position: absolute;
 }
@@ -32,7 +32,7 @@
 
 .zoom-button li {
     font-size: 48px;
-    color: #D8D8D8;
+    color: #585555;
     font-weight: 600;
     line-height: 1;
     padding-bottom: 10px;
@@ -40,7 +40,7 @@
 }
 
 .zoom-button li.border {
-    border-top: 3px solid #D8D8D8;
+    border-top: 3px solid #585555;
     margin: 0 -12px;
     padding: 0;
 }
@@ -69,6 +69,7 @@
     display: inline-flex;
     border-radius: 50%;
     border: 1px solid #D8D8D8;
+    box-shadow: 2px 0 10px #888;
 }
 
 .map-legend > li > span.legend-red {
