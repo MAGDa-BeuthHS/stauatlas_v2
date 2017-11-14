@@ -12,9 +12,12 @@ class App extends Component {
     super(props);
     this.state = {
       sidebarOpen: false,
-      trafficData: []
+      trafficData: [],
+      zoom: 13,
     };
     this.setColor = this.setColor.bind(this);
+    this.increaseZoom = this.increaseZoom.bind(this);
+    this.decreaseZoom = this.decreaseZoom.bind(this);
   }
 
   componentDidMount() {
@@ -66,6 +69,18 @@ class App extends Component {
     });
   };
 
+  increaseZoom = () => {
+      this.setState({
+          zoom: this.state.zoom + 1
+      });
+  };
+
+  decreaseZoom = () => {
+      this.setState({
+          zoom: this.state.zoom - 1
+      });
+  };
+
   render() {
     return (
       <div className="stauatlas-app">
@@ -73,8 +88,11 @@ class App extends Component {
         <SideBar isOpen={this.state.sidebarOpen} handleViewSidebar={this.handleViewSidebar}/>
         <MapView
           position={[51.050407,13.737262]}
-          zoom={13}
-          traffic={this.state.trafficData}/>
+          zoom={this.state.zoom}
+          traffic={this.state.trafficData}
+          increaseZoom={this.increaseZoom}
+          decreaseZoom={this.decreaseZoom}
+        />
       </div>
     );
   }

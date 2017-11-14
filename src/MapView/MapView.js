@@ -18,8 +18,8 @@ const accessToken = 'pk.eyJ1IjoiaWxvbmFjb2RlcyIsImEiOiJjajl3d3lpdjcwcjV0MzNtZGdm
 
 const url = layer + '?access_token=' + accessToken;
 
+const MapView = ({position, zoom, traffic, increaseZoom, decreaseZoom}) => (
 
-const MapView = ({position, zoom, traffic}) => (
     <Map center={position} zoom={zoom} zoomControl={false}>
         <TileLayer
             url={url}
@@ -38,11 +38,12 @@ const MapView = ({position, zoom, traffic}) => (
             />
         ))}
 
+
         <div className="box box-zoom">
             <ul className="zoom-button">
-                <li>+</li>
+                <li onClick={increaseZoom}>+</li>
                 <li className="border"></li>
-                <li>–</li>
+                <li onClick={decreaseZoom}>–</li>
             </ul>
         </div>
 
@@ -56,6 +57,6 @@ const MapView = ({position, zoom, traffic}) => (
         </div>
 
     </Map>
-)
+);
 
 export default MapView;
