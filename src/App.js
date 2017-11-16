@@ -5,7 +5,7 @@ import MapView from './MapView/MapView.js';
 import SideBar from './SideBar/SideBar.js';
 import Header from './Header/Header.js';
 import { getTrafficInfos } from './trafficService'
-import {green, orange, red, yellow} from "./colors";
+import { green, orange, red, yellow } from "./utils/colors";
 
 class App extends Component {
   constructor(props) {
@@ -15,9 +15,7 @@ class App extends Component {
       trafficData: [],
       zoom: 13,
     };
-    this.setColor = this.setColor.bind(this);
-    this.increaseZoom = this.increaseZoom.bind(this);
-    this.decreaseZoom = this.decreaseZoom.bind(this);
+    this.setColor = this.setColor.bind(this);   
   }
 
   componentDidMount() {
@@ -68,19 +66,7 @@ class App extends Component {
       }
     });
   };
-
-  increaseZoom = () => {
-      this.setState({
-          zoom: this.state.zoom + 1
-      });
-  };
-
-  decreaseZoom = () => {
-      this.setState({
-          zoom: this.state.zoom - 1
-      });
-  };
-
+ 
   render() {
     return (
       <div className="stauatlas-app">
@@ -89,9 +75,7 @@ class App extends Component {
         <MapView
           position={[51.050407,13.737262]}
           zoom={this.state.zoom}
-          traffic={this.state.trafficData}
-          increaseZoom={this.increaseZoom}
-          decreaseZoom={this.decreaseZoom}
+          traffic={this.state.trafficData}          
         />
       </div>
     );

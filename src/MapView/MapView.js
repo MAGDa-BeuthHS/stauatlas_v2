@@ -1,5 +1,6 @@
 import React from "react";
-import {Circle, Map, TileLayer} from "react-leaflet";
+import {Circle, Map, TileLayer, ZoomControl} from "react-leaflet";
+import PropTypes from 'prop-types';
 
 import "./map.css";
 
@@ -18,45 +19,36 @@ const accessToken = 'pk.eyJ1IjoiaWxvbmFjb2RlcyIsImEiOiJjajl3d3lpdjcwcjV0MzNtZGdm
 
 const url = layer + '?access_token=' + accessToken;
 
-const MapView = ({position, zoom, traffic, increaseZoom, decreaseZoom}) => (
+const MapView = ({position, zoom, traffic}) => (
 
-    <Map center={position} zoom={zoom} zoomControl={false}>
-        <TileLayer
-            url={url}
-            attribution={attribution}
-        />
+	<Map center={position} zoom={zoom} zoomControl={false}>
+		<TileLayer
+			url={url}
+			attribution={attribution}
+		/>
+		<ZoomControl position="topright" />
 
-        {traffic.map(light => (
-            <Circle
-                key={light.sensor_id}
-                radius={33}
-                color={light.color}
-                fillColor={light.color}
-                center={[light.latitude, light.longitude]}
-                fillOpacity={.4}
-                className="traffic-light-circle"
-            />
-        ))}
+			{traffic.map(light => (
+				<Circle
+					key={light.sensor_id}
+					radius={55}
+					color={light.color}
+					fillColor={light.color}
+					center={[light.latitude, light.longitude]}
+					fillOpacity={.4}
+					className="traffic-light-circle"
+				/>
+			))}      
 
-
-        <div className="box box-zoom">
-            <ul className="zoom-button">
-                <li onClick={increaseZoom}>+</li>
-                <li className="border"></li>
-                <li onClick={decreaseZoom}>–</li>
-            </ul>
-        </div>
-
-        <div className="box box-legend">
-            <ul className="map-legend">
-                <li><span className="legend-red"/></li>
-                <li><span className="legend-orange"/></li>
-                <li><span className="legend-yellow"/></li>
-                <li><span className="legend-green"/></li>
-            </ul>
-        </div>
-
-    </Map>
+			<div className="box box-legend">
+				<ul className="map-legend">
+					<li><span className="legend-red"/></li>
+					<li><span className="legend-orange"/></li>
+					<li><span className="legend-yellow"/></li>
+					<li><span className="legend-green"/></li>
+				</ul>
+			</div>
+	</Map>
 );
 
 export default MapView;
