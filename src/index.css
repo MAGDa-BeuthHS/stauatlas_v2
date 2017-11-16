@@ -1,4 +1,4 @@
-/* :root {
+:root {
   --text-color-light: #fff;
   --text-color: #000;
   --color-gray-lighter: #bbb;
@@ -11,7 +11,7 @@
   --color-red: #FD0000;
   --color-action-primary: #82D0FF;
   --color-action-default: #D87A7A;
-} */
+}
 
 
 @font-face {

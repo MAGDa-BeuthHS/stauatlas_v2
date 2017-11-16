@@ -67,20 +67,20 @@
     box-shadow: 2px 0 10px #888;
 }
 
-.map-legend > li > span.legend-red {
-    background-color: #FD0000;
+.color-red {
+    background-color: var(--color-red);
 }
 
-.map-legend > li > .legend-orange {
-    background-color: #FF950B;
+.color-orange {
+    background-color: var(--color-orange);
 }
 
-.map-legend > li > .legend-yellow {
-    background-color: #F7FF36;
+.color-yellow {
+    background-color: var(--color-yellow);
 }
 
-.map-legend > li > .legend-green {
-    background-color: #00CC00;
+.color-green {
+    background-color: var(--color-green);
 }
 
 .traffic-light-circle {

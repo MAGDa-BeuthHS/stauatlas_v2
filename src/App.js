@@ -5,7 +5,6 @@ import MapView from './MapView/MapView.js';
 import SideBar from './SideBar/SideBar.js';
 import Header from './Header/Header.js';
 import { getTrafficInfos } from './trafficService'
-import { green, orange, red, yellow } from "./utils/colors";
 
 class App extends Component {
   constructor(props) {
@@ -44,16 +43,15 @@ class App extends Component {
   }
 
   setColor(traffic) {
-  //const avgSpeed = traffic.averageSpeed.toFixed(0); //inkl. Float formatieren)
     traffic.map(t => {
       if (Math.round(t.relativeSpeed) >= 85) {
-        t.color = green;
+        t.color = 'green';
       } else if (Math.round(t.relativeSpeed) < 85 && Math.round(t.relativeSpeed) >= 60) {
-        t.color = yellow;
+        t.color = 'yellow';
       } else if (Math.round(t.relativeSpeed) < 60 && Math.round(t.relativeSpeed) >= 50) {
-        t.color = orange;
+        t.color = 'orange';
       } else if (Math.round(t.relativeSpeed) < 50) {
-        t.color = red;
+        t.color = 'red';
       }
       return t;
     })

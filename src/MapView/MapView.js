@@ -36,16 +36,16 @@ const MapView = ({position, zoom, traffic}) => (
 					fillColor={light.color}
 					center={[light.latitude, light.longitude]}
 					fillOpacity={.4}
-					className="traffic-light-circle"
+					className={`color-${light.color} traffic-light-circle`}
 				/>
 			))}      
 
 			<div className="box box-legend">
 				<ul className="map-legend">
-					<li><span className="legend-red"/></li>
-					<li><span className="legend-orange"/></li>
-					<li><span className="legend-yellow"/></li>
-					<li><span className="legend-green"/></li>
+					<li><span className="color-red"/></li>
+					<li><span className="color-orange"/></li>
+					<li><span className="color-yellow"/></li>
+					<li><span className="color-green"/></li>
 				</ul>
 			</div>
 	</Map>
