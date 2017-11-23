@@ -19,7 +19,15 @@ const accessToken = 'pk.eyJ1IjoiaWxvbmFjb2RlcyIsImEiOiJjajl3d3lpdjcwcjV0MzNtZGdm
 
 const url = layer + '?access_token=' + accessToken;
 
-const MapView = ({position, zoom, traffic}) => (
+
+const propTypes = {
+	position: PropTypes.array.isRequired,
+	zoom: PropTypes.number.isRequired,
+	traffic: PropTypes.array.isRequired,
+	filterTrafficByColor: PropTypes.func.isRequired,
+};
+
+const MapView = ({position, zoom, traffic, filterTrafficByColor}) => (
 
 	<Map center={position} zoom={zoom} zoomControl={false}>
 		<TileLayer
@@ -31,7 +39,7 @@ const MapView = ({position, zoom, traffic}) => (
 			{traffic.map(light => (
 				<Circle
 					key={light.sensor_id}
-					radius={55}
+					radius={111}
 					color={light.color}
 					fillColor={light.color}
 					center={[light.latitude, light.longitude]}
@@ -42,13 +50,22 @@ const MapView = ({position, zoom, traffic}) => (
 
 			<div className="box box-legend">
 				<ul className="map-legend">
-					<li><span className="color-red"/></li>
-					<li><span className="color-orange"/></li>
-					<li><span className="color-yellow"/></li>
-					<li><span className="color-green"/></li>
+					<li onClick={filterTrafficByColor.bind(this, 'red')}>
+						<span className="color-red"/>
+					</li>
+					<li onClick={filterTrafficByColor.bind(this, 'orange')}>
+						<span className="color-orange"/>
+					</li>
+					<li onClick={filterTrafficByColor.bind(this, 'yellow')}>
+						<span className="color-yellow"/>
+					</li>
+					<li onClick={filterTrafficByColor.bind(this, 'green')}>
+						<span className="color-green"/>
+					</li>
 				</ul>
 			</div>
 	</Map>
 );
 
+MapView.propTypes = propTypes;
 export default MapView;

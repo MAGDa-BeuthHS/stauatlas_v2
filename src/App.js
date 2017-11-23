@@ -11,10 +11,12 @@ class App extends Component {
     super(props);
     this.state = {
       sidebarOpen: false,
-      trafficData: [],
+      traffic: [],
+      filteredTraffic: [],
       zoom: 13,
     };
     this.setColor = this.setColor.bind(this);   
+    this.filterTrafficByColor = this.filterTrafficByColor.bind(this);   
   }
 
   componentDidMount() {
@@ -33,9 +35,10 @@ class App extends Component {
       this.setColor(traffic);
 
       this.setState((prevState) => {
-        if(prevState !== traffic) {
+        if(prevState.traffic !== traffic) {
           return {
-            trafficData: traffic
+            filteredTraffic: traffic,
+            traffic
           }
         }
       })
@@ -57,6 +60,17 @@ class App extends Component {
     })
   }
 
+  filterTrafficByColor(color) {  
+    const filteredTraffic = this.state.traffic.filter((traffic) => traffic.color === color);
+    this.setState((prevState) => {
+      if(prevState.filteredTraffic !== filteredTraffic) {
+        return { 
+          filteredTraffic
+        }
+      }
+    })
+  }
+
   handleViewSidebar = () => {
     this.setState((prevState) => {
       return {
@@ -69,11 +83,14 @@ class App extends Component {
     return (
       <div className="stauatlas-app">
         <Header handleViewSidebar={this.handleViewSidebar}/>
-        <SideBar isOpen={this.state.sidebarOpen} handleViewSidebar={this.handleViewSidebar}/>
+        <SideBar 
+          isOpen={this.state.sidebarOpen}
+          handleViewSidebar={this.handleViewSidebar}/>
         <MapView
           position={[51.050407,13.737262]}
           zoom={this.state.zoom}
-          traffic={this.state.trafficData}          
+          traffic={this.state.filteredTraffic}
+          filterTrafficByColor={this.filterTrafficByColor}
         />
       </div>
     );
