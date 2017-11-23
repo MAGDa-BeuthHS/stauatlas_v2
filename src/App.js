@@ -5,7 +5,6 @@ import MapView from './MapView/MapView.js';
 import SideBar from './SideBar/SideBar.js';
 import Header from './Header/Header.js';
 import { getTrafficInfos } from './trafficService'
-import {green, orange, red, yellow} from "./colors";
 
 class App extends Component {
   constructor(props) {
@@ -15,9 +14,7 @@ class App extends Component {
       trafficData: [],
       zoom: 13,
     };
-    this.setColor = this.setColor.bind(this);
-    this.increaseZoom = this.increaseZoom.bind(this);
-    this.decreaseZoom = this.decreaseZoom.bind(this);
+    this.setColor = this.setColor.bind(this);   
   }
 
   componentDidMount() {
@@ -46,16 +43,15 @@ class App extends Component {
   }
 
   setColor(traffic) {
-  //const avgSpeed = traffic.averageSpeed.toFixed(0); //inkl. Float formatieren)
     traffic.map(t => {
       if (Math.round(t.relativeSpeed) >= 85) {
-        t.color = green;
+        t.color = 'green';
       } else if (Math.round(t.relativeSpeed) < 85 && Math.round(t.relativeSpeed) >= 60) {
-        t.color = yellow;
+        t.color = 'yellow';
       } else if (Math.round(t.relativeSpeed) < 60 && Math.round(t.relativeSpeed) >= 50) {
-        t.color = orange;
+        t.color = 'orange';
       } else if (Math.round(t.relativeSpeed) < 50) {
-        t.color = red;
+        t.color = 'red';
       }
       return t;
     })
@@ -68,19 +64,7 @@ class App extends Component {
       }
     });
   };
-
-  increaseZoom = () => {
-      this.setState({
-          zoom: this.state.zoom + 1
-      });
-  };
-
-  decreaseZoom = () => {
-      this.setState({
-          zoom: this.state.zoom - 1
-      });
-  };
-
+ 
   render() {
     return (
       <div className="stauatlas-app">
@@ -89,9 +73,7 @@ class App extends Component {
         <MapView
           position={[51.050407,13.737262]}
           zoom={this.state.zoom}
-          traffic={this.state.trafficData}
-          increaseZoom={this.increaseZoom}
-          decreaseZoom={this.decreaseZoom}
+          traffic={this.state.trafficData}          
         />
       </div>
     );

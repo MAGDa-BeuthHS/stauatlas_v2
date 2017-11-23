@@ -4,10 +4,10 @@ import './header.css';
 
 const Header = ({ handleViewSidebar }) => (      
   <div className="header">
-      <a href="#" className="sidebar-toggle" onClick={handleViewSidebar}>
-          <span className="fa fa-angle-double-right" aria-hidden="true"></span>
-      </a>
-      <div className="time">{moment().format('DD.MM.YY - HH:mm')}</div>
+	  <a href="#" className="sidebar-toggle" onClick={handleViewSidebar}>
+		  <span className="fa fa-angle-double-right" aria-hidden="true"></span>
+	  </a>
+	  <div className="time">{moment().format('DD.MM.YY - HH:mm')}</div>
   </div>       
 );
 

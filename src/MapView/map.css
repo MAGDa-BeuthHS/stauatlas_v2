@@ -1,55 +1,50 @@
-
 .leaflet-container {
     height: 100vh;
     width: 100%;
 }
 
-.box {
-    padding: 6px 12px;
+.leaflet-control-zoom {
+    top: 2em;
+    right: 3em; 
+}
+
+.leaflet-right .leaflet-control {
+    border-radius: 50px; 
+}
+
+.leaflet-bar a,
+.leaflet-bar a:hover {
+    border-color: #D8D8D8;
     background-color: #D8D8D8;
+    color: #585555;       
+    border-bottom: 1px solid #585555;    
+    width: 30px;    
+    height: 30px;    
+    line-height: 30px; 
+    font: bold 22px;
+}
+
+.leaflet-bar a:first-child {    
+    border-top-left-radius: 50px ;
+    border-top-right-radius: 50px ;
+}
+.leaflet-bar a:last-child {    
+    border-bottom-left-radius: 50px ;
+    border-bottom-right-radius: 50px ;
+}
+
+.box {
+    padding: 5px 10px;
+    background-color: #D8D8D8;
+    border-color: #D8D8D8;
     z-index: 401;
     position: absolute;
-}
-
-.box-zoom {
-    right: 5em;
-    top: 2em;
     border-radius: 50px;
-    border-color: #D8D8D8;
-}
-
-.zoom-button {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.zoom-button > li {
-    margin-right: .1em;
-    margin-left: .1em;
-}
-
-.zoom-button li {
-    font-size: 48px;
-    color: #585555;
-    font-weight: 600;
-    line-height: 1;
-    padding-bottom: 10px;
-    text-align: center;
-}
-
-.zoom-button li.border {
-    border-top: 3px solid #585555;
-    margin: 0 -12px;
-    padding: 0;
 }
 
 .box-legend {
-    right: 5em;
+    right: 2em;
     bottom: 2em;
-    border-radius: 50px;
-    border-color: #D8D8D8;
 }
 
 .map-legend {
@@ -59,33 +54,33 @@
 }
 
 .map-legend > li {
-    margin-top: 2em;
-    margin-bottom: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 .map-legend li span {
-    width: 3em;
-    height: 3em;
+    width: 2em;
+    height: 2em;
     display: inline-flex;
     border-radius: 50%;
     border: 1px solid #D8D8D8;
     box-shadow: 2px 0 10px #888;
 }
 
-.map-legend > li > span.legend-red {
-    background-color: #FD0000;
+.color-red {
+    background-color: var(--color-red);
 }
 
-.map-legend > li > .legend-orange {
-    background-color: #FF950B;
+.color-orange {
+    background-color: var(--color-orange);
 }
 
-.map-legend > li > .legend-yellow {
-    background-color: #F7FF36;
+.color-yellow {
+    background-color: var(--color-yellow);
 }
 
-.map-legend > li > .legend-green {
-    background-color: #00CC00;
+.color-green {
+    background-color: var(--color-green);
 }
 
 .traffic-light-circle {
