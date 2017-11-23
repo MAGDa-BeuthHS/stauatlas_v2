@@ -6,15 +6,17 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ## Preconditions
 
-Make sure you have **Node >= 6** on your machine.
+Make sure you have **Node >= 6** on your machine.    
+Download the [https://fb.me/react-devtools](React DevTools) for a better development experience  
 
-## Install MySQL 
+## Install
+
+### Install MySQL 
 First you have to install a local MySQL database
 
 **For Ubuntu:**
 ```
   sudo apt-get install mysql-server
-
   sudo mysql_secure_installation
 ```      
 
@@ -35,16 +37,12 @@ secure_file_priv = ''
 ```
 
 Then restart mysql server:
+**For Mac OS X**: `mysql.server restart`     
 
-```bash
-  # Mac OS X
-  mysql.server restart    
+**For Linux**: `sudo service mysql restart` 
 
-  # Linux    
-  restart MySql: `sudo service mysql restart` 
-```
 
-### Create a database.
+#### Create a database.
 Type `mysql -u root` to open the MySql Terminal    
 and create a database with
 ```
@@ -111,7 +109,6 @@ export DB_NAME=<your db name>
 ```
 
 ### Install the other stuff
-Download the [https://fb.me/react-devtools](React DevTools) for a better development experience: 
 
 ```
 npm install
