@@ -4,7 +4,7 @@
 
 .bottom-bar.open {
     display: initial;
-    background-color: #D8D8D8;
+    background-color: var(--color-gray-light);
     width: 300px;
     padding: 0 15px;
     height: 60px;
@@ -12,18 +12,21 @@
     bottom: 2rem;
     left: 0;
     z-index: 401;
-    /*text-align: right;*/
     border-bottom-right-radius: 50px;
     border-top-right-radius: 50px;
 }
 
 .bottom-bar-close {
     font-size: 50px;
-    color: #585555;
+    color: var(--color-gray-dark);
     display: inline-block;
-    border-left: 1px solid #585555;
+    border-left: 2px solid rgba(88, 85, 85, .2);
     padding-left: 10px;
     float: right;
+}
+
+.bottom-bar-close a {
+    color: inherit;
 }
 
 .bottom-bar-options {
@@ -43,13 +46,15 @@
     margin-top: 15px;
     position: relative;
     z-index: 1;
+    font-weight: 700;
+    color: var(--color-gray-dark);
 }
 
 .bottom-bar-options i.fa {
     position: relative;
     margin-left: -1.1rem;
     z-index: 0;
-    color: #585555;
+    color: var(--color-gray-dark);
 }
 
 .bottom-bar option {
@@ -71,3 +76,21 @@ select:focus {
     outline: none;
 }
 
+@media (max-width: 650px) {
+    .bottom-bar.open {
+        width: 200px;
+    }
+
+    .bottom-bar-options {
+        width: 150px;
+    }
+
+    .general-options-selector {
+        font-size: 10px;
+    }
+
+    .bottom-bar-options i.fa {
+        font-size: 10px;
+        margin-left: 0;
+    }
+}
