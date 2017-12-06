@@ -2,14 +2,6 @@ import React from 'react';
 
 import './bottom-bar.css';
 
-const activateSelect = (selectInput) => {
-  if (document.createEvent) { // chrome and safari
-    const event = document.createEvent('MouseEvents');
-    event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    selectInput.dispatchEvent(event);
-  }
-};
-
 export const BottomBar = ({ isOpen, handleViewSidebar }) => {
   const openClass = isOpen ? 'open' : '';
 

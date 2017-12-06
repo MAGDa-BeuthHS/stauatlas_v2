@@ -28,3 +28,8 @@
     display: initial;
 }
 
+@media (max-width: 650px) {
+    .header, .sidebar-toggle {
+        margin-bottom: 1rem;
+    }
+}

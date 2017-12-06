@@ -77,12 +77,17 @@ select:focus {
 }
 
 @media (max-width: 650px) {
+
+    .bottom-bar {
+        margin-bottom: 1rem;
+    }
+
     .bottom-bar.open {
         width: 200px;
     }
 
     .bottom-bar-options {
-        width: 150px;
+        width: 155px;
     }
 
     .general-options-selector {
@@ -91,6 +96,6 @@ select:focus {
 
     .bottom-bar-options i.fa {
         font-size: 10px;
-        margin-left: 0;
+        margin-left: 5px;
     }
 }
