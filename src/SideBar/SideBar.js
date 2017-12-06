@@ -4,7 +4,7 @@ import './sidebar.css';
 
 const getClass = isOpen => (isOpen ? 'sidebar open' : 'sidebar');
 
-const SideBar = ({ isOpen, handleViewSidebar }) => (
+export const SideBar = ({ isOpen, handleViewSidebar }) => (
 
   <div className={getClass(isOpen)}>
     <div className="sidebar-header">
@@ -16,5 +16,3 @@ const SideBar = ({ isOpen, handleViewSidebar }) => (
     </div>
   </div>
 );
-
-export default SideBar;

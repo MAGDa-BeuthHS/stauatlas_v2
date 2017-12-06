@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import MapView from './MapView/MapView';
-import SideBar from './SideBar/SideBar';
-import Header from './Header/Header';
+import { MapView } from './MapView/MapView';
+import { SideBar } from './SideBar/SideBar';
+import { Header } from './Header/Header';
 import { getTrafficInfos } from './trafficService';
 
-class App extends Component {
+export class App extends Component {
   static setColor(traffic) {
     traffic.map((t) => {
       if (Math.round(t.relativeSpeed) >= 85) {
@@ -114,5 +114,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

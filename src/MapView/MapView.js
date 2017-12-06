@@ -30,7 +30,7 @@ const propTypes = {
   filterTrafficByColor: PropTypes.func.isRequired,
 };
 
-const MapView = ({
+export const MapView = ({
   position, zoom, traffic, filterTrafficByColor,
 }) => {
   const filterTrafficByRed = () => filterTrafficByColor('red');
@@ -84,4 +84,3 @@ const MapView = ({
 };
 
 MapView.propTypes = propTypes;
-export default MapView;
