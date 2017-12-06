@@ -32,6 +32,7 @@ class App extends Component {
     };
     this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
     this.resetTraffic = this.resetTraffic.bind(this);
+    this.handleViewSidebar = this.handleViewSidebar.bind(this);
   }
 
   componentDidMount() {
