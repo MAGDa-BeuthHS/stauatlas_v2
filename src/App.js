@@ -4,6 +4,7 @@ import './App.css';
 import { MapView } from './MapView/MapView';
 import { SideBar } from './SideBar/SideBar';
 import { Header } from './Header/Header';
+import { BottomBar } from './BottomBar/BottomBar';
 import { getTrafficInfos } from './trafficService';
 
 export class App extends Component {
@@ -25,7 +26,7 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      sidebarOpen: false,
+      bottomBarOpen: false,
       traffic: [],
       filteredTraffic: [],
       zoom: 13,
@@ -88,22 +89,29 @@ export class App extends Component {
     }
   }
 
-  handleViewSidebar = () => {
-    this.setState((prevState) => {
-      return {
-        sidebarOpen: !prevState.sidebarOpen
-      }
-    });
-  };
+  handleViewSidebar() {
+    this.setState(prevState => ({
+      bottomBarOpen: !prevState.bottomBarOpen,
+    }));
+  }
 
   render() {
     return (
       <div className="stauatlas-app">
-        <Header handleViewSidebar={this.handleViewSidebar} />
-        <SideBar
-          isOpen={this.state.sidebarOpen}
+        <Header
+          handleViewSidebar={this.handleViewSidebar}
+          isOpen={!this.state.bottomBarOpen}
+        />
+        {/* <SideBar */}
+        {/* isOpen={this.state.sidebarOpen} */}
+        {/* handleViewSidebar={this.handleViewSidebar} */}
+        {/* /> */}
+
+        <BottomBar
+          isOpen={this.state.bottomBarOpen}
           handleViewSidebar={this.handleViewSidebar}
         />
+
         <MapView
           position={[51.050407, 13.737262]}
           zoom={this.state.zoom}

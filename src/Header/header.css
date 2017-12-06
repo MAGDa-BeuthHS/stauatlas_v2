@@ -1,21 +1,30 @@
 .header, .sidebar-toggle {
-  background-color: #D8D8D8;
-  width: 50px;
-  padding: 0 5px;
-  height: 60px;
-  font-size: 50px;
-  color: #585555;
-  position: fixed;
-  bottom: 2rem;
-  left: 0;
-  z-index: 401;
-  text-align: center;
-  border-bottom-right-radius: 50px;
-  border-top-right-radius: 50px;
+    background-color: #D8D8D8;
+    width: 50px;
+    padding: 0 5px;
+    height: 60px;
+    font-size: 50px;
+    color: #585555;
+    position: fixed;
+    bottom: 2rem;
+    left: 0;
+    z-index: 401;
+    text-align: center;
+    border-bottom-right-radius: 50px;
+    border-top-right-radius: 50px;
 }
 
 .time {
-  float: right;
-  margin-right: 20px;
-  font-weight: normal;
+    float: right;
+    margin-right: 20px;
+    font-weight: normal;
 }
+
+.header {
+    display: none;
+}
+
+.header.open {
+    display: initial;
+}
+

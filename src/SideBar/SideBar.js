@@ -10,7 +10,7 @@ export const SideBar = ({ isOpen, handleViewSidebar }) => (
     <div className="sidebar-header">
       <span className="title">stauatlas</span>
       <a href="#" className="sidebar-toggle-back" onClick={handleViewSidebar}>
-        <span className="fa fa-angle-double-left" aria-hidden="true" />
+        <i className="fa fa-chevron-down" aria-hidden="true" />
       </a>
       <div className="line" />
     </div>
