@@ -1,53 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import MapView from './MapView/MapView.js';
-import SideBar from './SideBar/SideBar.js';
-import Header from './Header/Header.js';
-import { getTrafficInfos } from './trafficService'
+import MapView from './MapView/MapView';
+import SideBar from './SideBar/SideBar';
+import Header from './Header/Header';
+import { getTrafficInfos } from './trafficService';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sidebarOpen: false,
-      traffic: [],
-      filteredTraffic: [],
-      zoom: 13,
-    };
-    this.setColor = this.setColor.bind(this);
-    this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
-    this.resetTraffic = this.resetTraffic.bind(this);
-  }
-
-  componentDidMount() {
-    /*
-    [{
-      averageSpeed: 35,
-      latitude:     51.118823986987536,
-      longitude:    13.76635460086739,
-      relativeSpeed:70,
-      sensor_id:    1178,
-      speed_limit:  50,
-    }]
-    */
-    getTrafficInfos()
-    .then(traffic => {
-      this.setColor(traffic);
-
-      this.setState((prevState) => {
-        if(prevState.traffic !== traffic) {
-          return {
-            filteredTraffic: traffic,
-            traffic
-          }
-        }
-      })
-    });
-  }
-
-  setColor(traffic) {
-    traffic.map(t => {
+  static setColor(traffic) {
+    traffic.map((t) => {
       if (Math.round(t.relativeSpeed) >= 85) {
         t.color = 'green';
       } else if (Math.round(t.relativeSpeed) < 85 && Math.round(t.relativeSpeed) >= 60) {
@@ -58,7 +19,47 @@ class App extends Component {
         t.color = 'red';
       }
       return t;
-    })
+    });
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      sidebarOpen: false,
+      traffic: [],
+      filteredTraffic: [],
+      zoom: 13,
+    };
+    this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
+    this.resetTraffic = this.resetTraffic.bind(this);
+  }
+
+  componentDidMount() {
+    /*
+     [{
+     averageSpeed: 35,
+     latitude:     51.118823986987536,
+     longitude:    13.76635460086739,
+     relativeSpeed:70,
+     sensor_id:    1178,
+     speed_limit:  50,
+     }]
+     */
+    getTrafficInfos()
+      .then((traffic) => {
+        App.setColor(traffic);
+
+        this.setState((prevState) => {
+          if (prevState.traffic !== traffic) {
+            return {
+              filteredTraffic: traffic,
+              traffic,
+            };
+          }
+
+          return prevState;
+        });
+      });
   }
 
   resetTraffic() {
@@ -68,7 +69,7 @@ class App extends Component {
           filteredTraffic: this.state.traffic
         }
       }
-    })
+    });
   }
 
   filterTrafficByColor(color) {
@@ -97,12 +98,13 @@ class App extends Component {
   render() {
     return (
       <div className="stauatlas-app">
-        <Header handleViewSidebar={this.handleViewSidebar}/>
+        <Header handleViewSidebar={this.handleViewSidebar} />
         <SideBar
           isOpen={this.state.sidebarOpen}
-          handleViewSidebar={this.handleViewSidebar}/>
+          handleViewSidebar={this.handleViewSidebar}
+        />
         <MapView
-          position={[51.050407,13.737262]}
+          position={[51.050407, 13.737262]}
           zoom={this.state.zoom}
           traffic={this.state.filteredTraffic}
           filterTrafficByColor={this.filterTrafficByColor}
