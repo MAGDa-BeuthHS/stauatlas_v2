@@ -1,5 +1,5 @@
 import React from 'react';
-
+import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker'
 import './bottom-bar.css';
 
 export const BottomBar = ({ isOpen, handleViewSidebar }) => {
@@ -13,9 +13,11 @@ export const BottomBar = ({ isOpen, handleViewSidebar }) => {
           <option>Generelle verkehrslage</option>
           <option>Zeitraum Verkehrslage</option>
         </select>
+
+        <HolidayDatePicker />
+
         <i className="fa fa-chevron-down" aria-hidden="true" />
       </div>
-
 
       <div className="bottom-bar-close">
         <a href="#" onClick={handleViewSidebar}>
