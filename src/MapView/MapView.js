@@ -46,21 +46,24 @@ const MapView = ({position, zoom, traffic, filterTrafficByColor}) => (
 					fillOpacity={.4}
 					className={`color-${light.color} traffic-light-circle`}
 				/>
-			))}      
+			))}
 
 			<div className="box box-legend">
 				<ul className="map-legend">
 					<li onClick={filterTrafficByColor.bind(this, 'red')}>
-						<span className="color-red"/>
+						<span className="color-red" title="stockend"/>
 					</li>
 					<li onClick={filterTrafficByColor.bind(this, 'orange')}>
-						<span className="color-orange"/>
+						<span className="color-orange" title="leicht stockend"/>
 					</li>
 					<li onClick={filterTrafficByColor.bind(this, 'yellow')}>
-						<span className="color-yellow"/>
+						<span className="color-yellow" title="etwas flüssiger"/>
 					</li>
 					<li onClick={filterTrafficByColor.bind(this, 'green')}>
-						<span className="color-green"/>
+						<span className="color-green" title="fließend"/>
+					</li>
+					<li onClick={filterTrafficByColor.bind(this, '')}>
+						<span className="color-gray" title="zurücksetzen"/>
 					</li>
 				</ul>
 			</div>

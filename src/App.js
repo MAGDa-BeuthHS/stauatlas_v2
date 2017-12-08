@@ -15,8 +15,9 @@ class App extends Component {
       filteredTraffic: [],
       zoom: 13,
     };
-    this.setColor = this.setColor.bind(this);   
-    this.filterTrafficByColor = this.filterTrafficByColor.bind(this);   
+    this.setColor = this.setColor.bind(this);
+    this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
+    this.resetTraffic = this.resetTraffic.bind(this);
   }
 
   componentDidMount() {
@@ -60,15 +61,29 @@ class App extends Component {
     })
   }
 
-  filterTrafficByColor(color) {  
-    const filteredTraffic = this.state.traffic.filter((traffic) => traffic.color === color);
+  resetTraffic() {
     this.setState((prevState) => {
-      if(prevState.filteredTraffic !== filteredTraffic) {
-        return { 
-          filteredTraffic
+      if(prevState.filteredTraffic !== this.state.traffic) {
+        return {
+          filteredTraffic: this.state.traffic
         }
       }
     })
+  }
+
+  filterTrafficByColor(color) {
+    if(color === '') {
+      this.resetTraffic();
+    } else {
+      const filteredTraffic = this.state.traffic.filter((traffic) => traffic.color === color);
+      this.setState((prevState) => {
+        if(prevState.filteredTraffic !== filteredTraffic) {
+          return {
+            filteredTraffic
+          }
+        }
+      })
+    }
   }
 
   handleViewSidebar = () => {
@@ -78,12 +93,12 @@ class App extends Component {
       }
     });
   };
- 
+
   render() {
     return (
       <div className="stauatlas-app">
         <Header handleViewSidebar={this.handleViewSidebar}/>
-        <SideBar 
+        <SideBar
           isOpen={this.state.sidebarOpen}
           handleViewSidebar={this.handleViewSidebar}/>
         <MapView

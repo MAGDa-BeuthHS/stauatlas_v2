@@ -1,70 +1,73 @@
 .leaflet-container {
     height: 100vh;
     width: 100%;
+    cursor: default;
 }
 
 .leaflet-control-zoom {
     top: 2em;
-    right: 3em; 
+    right: 3em;
 }
 
 .leaflet-right .leaflet-control {
-    border-radius: 50px; 
+    border-radius: 50px;
 }
 
 .leaflet-bar a,
 .leaflet-bar a:hover {
-    border-color: #D8D8D8;
-    background-color: #D8D8D8;
-    color: #585555;       
-    border-bottom: 1px solid #585555;    
-    width: 30px;    
-    height: 30px;    
-    line-height: 30px; 
+    border-color: var(--color-gray-light);
+    background-color: var(--color-gray-light);
+    color: #585555;
+    border-bottom: 1px solid #585555;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
     font: bold 22px;
 }
 
-.leaflet-bar a:first-child {    
+.leaflet-bar a:first-child {
     border-top-left-radius: 50px ;
     border-top-right-radius: 50px ;
 }
-.leaflet-bar a:last-child {    
+.leaflet-bar a:last-child {
     border-bottom-left-radius: 50px ;
     border-bottom-right-radius: 50px ;
 }
 
 .box {
-    padding: 5px 10px;
-    background-color: #D8D8D8;
-    border-color: #D8D8D8;
+    padding: 3px 6px;
+    background-color: var(--color-gray-light);
+    border-color: var(--color-gray-light);
     z-index: 401;
     position: absolute;
     border-radius: 50px;
 }
 
 .box-legend {
-    right: 2em;
+    right: 3em;
     bottom: 2em;
 }
 
 .map-legend {
     list-style-type: none;
     padding: 0;
-    margin-top: 0;
+    margin: 0;
 }
 
 .map-legend > li {
-    margin-top: 1em;
-    margin-bottom: 1em;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    cursor: pointer;
 }
 
 .map-legend li span {
     width: 2em;
+    vertical-align: middle;
     height: 2em;
     display: inline-flex;
     border-radius: 50%;
-    border: 1px solid #D8D8D8;
-    box-shadow: 2px 0 10px #888;
+    border: 1px solid var(--color-gray);
+    box-shadow: 2px 0 10px var(--color-gray);
 }
 
 .color-red {
@@ -83,7 +86,11 @@
     background-color: var(--color-green);
 }
 
+.color-gray {
+    background-color: var(--color-gray-dark);
+}
+
 .traffic-light-circle {
     stroke-width: 1;
-    stroke: #f8f8f8;
+    stroke: var(--color-gray-light)
 }
