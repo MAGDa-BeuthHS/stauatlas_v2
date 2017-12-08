@@ -29,7 +29,7 @@ const highlightWithRanges = [
 const startDate = moment();
 
 const propTypes = {
-  handleOnDateClick: PropTypes.func.isRequired,
+  onDateClick: PropTypes.func.isRequired,
 };
 
 const HolidayDatePicker = ({ onDateClick }) => {
@@ -43,8 +43,12 @@ const HolidayDatePicker = ({ onDateClick }) => {
         placeholderText="Click to select a date"
         onChange={onDateClick}
         highlightDates={highlightWithRanges}
-        disabledKeyboardNavigation
-      />
+        disabledKeyboardNavigation >
+      <div>
+        Platzhalter für Ferienfarben
+      </div>
+    </DatePicker>
+
   )
 }
 
