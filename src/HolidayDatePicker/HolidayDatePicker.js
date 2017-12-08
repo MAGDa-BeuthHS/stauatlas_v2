@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -7,10 +7,17 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const highlightWithRanges = [
   { "react-datepicker__day--highlighted-custom-1": [
-    moment().subtract(4, "days"),
-    moment().subtract(3, "days"),
-    moment().subtract(2, "days"),
-    moment().subtract(1, "days") ]
+    moment("23.12.2017", "DD.MM.YYYY"),
+    moment("24.12.2017", "DD.MM.YYYY"),
+    moment("25.12.2017", "DD.MM.YYYY"),
+    moment("26.12.2017", "DD.MM.YYYY"),
+    moment("27.12.2017", "DD.MM.YYYY"),
+    moment("28.12.2017", "DD.MM.YYYY"),
+    moment("29.12.2017", "DD.MM.YYYY"),
+    moment("30.12.2017", "DD.MM.YYYY"),
+    moment("31.12.2017", "DD.MM.YYYY"),
+    moment("01.01.2018", "DD.MM.YYYY"),
+    moment("02.01.2018", "DD.MM.YYYY"),]
   },
   { "react-datepicker__day--highlighted-custom-2": [
     moment().add(1, "days"),
@@ -25,29 +32,21 @@ const propTypes = {
   handleOnDateClick: PropTypes.func.isRequired,
 };
 
-const HolidayDatePicker = ({ handleOnDateClick }) => {
+const HolidayDatePicker = ({ onDateClick }) => {
 
   return (
-    <DatePicker
-      locale="de-DE"
-      selected={startDate}
-      dateFormat="DD.MM.YYYY"
-      calendarClassName="holiday-datepicker"
-      placeholderText="Click to select a date"
-      onChange={handleOnDateClick}
-      highlightDates={highlightWithRanges}
-      disabledKeyboardNavigation
-    />
-
-  );
-};
-
-    // {/* <button
-    //    className="example-custom-input"
-    //    onClick={this.props.onClick}>
-    //    {this.props.value}
-    // </button>
-    // customInput={<HolidayDatePicker />}*/}
+      <DatePicker
+        locale="de"
+        selected={startDate}
+        dateFormat="DD.MM.YYYY"
+        calendarClassName="holiday-datepicker"
+        placeholderText="Click to select a date"
+        onChange={onDateClick}
+        highlightDates={highlightWithRanges}
+        disabledKeyboardNavigation
+      />
+  )
+}
 
 HolidayDatePicker.propTypes = propTypes;
 export default HolidayDatePicker;

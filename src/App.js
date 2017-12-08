@@ -33,6 +33,7 @@ export class App extends Component {
     this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
     this.resetTraffic = this.resetTraffic.bind(this);
     this.handleViewSidebar = this.handleViewSidebar.bind(this);
+    this.handleOnDateClick = this.handleOnDateClick.bind(this);
   }
 
   componentDidMount() {
@@ -94,6 +95,10 @@ export class App extends Component {
     }));
   }
 
+  handleOnDateClick() {
+    console.log('###');
+  }
+
   render() {
     return (
       <div className="stauatlas-app">
@@ -101,14 +106,10 @@ export class App extends Component {
           handleViewSidebar={this.handleViewSidebar}
           isOpen={!this.state.bottomBarOpen}
         />
-        {/* <SideBar */}
-        {/* isOpen={this.state.sidebarOpen} */}
-        {/* handleViewSidebar={this.handleViewSidebar} */}
-        {/* /> */}
-
         <BottomBar
           isOpen={this.state.bottomBarOpen}
           handleViewSidebar={this.handleViewSidebar}
+          handleOnDateClick={this.handleOnDateClick}
         />
 
         <MapView
