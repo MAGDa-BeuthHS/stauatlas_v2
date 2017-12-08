@@ -8,6 +8,9 @@
     top: 2em;
     right: 3em;
 }
+.leaflet-control-zoom leaflet-bar leaflet-control {
+    margin: 0;
+}
 
 .leaflet-right .leaflet-control {
     border-radius: 50px;
@@ -22,7 +25,8 @@
     width: 30px;
     height: 30px;
     line-height: 30px;
-    font: bold 22px;
+    font-size: 22px;
+    font-weight: bold;
 }
 
 .leaflet-bar a:first-child {
