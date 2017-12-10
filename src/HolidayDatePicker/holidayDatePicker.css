@@ -1,0 +1,70 @@
+.react-datepicker__header {
+  background-color: var(--color-gray-light);
+}
+
+.react-datepicker__current-month {
+  color: var(--color-gray-dark);
+}
+
+.react-datepicker__navigation--previous {
+  border-right-color: var(--color-gray-dark);
+}
+
+.react-datepicker__navigation--previous:hover {
+  border-right-color: var(--color-gray);
+}
+
+.react-datepicker__navigation--next {
+  border-left-color: var(--color-gray-dark);
+}
+
+.react-datepicker__navigation--next:hover {
+  border-left-color: var(--color-gray);
+}
+
+.react-datepicker__day {
+  border-radius: 50%;
+}
+.react-datepicker__day:hover {
+  border-radius: 50%;
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected,
+.react-datepicker__day--in-selecting-range,
+.react-datepicker__day--in-range {
+  background-color:  var(--color-action-primary);
+  color: var(--text-color-light);
+}
+.react-datepicker__day--selected:hover,
+.react-datepicker__day--keyboard-selected:hover {
+  background-color:  var(--color-action-primary);
+  color: var(--text-color-light);
+}
+
+.holiday-datepicker__holiday {
+  color: var(--color-action-primary);
+}
+
+.holiday-datepicker__event {
+  color: var(--color-action-default);
+}
+
+.holiday-datepicker-legend {
+  padding: 5px 15px;
+}
+
+.holiday-datepicker-legend .legend-holiday {
+  display: inline-flex;
+  width: 20px;
+  height: 8px;
+  margin-right: 10px;
+  background-color: var(--color-action-primary);
+}
+.holiday-datepicker-legend .legend-event {
+  display: inline-flex;
+  width: 20px;
+  height: 8px;
+  margin-right: 10px;
+  background-color: var(--color-action-default);
+}

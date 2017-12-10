@@ -97,9 +97,7 @@ export class App extends Component {
 
   handleOnDateClick() {
     console.log('###');
-    this.setState(prevState => ({
-      bottomBarOpen: !prevState.bottomBarOpen,
-    }));
+
   }
 
   render() {

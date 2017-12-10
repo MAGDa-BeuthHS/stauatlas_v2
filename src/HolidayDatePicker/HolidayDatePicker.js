@@ -5,9 +5,10 @@ import moment from 'moment';
 import "moment/locale/de"
 
 import 'react-datepicker/dist/react-datepicker.css';
+import './holidayDatePicker.css';
 
 const highlightWithRanges = [
-  { "react-datepicker__day--highlighted-custom-1": [
+  { "holiday-datepicker__holiday": [
     moment("23.12.2017", "DD.MM.YYYY"),
     moment("24.12.2017", "DD.MM.YYYY"),
     moment("25.12.2017", "DD.MM.YYYY"),
@@ -20,7 +21,7 @@ const highlightWithRanges = [
     moment("01.01.2018", "DD.MM.YYYY"),
     moment("02.01.2018", "DD.MM.YYYY"),]
   },
-  { "react-datepicker__day--highlighted-custom-2": [
+  { "holiday-datepicker__event": [
     moment().add(1, "days"),
     moment().add(2, "days"),
     moment().add(3, "days"),
@@ -34,7 +35,6 @@ const propTypes = {
 };
 
 const HolidayDatePicker = ({ onDateClick }) => {
-
   return (
       <DatePicker
         locale='de'
@@ -44,12 +44,19 @@ const HolidayDatePicker = ({ onDateClick }) => {
         placeholderText="Click to select a date"
         onChange={onDateClick}
         highlightDates={highlightWithRanges}
+        shouldCloseOnSelect={false}
         disabledKeyboardNavigation >
-      <div>
-        Platzhalter für Ferienfarben
+      <div className="holiday-datepicker-legend">
+        <div>
+          <span className="legend-holiday" />
+          Ferien und Feiertage
+        </div>
+        <div>
+          <span className="legend-event" />
+          Veranstaltungen
+        </div>
       </div>
     </DatePicker>
-
   )
 }
 
