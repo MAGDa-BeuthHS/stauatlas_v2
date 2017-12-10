@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import { MapView } from './MapView/MapView';
-import { BottomBar } from './BottomBar/BottomBar';
+import BottomBar from './BottomBar/BottomBar';
 import { getTrafficInfos } from './trafficService';
 
 export class App extends Component {
