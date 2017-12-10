@@ -8,7 +8,6 @@
 
 .bottom-bar.open {
     left: 0;
-    width: 80%;
 }
 
 .bottombar-toggle {
@@ -16,6 +15,11 @@
     color: var(--color-gray-dark);
     float: right;
     border-left: 2px solid var(--color-gray);
+}
+
+.bottom-bar.false .bottombar-placeholder {
+    display: inline-flex;
+    width: 245px;
 }
 
 .bottom-bar-options {

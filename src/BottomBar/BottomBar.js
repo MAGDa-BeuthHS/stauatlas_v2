@@ -15,19 +15,24 @@ class BottomBar extends Component {
 
 	handleSelectClick = (event) => {
 		const selected = event.target.value;
-		this.setState((prevState) => {
-			if(prevState.selected !== this.state.selected) {
-				return {
-					selected
-				}
-			}
-		});
+		this.setState(() => { return { selected: selected } });
 	}
 
-	render() {
-		const props = {...this.props}
+	renderOptions() {
+		switch (this.state.selected) {
+			case 'general':
+				return (<div className="bottombar-placeholder">Mo Di Mi Do Fr Sa So</div>);
+			case 'period':
+				return (
+					<HolidayDatePicker onDateClick={this.props.handleOnDateClick}/>
+				);
+			default:
+				return <div className="bottombar-placeholder"></div>;
+		}
+	};
 
-		const isOpen = props.isOpen;
+	render() {
+		const isOpen = this.props.isOpen;
 
 		const openClass = isOpen && 'open';
 		const arrowClass = isOpen ? 'left' : 'right';
@@ -49,11 +54,11 @@ class BottomBar extends Component {
 						<i className="fa fa-chevron-down" aria-hidden="true" />
 					</div>
 
-					<HolidayDatePicker onDateClick={props.handleOnDateClick}/>
+					{this.renderOptions()}
 
 				</div>
 
-				<a className="bottombar-toggle" onClick={props.handleViewSidebar}>
+				<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
 					<span
 						className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
 						aria-hidden="true" />
