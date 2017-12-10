@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import "moment/locale/de"
 
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -36,7 +37,7 @@ const HolidayDatePicker = ({ onDateClick }) => {
 
   return (
       <DatePicker
-        locale="de"
+        locale='de'
         selected={startDate}
         dateFormat="DD.MM.YYYY"
         calendarClassName="holiday-datepicker"
