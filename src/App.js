@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 
 import { MapView } from './MapView/MapView';
-import { Header } from './Header/Header';
 import { BottomBar } from './BottomBar/BottomBar';
 import { getTrafficInfos } from './trafficService';
 
@@ -103,10 +102,6 @@ export class App extends Component {
   render() {
     return (
       <div className="stauatlas-app">
-        <Header
-          handleViewSidebar={this.handleViewSidebar}
-          isOpen={!this.state.bottomBarOpen}
-        />
         <BottomBar
           isOpen={this.state.bottomBarOpen}
           handleViewSidebar={this.handleViewSidebar}

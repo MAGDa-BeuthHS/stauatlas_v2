@@ -33,10 +33,10 @@ const propTypes = {
 export const MapView = ({
   position, zoom, traffic, filterTrafficByColor,
 }) => {
-  const filterTrafficByRed = () => filterTrafficByColor('red');
-  const filterTrafficByOrange = () => filterTrafficByColor('orange');
-  const filterTrafficByYellow = () => filterTrafficByColor('yellow');
-  const filterTrafficByGreen = () => filterTrafficByColor('green');
+  const setRed = () => filterTrafficByColor('red');
+  const setOrange = () => filterTrafficByColor('orange');
+  const setYellow = () => filterTrafficByColor('yellow');
+  const setGreen = () => filterTrafficByColor('green');
   const resetTrafficFilter = () => filterTrafficByColor('');
 
   return (
@@ -62,16 +62,16 @@ export const MapView = ({
 
       <div className="box box-legend">
         <ul className="map-legend">
-          <li onClick={filterTrafficByRed}>
+          <li onClick={setRed}>
             <span className="color-red" />
           </li>
-          <li onClick={filterTrafficByOrange}>
+          <li onClick={setOrange}>
             <span className="color-orange" />
           </li>
-          <li onClick={filterTrafficByYellow}>
+          <li onClick={setYellow}>
             <span className="color-yellow" />
           </li>
-          <li onClick={filterTrafficByGreen}>
+          <li onClick={setGreen}>
             <span className="color-green" />
           </li>
           <li onClick={resetTrafficFilter}>
