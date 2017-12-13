@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker'
 import './bottom-bar.css';
 
+const GENERAL = 'general';
+const PERIOD = 'period';
+const ACTUAL = 'actual';
 
 class BottomBar extends Component {
 	constructor(props) {
     super(props);
     this.state = {
-      selected: 'actual'
+      selected: ACTUAL
     };
 
 	 	this.handleSelectClick = this.handleSelectClick.bind(this);
@@ -20,9 +23,9 @@ class BottomBar extends Component {
 
 	renderOptions() {
 		switch (this.state.selected) {
-			case 'general':
+			case GENERAL:
 				return (<div className="bottombar-placeholder">Mo Di Mi Do Fr Sa So</div>);
-			case 'period':
+			case PERIOD:
 				return (
 					<HolidayDatePicker onDateClick={this.props.handleOnDateClick}/>
 				);
@@ -45,11 +48,9 @@ class BottomBar extends Component {
 						<select
 							value={this.state.selected}
 							onChange={this.handleSelectClick}>
-							<option value='actual'>
-								Aktuelle Verkehrslage
-							</option>
-							<option value='general'>Generelle Verkehrslage</option>
-							<option value='period'>Zeitraum Verkehrslage</option>
+							<option value={ACTUAL}>Aktuelle Verkehrslage</option>
+							<option value={GENERAL}>Generelle Verkehrslage</option>
+							<option value={PERIOD}>Zeitraum Verkehrslage</option>
 						</select>
 						<i className="fa fa-chevron-down" aria-hidden="true" />
 					</div>
