@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker'
+import React, {Component} from 'react';
+import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker';
 import './bottom-bar.css';
 
 const GENERAL = 'general';
@@ -7,67 +7,81 @@ const PERIOD = 'period';
 const ACTUAL = 'actual';
 
 class BottomBar extends Component {
-	constructor(props) {
-    super(props);
-    this.state = {
-      selected: ACTUAL
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: ACTUAL
+        };
+
+        this.handleSelectClick = this.handleSelectClick.bind(this);
+    }
+
+    handleSelectClick = (event) => {
+        const selected = event.target.value;
+        this.setState(() => {
+            return {selected: selected};
+        });
     };
 
-	 	this.handleSelectClick = this.handleSelectClick.bind(this);
-	}
+    renderOptions() {
+        switch (this.state.selected) {
+            case GENERAL:
+                return (<div className="bottombar-placeholder">Mo Di Mi Do Fr Sa So</div>);
+            case PERIOD:
+                return (
+                    <HolidayDatePicker onDateClick={this.props.handleOnDateClick}/>
+                );
+            default:
+                return <div className="bottombar-placeholder"/>;
+        }
+    };
 
-	handleSelectClick = (event) => {
-		const selected = event.target.value;
-		this.setState(() => { return { selected: selected } });
-	}
+    render() {
+        const isOpen = this.props.isOpen;
 
-	renderOptions() {
-		switch (this.state.selected) {
-			case GENERAL:
-				return (<div className="bottombar-placeholder">Mo Di Mi Do Fr Sa So</div>);
-			case PERIOD:
-				return (
-					<HolidayDatePicker onDateClick={this.props.handleOnDateClick}/>
-				);
-			default:
-				return <div className="bottombar-placeholder"></div>;
-		}
-	};
+        const openClass = isOpen && 'open';
+        const openControlClass = !isOpen && 'open';
+        const arrowClass = isOpen ? 'left' : 'right';
 
-	render() {
-		const isOpen = this.props.isOpen;
+        return (
+            <div className="bottom-bar-container">
+                <div className={`box bottom-bar ${openClass}`}>
 
-		const openClass = isOpen && 'open';
-		const arrowClass = isOpen ? 'left' : 'right';
+                    <div className="bottom-bar-options">
+                        <div className="general-options-selector">
+                            <select
+                                value={this.state.selected}
+                                onChange={this.handleSelectClick}>
+                                <option value={ACTUAL}>Aktuelle Verkehrslage</option>
+                                <option value={GENERAL}>Generelle Verkehrslage</option>
+                                <option value={PERIOD}>Zeitraum Verkehrslage</option>
+                            </select>
+                            <i className="fa fa-chevron-down" aria-hidden="true"/>
+                        </div>
 
-		return(
-			<div className={`box bottom-bar ${openClass}`}>
+                        {this.renderOptions()}
 
-				<div className="bottom-bar-options">
-					<div className="general-options-selector">
-						<select
-							value={this.state.selected}
-							onChange={this.handleSelectClick}>
-							<option value={ACTUAL}>Aktuelle Verkehrslage</option>
-							<option value={GENERAL}>Generelle Verkehrslage</option>
-							<option value={PERIOD}>Zeitraum Verkehrslage</option>
-						</select>
-						<i className="fa fa-chevron-down" aria-hidden="true" />
-					</div>
+                    </div>
 
-					{this.renderOptions()}
-
-				</div>
-
-				<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
+                    <a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
 					<span
-						className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
-						aria-hidden="true" />
-				</a>
+                        className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
+                        aria-hidden="true"/>
+                    </a>
 
-			</div>
-		)
-	}
+                </div>
+
+                <div className={`box bottom-bar ${openControlClass}`}>
+                    <a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
+					<span
+                        className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
+                        aria-hidden="true"/>
+                    </a>
+                </div>
+
+            </div>
+        );
+    }
 }
 
 export default BottomBar;
