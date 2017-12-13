@@ -32,7 +32,8 @@
 }
 
 .bottom-bar-options i.fa {
-    margin-left: -5px;
+    margin-left: -15px;
+    pointer-events: none;
 }
 
 .general-options-selector {
@@ -47,6 +48,7 @@ select {
     -moz-appearance: none;
     border: none;
     background-color: inherit;
+    padding-right: 15px;
 }
 
 select::-ms-expand {
