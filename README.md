@@ -6,19 +6,19 @@ You can find the most recent version of this guide [here](https://github.com/fac
 
 ## Preconditions
 
-Make sure you have **Node >= 6** on your machine.    
-Download the [https://fb.me/react-devtools](React DevTools) for a better development experience  
+Make sure you have **Node >= 6** on your machine.
+Download the [https://fb.me/react-devtools](React DevTools) for a better development experience
 
 ## Install
 
-### Install MySQL 
+### Install MySQL
 First you have to install a local MySQL database
 
 **For Ubuntu:**
 ```
   sudo apt-get install mysql-server
   sudo mysql_secure_installation
-```      
+```
 
 **For Mac OS X**
 
@@ -26,9 +26,9 @@ First you have to install a local MySQL database
   brew install mysql
 ```
 
-Edit the MySQL config-file       
-OSX: `~/.my.cnf` (create if not exists)  
-Ubuntu: `/etc/mysql/my.cnf`  
+Edit the MySQL config-file
+OSX: `~/.my.cnf` (create if not exists)
+Ubuntu: `/etc/mysql/my.cnf`
 and add the following option:
 
 ```ini
@@ -37,13 +37,13 @@ secure_file_priv = ''
 ```
 
 Then restart mysql server:
-**For Mac OS X**: `mysql.server restart`     
+**For Mac OS X**: `mysql.server restart`
 
-**For Linux**: `sudo service mysql restart` 
+**For Linux**: `sudo service mysql restart`
 
 
 #### Create a database.
-Type `mysql -u root` to open the MySql Terminal    
+Type `mysql -u root` to open the MySql Terminal
 and create a database with
 ```
   CREATE DATABASE masterprojektgeschwindigkeitsdaten;
@@ -114,14 +114,14 @@ export DB_NAME=<your db name>
 npm install
 ```
 
-## Start 
+## Start
 For starting the **front-end server** use
 
 ```
 npm start
 ```
 
-Then open [http://localhost:3000/](http://localhost:3000/) to see your app.
+This opens [http://localhost:3000/](http://localhost:3000/) to see your app.
 When you’re ready to deploy to production, create a minified bundle with npm run build.
 
 
@@ -130,6 +130,13 @@ Next, start **backend server** with:
 ```
 npm run backend
 ```
+
+## Coding style
+Linting is implemented with [ESlint](http://eslint.org/) and the react-plugin [eslint-plugin-react]()https://github.com/yannickcr/eslint-plugin-react. An
+Opinionated configuration (by the author) with React-specific
+rules can be found in `.eslintrc`.
+Explore [ESLint integrations](https://eslint.org/docs/user-guide/integrations) into other tools like editors, build systems, and more.
+
 
 ## Libs
 - [react-leaflet](https://github.com/PaulLeCam/react-leaflet)

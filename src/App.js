@@ -6,37 +6,37 @@ import BottomBar from './BottomBar/BottomBar';
 import { getTrafficInfos } from './trafficService';
 
 export class App extends Component {
-  static setColor(traffic) {
-    traffic.map((t) => {
-      if (Math.round(t.relativeSpeed) >= 85) {
-        t.color = 'green';
-      } else if (Math.round(t.relativeSpeed) < 85 && Math.round(t.relativeSpeed) >= 60) {
-        t.color = 'yellow';
-      } else if (Math.round(t.relativeSpeed) < 60 && Math.round(t.relativeSpeed) >= 50) {
-        t.color = 'orange';
-      } else if (Math.round(t.relativeSpeed) < 50) {
-        t.color = 'red';
-      }
-      return t;
-    });
-  }
+	static setColor(traffic) {
+		traffic.map((t) => {
+			if (Math.round(t.relativeSpeed) >= 85) {
+				t.color = 'green';
+			} else if (Math.round(t.relativeSpeed) < 85 && Math.round(t.relativeSpeed) >= 60) {
+				t.color = 'yellow';
+			} else if (Math.round(t.relativeSpeed) < 60 && Math.round(t.relativeSpeed) >= 50) {
+				t.color = 'orange';
+			} else if (Math.round(t.relativeSpeed) < 50) {
+				t.color = 'red';
+			}
+			return t;
+		});
+	}
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      bottomBarOpen: false,
-      traffic: [],
-      filteredTraffic: [],
-      zoom: 13,
-    };
-    this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
-    this.resetTraffic = this.resetTraffic.bind(this);
-    this.handleViewSidebar = this.handleViewSidebar.bind(this);
-    this.handleOnDateClick = this.handleOnDateClick.bind(this);
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			bottomBarOpen: false,
+			traffic: [],
+			filteredTraffic: [],
+			zoom: 13,
+		};
+		this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
+		this.resetTraffic = this.resetTraffic.bind(this);
+		this.handleViewSidebar = this.handleViewSidebar.bind(this);
+		this.handleOnDateClick = this.handleOnDateClick.bind(this);
+	}
 
-  componentDidMount() {
-    /*
+	componentDidMount() {
+		/*
      [{
      averageSpeed: 35,
      latitude:     51.118823986987536,
@@ -46,75 +46,76 @@ export class App extends Component {
      speed_limit:  50,
      }]
      */
-    getTrafficInfos()
-      .then((traffic) => {
-        App.setColor(traffic);
+		getTrafficInfos()
+			.then((traffic) => {
+				App.setColor(traffic);
 
-        this.setState((prevState) => {
-          if (prevState.traffic !== traffic) {
-            return {
-              filteredTraffic: traffic,
-              traffic,
-            };
-          }
+				this.setState((prevState) => {
+					if (prevState.traffic !== traffic) {
+						return {
+							filteredTraffic: traffic,
+							traffic,
+						};
+					}
 
-          return prevState;
-        });
-      });
-  }
+					return prevState;
+				});
+			});
+	}
 
-  resetTraffic() {
-    this.setState((prevState) => {
-      if(prevState.filteredTraffic !== this.state.traffic) {
-        return {
-          filteredTraffic: this.state.traffic
-        }
-      }
-    });
-  }
+	resetTraffic() {
+		this.setState((prevState) => {
+			if(prevState.filteredTraffic !== this.state.traffic) {
+				return {
+					filteredTraffic: this.state.traffic
+				};
+			}
+		});
+	}
 
-  filterTrafficByColor(color) {
-    if(color === '') {
-      this.resetTraffic();
-    } else {
-      const filteredTraffic = this.state.traffic.filter((traffic) => traffic.color === color);
-      this.setState((prevState) => {
-        if(prevState.filteredTraffic !== filteredTraffic) {
-          return {
-            filteredTraffic
-          }
-        }
-      })
-    }
-  }
+	filterTrafficByColor(color) {
+		if(color === '') {
+			this.resetTraffic();
+		} else {
+			const filteredTraffic = this.state.traffic.filter((traffic) => traffic.color === color);
+			this.setState((prevState) => {
+				if(prevState.filteredTraffic !== filteredTraffic) {
+					return {
+						filteredTraffic
+					};
+				}
+			});
+		}
+	}
 
-  handleViewSidebar() {
-    this.setState(prevState => ({
-      bottomBarOpen: !prevState.bottomBarOpen,
-    }));
-  }
+	handleViewSidebar() {
+		this.setState(prevState => ({
+			bottomBarOpen: !prevState.bottomBarOpen,
+		}));
+	}
 
-  handleOnDateClick() {
-    console.log('###');
+	handleOnDateClick() {
+		this.setState(prevState => ({
+			bottomBarOpen: prevState.bottomBarOpen,
+		}));
+	}
 
-  }
+	render() {
+		return (
+			<div className="stauatlas-app">
+				<BottomBar
+					isOpen={this.state.bottomBarOpen}
+					handleViewSidebar={this.handleViewSidebar}
+					handleOnDateClick={this.handleOnDateClick}
+				/>
 
-  render() {
-    return (
-      <div className="stauatlas-app">
-        <BottomBar
-          isOpen={this.state.bottomBarOpen}
-          handleViewSidebar={this.handleViewSidebar}
-          handleOnDateClick={this.handleOnDateClick}
-        />
-
-        <MapView
-          position={[51.050407, 13.737262]}
-          zoom={this.state.zoom}
-          traffic={this.state.filteredTraffic}
-          filterTrafficByColor={this.filterTrafficByColor}
-        />
-      </div>
-    );
-  }
+				<MapView
+					position={[51.050407, 13.737262]}
+					zoom={this.state.zoom}
+					traffic={this.state.filteredTraffic}
+					filterTrafficByColor={this.filterTrafficByColor}
+				/>
+			</div>
+		);
+	}
 }

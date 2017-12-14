@@ -14,73 +14,72 @@ const accessToken = 'pk.eyJ1IjoiaWxvbmFjb2RlcyIsImEiOiJjajl3d3lpdjcwcjV0MzNtZGdm
 
 const url = `${layer}?access_token=${accessToken}`;
 
-
 const propTypes = {
-  position: PropTypes.arrayOf(PropTypes.number).isRequired,
-  zoom: PropTypes.number.isRequired,
-  traffic: PropTypes.arrayOf(PropTypes.shape({
-    averageSpeed: PropTypes.number,
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-    relativeSpeed: PropTypes.number,
-    sensor_id: PropTypes.number,
-    speed_limit: PropTypes.number,
-    color: PropTypes.string,
-  })).isRequired,
-  filterTrafficByColor: PropTypes.func.isRequired,
+	position: PropTypes.arrayOf(PropTypes.number).isRequired,
+	zoom: PropTypes.number.isRequired,
+	traffic: PropTypes.arrayOf(PropTypes.shape({
+		averageSpeed: PropTypes.number,
+		latitude: PropTypes.number,
+		longitude: PropTypes.number,
+		relativeSpeed: PropTypes.number,
+		sensor_id: PropTypes.number,
+		speed_limit: PropTypes.number,
+		color: PropTypes.string,
+	})).isRequired,
+	filterTrafficByColor: PropTypes.func.isRequired,
 };
 
 export const MapView = ({
-  position, zoom, traffic, filterTrafficByColor,
+	position, zoom, traffic, filterTrafficByColor,
 }) => {
-  const setRed = () => filterTrafficByColor('red');
-  const setOrange = () => filterTrafficByColor('orange');
-  const setYellow = () => filterTrafficByColor('yellow');
-  const setGreen = () => filterTrafficByColor('green');
-  const resetTrafficFilter = () => filterTrafficByColor('');
+	const setRed = () => filterTrafficByColor('red');
+	const setOrange = () => filterTrafficByColor('orange');
+	const setYellow = () => filterTrafficByColor('yellow');
+	const setGreen = () => filterTrafficByColor('green');
+	const resetTrafficFilter = () => filterTrafficByColor('');
 
-  return (
+	return (
 
-    <Map center={position} zoom={zoom} zoomControl={false}>
-      <TileLayer
-        url={url}
-        attribution={attribution}
-      />
-      <ZoomControl position="topright" />
+		<Map center={position} zoom={zoom} zoomControl={false}>
+			<TileLayer
+				url={url}
+				attribution={attribution}
+			/>
+			<ZoomControl position="topright" />
 
-      {traffic.map(light => (
-        <Circle
-          key={light.sensor_id}
-          radius={111}
-          color={light.color}
-          fillColor={light.color}
-          center={[light.latitude, light.longitude]}
-          fillOpacity={0.4}
-          className={`color-${light.color} traffic-light-circle`}
-        />
-      ))}
+			{traffic.map(light => (
+				<Circle
+					key={light.sensor_id}
+					radius={111}
+					color={light.color}
+					fillColor={light.color}
+					center={[light.latitude, light.longitude]}
+					fillOpacity={0.4}
+					className={`color-${light.color} traffic-light-circle`}
+				/>
+			))}
 
-      <div className="box box-legend">
-        <ul className="map-legend">
-          <li onClick={setRed}>
-            <span className="color-red" />
-          </li>
-          <li onClick={setOrange}>
-            <span className="color-orange" />
-          </li>
-          <li onClick={setYellow}>
-            <span className="color-yellow" />
-          </li>
-          <li onClick={setGreen}>
-            <span className="color-green" />
-          </li>
-          <li onClick={resetTrafficFilter}>
-            <span className="color-gray" />
-          </li>
-        </ul>
-      </div>
-    </Map>
-  );
+			<div className="box box-legend">
+				<ul className="map-legend">
+					<li onClick={setRed}>
+						<span className="color-red" />
+					</li>
+					<li onClick={setOrange}>
+						<span className="color-orange" />
+					</li>
+					<li onClick={setYellow}>
+						<span className="color-yellow" />
+					</li>
+					<li onClick={setGreen}>
+						<span className="color-green" />
+					</li>
+					<li onClick={resetTrafficFilter}>
+						<span className="color-gray" />
+					</li>
+				</ul>
+			</div>
+		</Map>
+	);
 };
 
 MapView.propTypes = propTypes;
