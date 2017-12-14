@@ -62,19 +62,29 @@ export const MapView = ({
 			<div className="box box-legend">
 				<ul className="map-legend">
 					<li onClick={setRed}>
-						<span className="color-red" />
+						<span
+							className='color-red'
+							title='stockend' />
 					</li>
 					<li onClick={setOrange}>
-						<span className="color-orange" />
+						<span
+							className='color-orange'
+							title='weniger stockend' />
 					</li>
 					<li onClick={setYellow}>
-						<span className="color-yellow" />
+						<span
+							className='color-yellow'
+							title='fließender' />
 					</li>
 					<li onClick={setGreen}>
-						<span className="color-green" />
+						<span
+							className='color-green'
+							title='fließend' />
 					</li>
 					<li onClick={resetTrafficFilter}>
-						<span className="color-gray" />
+						<span
+							className='color-gray'
+							title='zurücksetzen' />
 					</li>
 				</ul>
 			</div>
