@@ -2,7 +2,7 @@ import React from 'react';
 import { Circle, Map, TileLayer, ZoomControl } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
-import { Legend } from '../Legend/Legend';
+import Legend from '../Legend/Legend';
 import './map.css';
 
 const osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
