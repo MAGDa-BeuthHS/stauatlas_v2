@@ -49,15 +49,6 @@
 	border-bottom-right-radius: 50px ;
 }
 
-.box {
-	padding: 3px 6px;
-	background-color: var(--color-gray-light);
-	border-color: var(--color-gray-light);
-	z-index: 401;
-	position: absolute;
-	border-radius: 50px;
-}
-
 .traffic-light-circle {
 	stroke-width: 1;
 	stroke: var(--color-gray-light)
