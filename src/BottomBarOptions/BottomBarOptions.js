@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker';
+import DayFilter from '../DayFilter/DayFilter';
 import './bottom-bar-options.css';
 
 
@@ -15,7 +16,8 @@ const BottomBarOptions = (props) => {
 
 	if( selected === 'general') {
 		return (
-			<div className="bottombar-placeholder"> Mo Di Mi Do Fr Sa So </div>
+
+			<DayFilter setFilter={()=>{}}/>
 		);
 	} else if(selected === 'period') {
 		return(

@@ -1,0 +1,23 @@
+
+.day-filter {
+  margin-top: 3px;
+  color: var(--text-color);
+}
+
+.filter {
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+}
+
+.filter:hover {
+  background-color: #ccc;
+}
+
+.filter.active {
+  background-color: var(--color-action-default);
+}
+
+.filter.active:hover {
+  background-color: var(--color-action-default-hover);
+}

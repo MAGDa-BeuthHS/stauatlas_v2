@@ -10,7 +10,9 @@
   --color-orange: #FF950B;
   --color-red: #FD0000;
   --color-action-primary: #B41616;
+  --color-action-primary-hover: #B61616;
   --color-action-default: #82D0FF;
+  --color-action-default-hover: #82DEFF;
 }
 
 
@@ -23,5 +25,6 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Avenir Light', sans-serif;
+  font-size: 14px;
   overflow: hidden;
 }
