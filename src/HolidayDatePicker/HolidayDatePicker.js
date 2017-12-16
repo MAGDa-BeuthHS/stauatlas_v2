@@ -29,34 +29,62 @@ const highlightWithRanges = [
 	}
 ];
 const startDate = moment();
+const endDate = moment().add(7, 'days');
 
 const propTypes = {
-	onDateClick: PropTypes.func.isRequired,
+	handleChangeDateStart: PropTypes.func.isRequired,
+	handleChangeDateEnd: PropTypes.func.isRequired,
 };
 
-const HolidayDatePicker = ({ onDateClick }) => {
+const HolidayDatePickerLegend = () => (
+	<div className="holiday-datepicker-legend">
+		<div>
+			<span className="legend-holiday" />
+			Ferien und Feiertage
+		</div>
+		<div>
+			<span className="legend-event" />
+			Veranstaltungen
+		</div>
+	</div>
+)
+
+const HolidayDatePicker = ({
+	handleChangeDateStart, handleChangeDateEnd
+}) => {
 	return (
-		<DatePicker
-			locale='de'
-			selected={startDate}
-			dateFormat="DD.MM.YYYY"
-			calendarClassName="holiday-datepicker"
-			placeholderText="Click to select a date"
-			onChange={onDateClick}
-			highlightDates={highlightWithRanges}
-			shouldCloseOnSelect={false}
-			disabledKeyboardNavigation >
-			<div className="holiday-datepicker-legend">
-				<div>
-					<span className="legend-holiday" />
-          Ferien und Feiertage
-				</div>
-				<div>
-					<span className="legend-event" />
-          Veranstaltungen
-				</div>
-			</div>
-		</DatePicker>
+		<div>
+			<DatePicker
+				selected={startDate}
+				selectsStartstartDate={startDate}
+				endDate={endDate}
+				onChange={handleChangeDateStart}
+				dateFormat="DD.MM.YYYY"
+				calendarClassName="holiday-datepicker"
+				placeholderText="Click to select a date"
+				highlightDates={highlightWithRanges}
+				locale='de'
+				disabledKeyboardNavigation
+			>
+				<HolidayDatePickerLegend />
+			</DatePicker>
+
+			<DatePicker
+				selected={endDate}
+				selectsEnd
+				startDate={startDate}
+				endDate={endDate}
+				onChange={handleChangeDateEnd}
+				dateFormat="DD.MM.YYYY"
+				calendarClassName="holiday-datepicker"
+				placeholderText="Click to select a date"
+				highlightDates={highlightWithRanges}
+				locale='de'
+				disabledKeyboardNavigation
+			>
+				<HolidayDatePickerLegend />
+			</DatePicker>
+		</div>
 	);
 };
 
