@@ -1,100 +1,111 @@
 .leaflet-container {
-    height: 100vh;
-    width: 100%;
-    cursor: default;
+	height: 100vh;
+	width: 100%;
+	cursor: default;
 }
 
 .leaflet-control-zoom {
-    top: 2em;
-    right: 3em;
+	top: 2em;
+	right: 3em;
 }
 .leaflet-control-zoom leaflet-bar leaflet-control {
-    margin: 0;
+	margin: 0;
 }
 
 .leaflet-right .leaflet-control {
-    border-radius: 50px;
+	border-radius: 50px;
 }
 
 .leaflet-bar a,
 .leaflet-bar a:hover {
-    border-color: var(--color-gray-light);
-    background-color: var(--color-gray-light);
-    color: #585555;
-    border-bottom: 1px solid #585555;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    font-size: 22px;
-    font-weight: bold;
+	border-color: var(--color-gray-light);
+	background-color: var(--color-gray-light);
+	color: #585555;
+	border-bottom: 1px solid #585555;
+	width: 30px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 22px;
+	font-weight: bold;
 }
 
+/* chrome */
+.leaflet-touch .leaflet-bar a:first-child {
+	border-top-left-radius: 50px ;
+	border-top-right-radius: 50px ;
+}
+.leaflet-touch .leaflet-bar a:last-child {
+	border-bottom-left-radius: 50px ;
+	border-bottom-right-radius: 50px ;
+}
+
+/* firefox */
 .leaflet-bar a:first-child {
-    border-top-left-radius: 50px ;
-    border-top-right-radius: 50px ;
+	border-top-left-radius: 50px ;
+	border-top-right-radius: 50px ;
 }
 .leaflet-bar a:last-child {
-    border-bottom-left-radius: 50px ;
-    border-bottom-right-radius: 50px ;
+	border-bottom-left-radius: 50px ;
+	border-bottom-right-radius: 50px ;
 }
 
 .box {
-    padding: 3px 6px;
-    background-color: var(--color-gray-light);
-    border-color: var(--color-gray-light);
-    z-index: 401;
-    position: absolute;
-    border-radius: 50px;
+	padding: 3px 6px;
+	background-color: var(--color-gray-light);
+	border-color: var(--color-gray-light);
+	z-index: 401;
+	position: absolute;
+	border-radius: 50px;
 }
 
 .box-legend {
-    right: 3em;
-    bottom: 2em;
+	right: 3em;
+	bottom: 2em;
 }
 
 .map-legend {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
 }
 
 .map-legend > li {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    cursor: pointer;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	cursor: pointer;
 }
 
 .map-legend li span {
-    width: 2em;
-    vertical-align: middle;
-    height: 2em;
-    display: inline-flex;
-    border-radius: 50%;
-    border: 1px solid var(--color-gray);
-    box-shadow: 2px 0 10px var(--color-gray);
+	width: 2em;
+	vertical-align: middle;
+	height: 2em;
+	display: inline-flex;
+	border-radius: 50%;
+	border: 1px solid var(--color-gray);
+	box-shadow: 2px 0 10px var(--color-gray);
 }
 
 .color-red {
-    background-color: var(--color-red);
+	background-color: var(--color-red);
 }
 
 .color-orange {
-    background-color: var(--color-orange);
+	background-color: var(--color-orange);
 }
 
 .color-yellow {
-    background-color: var(--color-yellow);
+	background-color: var(--color-yellow);
 }
 
 .color-green {
-    background-color: var(--color-green);
+	background-color: var(--color-green);
 }
 
 .color-gray {
-    background-color: var(--color-gray-dark);
+	background-color: var(--color-gray-dark);
 }
 
 .traffic-light-circle {
-    stroke-width: 1;
-    stroke: var(--color-gray-light)
+	stroke-width: 1;
+	stroke: var(--color-gray-light)
 }

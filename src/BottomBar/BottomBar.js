@@ -45,46 +45,31 @@ class BottomBar extends Component {
 		render() {
 			const isOpen = this.props.isOpen;
 
-			const openClass = isOpen && 'open';
-			const openControlClass = !isOpen && 'open';
+			const openClass = isOpen ? 'open' : 'closed';
 			const arrowClass = isOpen ? 'left' : 'right';
 
 			return (
-				<div className="bottom-bar-container">
-					<div className={`box bottom-bar ${openClass}`}>
-
-						<div className="bottom-bar-options">
-							<div className="general-options-selector">
-								<select
-									value={this.state.selected}
-									onChange={this.handleSelectClick}>
-									<option value={ACTUAL}>Aktuelle Verkehrslage</option>
-									<option value={GENERAL}>Generelle Verkehrslage</option>
-									<option value={PERIOD}>Zeitraum Verkehrslage</option>
-								</select>
-								<i className="fa fa-chevron-down" aria-hidden="true"/>
-							</div>
-
-							{this.renderOptions()}
-
+				<div className={`box bottom-bar ${openClass}`}>
+					<div className="bottom-bar-options">
+						<div className="general-options-selector">
+							<select
+								value={this.state.selected}
+								onChange={this.handleSelectClick}>
+								<option value={ACTUAL}>Aktuelle Verkehrslage</option>
+								<option value={GENERAL}>Generelle Verkehrslage</option>
+								<option value={PERIOD}>Zeitraum Verkehrslage</option>
+							</select>
+							<i className="fa fa-chevron-down" aria-hidden="true"/>
 						</div>
 
-						<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
-							<span
-								className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
-								aria-hidden="true"/>
-						</a>
-
+						{this.renderOptions()}
 					</div>
 
-					<div className={`box bottom-bar ${openControlClass}`}>
-						<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
-							<span
-								className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
-								aria-hidden="true"/>
-						</a>
-					</div>
-
+					<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
+						<span
+							className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
+							aria-hidden="true"/>
+					</a>
 				</div>
 			);
 		}

@@ -1,5 +1,6 @@
 .bottom-bar {
     left: -440px;
+    -moz-webkit-margin:0px;
     transition: left .5s ease-in-out;
     bottom: 2em;
     border-bottom-left-radius: 0;
@@ -17,7 +18,7 @@
     border-left: 2px solid var(--color-gray);
 }
 
-.bottom-bar.false .bottombar-placeholder {
+.bottom-bar.closed .bottombar-placeholder {
     display: inline-flex;
     width: 245px;
 }
