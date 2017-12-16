@@ -33,8 +33,7 @@ class BottomBar extends Component {
 	render() {
 		const { isOpen, handleOnDateClick } = this.props;
 
-		const openClass = isOpen && 'open';
-		const openControlClass = !isOpen && 'open';
+		const openClass = isOpen ? 'open' : 'closed';
 		const arrowClass = isOpen ? 'left' : 'right';
 
 		return (
@@ -57,14 +56,6 @@ class BottomBar extends Component {
 							handleOnDateClick={handleOnDateClick} />
 					</div>
 
-					<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
-						<span
-							className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
-							aria-hidden="true"/>
-					</a>
-				</div>
-
-				<div className={`box bottom-bar ${openControlClass}`}>
 					<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
 						<span
 							className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
