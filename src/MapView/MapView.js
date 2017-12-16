@@ -2,6 +2,7 @@ import React from 'react';
 import { Circle, Map, TileLayer, ZoomControl } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
+import Legend from '../Legend/Legend';
 import './map.css';
 
 const osmLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
@@ -32,20 +33,16 @@ const propTypes = {
 export const MapView = ({
 	position, zoom, traffic, filterTrafficByColor,
 }) => {
-	const setRed = () => filterTrafficByColor('red');
-	const setOrange = () => filterTrafficByColor('orange');
-	const setYellow = () => filterTrafficByColor('yellow');
-	const setGreen = () => filterTrafficByColor('green');
-	const resetTrafficFilter = () => filterTrafficByColor('');
 
 	return (
-
 		<Map center={position} zoom={zoom} zoomControl={false}>
 			<TileLayer
 				url={url}
 				attribution={attribution}
 			/>
 			<ZoomControl position="topright" />
+
+			<Legend filterTrafficByColor={filterTrafficByColor} />
 
 			{traffic.map(light => (
 				<Circle
@@ -59,25 +56,6 @@ export const MapView = ({
 				/>
 			))}
 
-			<div className="box box-legend">
-				<ul className="map-legend">
-					<li onClick={setRed}>
-						<span className="color-red" />
-					</li>
-					<li onClick={setOrange}>
-						<span className="color-orange" />
-					</li>
-					<li onClick={setYellow}>
-						<span className="color-yellow" />
-					</li>
-					<li onClick={setGreen}>
-						<span className="color-green" />
-					</li>
-					<li onClick={resetTrafficFilter}>
-						<span className="color-gray" />
-					</li>
-				</ul>
-			</div>
 		</Map>
 	);
 };
