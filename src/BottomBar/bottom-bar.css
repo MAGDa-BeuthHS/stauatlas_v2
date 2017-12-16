@@ -1,6 +1,7 @@
 .bottom-bar {
     left: -440px;
-    -moz-webkit-margin:0px;
+    /* fix chrome margin */
+    -webkit-margin-start: 25px;
     transition: left .5s ease-in-out;
     bottom: 2em;
     border-bottom-left-radius: 0;
@@ -8,6 +9,8 @@
 }
 
 .bottom-bar.open {
+    /* reset chrome margin */
+    -webkit-margin-start: 0;
     left: 0;
 }
 
