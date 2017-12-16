@@ -16,7 +16,7 @@ const accessToken = 'pk.eyJ1IjoiaWxvbmFjb2RlcyIsImEiOiJjajl3d3lpdjcwcjV0MzNtZGdm
 const url = `${layer}?access_token=${accessToken}`;
 
 const propTypes = {
-	filterTrafficByColor: PropTypes.func.isRequired,
+	circleRadius: PropTypes.number.isRequired,
 	position: PropTypes.arrayOf(PropTypes.number).isRequired,
 	traffic: PropTypes.arrayOf(PropTypes.shape({
 		averageSpeed: PropTypes.number,
@@ -27,18 +27,23 @@ const propTypes = {
 		speed_limit: PropTypes.number,
 		color: PropTypes.string,
 	})).isRequired,
-	zoom: PropTypes.number.isRequired,
+	filterTrafficByColor: PropTypes.func.isRequired,
+	handleZoomend: PropTypes.func.isRequired,
 };
 
-export const MapView = ({
-	position, zoom, traffic, filterTrafficByColor,
-}) => {
+export const MapView = (props) => {
+	const {
+		circleRadius, handleZoomend,
+		position, traffic, filterTrafficByColor
+	} = props;
 
 	return (
-
 		<Map
 			center={position}
-			zoom={zoom}
+			zoom={13}
+			minZoom={11}
+			maxZoom={18}
+			onZoomend={handleZoomend}
 			zoomControl={false}>
 			<TileLayer
 				url={url}
@@ -51,12 +56,11 @@ export const MapView = ({
 			{traffic.map(light => (
 				<Circle
 					key={light.sensor_id}
-					center={[light.latitude, light.longitude]}
+					radius={circleRadius}
 					color={light.color}
 					className={`color-${light.color} traffic-light-circle`}
 					fillColor={light.color}
 					fillOpacity={0.4}
-					radius={111}
 				/>
 			))}
 

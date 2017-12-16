@@ -5,6 +5,17 @@ import { MapView } from './MapView/MapView';
 import BottomBar from './BottomBar/BottomBar';
 import { getTrafficInfos } from './trafficService';
 
+const zoomRadius = {
+	11: 170,
+	12: 150,
+	13: 130,
+	14: 80,
+	15: 40,
+	16: 20,
+	17: 10,
+	18: 5
+};
+
 export class App extends Component {
 	static setColor(traffic) {
 		traffic.map((t) => {
@@ -25,14 +36,15 @@ export class App extends Component {
 		super(props);
 		this.state = {
 			bottomBarOpen: false,
+			circleRadius: 111,
 			traffic: [],
-			filteredTraffic: [],
-			zoom: 13,
+			filteredTraffic: []
 		};
 		this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
 		this.resetTraffic = this.resetTraffic.bind(this);
 		this.handleViewSidebar = this.handleViewSidebar.bind(this);
 		this.handleOnDateClick = this.handleOnDateClick.bind(this);
+		this.handleMapZoom = this.handleMapZoom.bind(this);
 	}
 
 	componentDidMount() {
@@ -88,12 +100,24 @@ export class App extends Component {
 		}
 	}
 
+	setRadius(radius) {
+		this.setState(() => ({
+			circleRadius: radius,
+		}));
+	}
+
+	handleMapZoom(e) {
+		const newZoom = e.target._zoom;
+		this.setRadius(zoomRadius[newZoom]);
+	}
+
 	handleViewSidebar() {
 		this.setState(prevState => ({
 			bottomBarOpen: !prevState.bottomBarOpen,
 		}));
 	}
 
+	// dummy
 	handleOnDateClick() {
 		this.setState(prevState => ({
 			bottomBarOpen: prevState.bottomBarOpen,
@@ -111,7 +135,8 @@ export class App extends Component {
 
 				<MapView
 					position={[51.050407, 13.737262]}
-					zoom={this.state.zoom}
+					circleRadius={this.state.circleRadius}
+					handleZoomend={this.handleMapZoom}
 					traffic={this.state.filteredTraffic}
 					filterTrafficByColor={this.filterTrafficByColor}
 				/>
