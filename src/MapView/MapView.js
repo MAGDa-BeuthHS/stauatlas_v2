@@ -56,6 +56,7 @@ export const MapView = (props) => {
 			{traffic.map(light => (
 				<Circle
 					key={light.sensor_id}
+					center={[light.latitude, light.longitude]}
 					radius={circleRadius}
 					color={light.color}
 					className={`color-${light.color} traffic-light-circle`}
