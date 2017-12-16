@@ -1,3 +1,15 @@
+.holiday-datepickers {
+  display: flex;
+}
+
+.react-datepicker-wrapper {
+  margin-right: 10px;
+}
+
+.react-datepicker__input-container > input {
+  width: 111px;
+}
+
 .react-datepicker__header {
   background-color: var(--color-gray-light);
 }

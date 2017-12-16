@@ -53,7 +53,7 @@ const HolidayDatePicker = ({
 	handleChangeDateStart, handleChangeDateEnd
 }) => {
 	return (
-		<div>
+		<div className="holiday-datepickers">
 			<DatePicker
 				selected={startDate}
 				selectsStartstartDate={startDate}
