@@ -38,7 +38,7 @@ class BottomBar extends Component {
 
 		return (
 			<div className="bottom-bar-container">
-				<div className={`box bottom-bar ${openClass}`}>
+				<div className={`box bottom-bar ${openClass} ${this.state.selected}`}>
 					<div className="bottom-bar-content">
 						<div className="general-options-selector">
 							<select

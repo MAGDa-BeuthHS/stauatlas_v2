@@ -1,11 +1,23 @@
 .bottom-bar {
-    left: -440px;
-    /* fix chrome margin */
-    -webkit-margin-start: 25px;
     transition: left .5s ease-in-out;
     bottom: 2em;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+
+    /* fix chrome margin */
+    -webkit-margin-start: 5px;
+}
+
+.bottom-bar.actual {
+    left: -405px;
+}
+
+.bottom-bar.general {
+    left: -360px;
+}
+
+.bottom-bar.period {
+    left: -415px;
 }
 
 .bottom-bar.open {
