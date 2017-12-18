@@ -11,21 +11,25 @@ const propTypes = {
 };
 
 const BottomBarOptions = (props) => {
-	const { selected, handleOnDateClick } = props;
+	const {selected, handleOnDateClick} = props;
 
-	if( selected === 'general') {
+	if (selected === 'general') {
 		return (
 			<div className="bottom-bar-filters">
-				<DayFilter setFilter={()=>{}}/>
+				<DayFilter setFilter={() => {
+				}}/>
 				<TimeFilter/>
 			</div>
 		);
-	} else if(selected === 'period') {
-		return(
-			<HolidayDatePicker
-				handleChangeDateStart={handleOnDateClick}
-				handleChangeDateEnd={handleOnDateClick}
-			/>
+	} else if (selected === 'period') {
+		return (
+			<div className="bottom-bar-filters">
+				<HolidayDatePicker
+					handleChangeDateStart={handleOnDateClick}
+					handleChangeDateEnd={handleOnDateClick}
+				/>
+				<TimeFilter/>
+			</div>
 		);
 	} else {
 		/*actual*/
