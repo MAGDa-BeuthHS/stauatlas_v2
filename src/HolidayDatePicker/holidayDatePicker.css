@@ -11,7 +11,7 @@
 }
 
 .react-datepicker__header {
-  background-color: var(--color-gray-light);
+  background-color: var(--color-gray-lighter);
 }
 
 .react-datepicker__current-month {

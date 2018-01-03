@@ -15,8 +15,8 @@
 
 .box {
   padding: 3px 6px;
-  background-color: var(--color-gray-light);
-  border-color: var(--color-gray-light);
+  background-color: var(--color-gray-lighter);
+  border-color: var(--color-gray-lighter);
   z-index: 401;
   position: absolute;
   border-radius: 50px;

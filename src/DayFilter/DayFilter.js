@@ -19,7 +19,7 @@ function getWeekDays() {
 const filter = getWeekDays();
 const activeFilter = moment();
 
-const FilterBar = ({ setFilter }) => (
+const DayFilter = ({ setFilter }) => (
 	<div className="day-filter">
 		{filter.map(f => {
 			return (
@@ -37,5 +37,5 @@ const FilterBar = ({ setFilter }) => (
 	</div>
 );
 
-FilterBar.propTypes = propTypes;
-export default FilterBar;
+DayFilter.propTypes = propTypes;
+export default DayFilter;

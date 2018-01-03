@@ -1,3 +1,7 @@
 .bottom-bar-options {
   width: auto;
 }
+
+.bottom-bar-filters {
+  display: flex;
+}

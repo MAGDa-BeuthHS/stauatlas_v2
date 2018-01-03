@@ -1,30 +1,30 @@
 :root {
-  --text-color-light: #fff;
-  --text-color: #000;
-  --color-gray-lighter: #bbb;
-  --color-gray-light: #d8d8d8;
-  --color-gray: #979797;
-  --color-gray-dark: #585555;
-  --color-green: #00CC00;
-  --color-yellow: #F7FF36;
-  --color-orange: #FF950B;
-  --color-red: #FD0000;
-  --color-action-primary: #B41616;
-  --color-action-primary-hover: #B61616;
-  --color-action-default: #82D0FF;
-  --color-action-default-hover: #82DEFF;
+    --text-color-light: #fff;
+    --text-color: #000;
+    --color-gray-light: #bbb;
+    --color-gray-lighter: #d8d8d8;
+    --color-gray: #979797;
+    --color-gray-dark: #585555;
+    --color-green: #00CC00;
+    --color-yellow: #F7FF36;
+    --color-orange: #FF950B;
+    --color-red: #FD0000;
+    --color-red-dark: #C00000;
+    --color-action-primary: #B41616;
+    --color-action-primary-hover: #B61616;
+    --color-action-default: #82D0FF;
+    --color-action-default-hover: #82DEFF;
 }
 
-
 @font-face {
-  font-family: "Avenir Light";
-  src: local('Avenir Light'), url(./utils/AvenirLTStd-Light.otf) format('otf');
+    font-family: "Avenir Light";
+    src: local('Avenir Light'), url(./utils/AvenirLTStd-Light.otf) format('otf');
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Avenir Light', sans-serif;
-  font-size: 14px;
-  overflow: hidden;
+    margin: 0;
+    padding: 0;
+    font-family: 'Avenir Light', sans-serif;
+    font-size: 14px;
+    overflow: hidden;
 }

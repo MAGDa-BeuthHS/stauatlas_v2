@@ -1,0 +1,126 @@
+.time-filter-container {
+    margin-top: -3px;
+}
+
+.time-filter-container .time-filter {
+    width: 180px;
+    height: 14px;
+    margin-top: 4px;
+    margin-left: 10px;
+    margin-right: 20px;
+
+    background-color: var(--color-gray-light);
+    border-radius: 7px;
+
+    cursor: col-resize;
+}
+
+.time-filter-container .selection {
+    position: relative;
+    height: 14px;
+    margin-top: -14px;
+    margin-left: 15px;
+
+    background-color: var(--color-red-dark);
+
+    cursor: col-resize;
+}
+
+.time-filter-container .selection:before,
+.time-filter-container .selection:after {
+    content: '';
+    display: block;
+    height: 22px;
+    width: 3px;
+    position: relative;
+    background-color: var(--color-red-dark);
+
+    cursor: col-resize;
+}
+
+.time-filter-container .selection:before {
+    left: -1px;
+    top: -4px;
+}
+
+.time-filter-container .selection:after {
+    top: -26px;
+    left: 100%;
+}
+
+.time-filter-container .scales {
+    display: flex;
+    width: 176px;
+    margin-top: -1px;
+    margin-left: 15px;
+}
+
+.time-filter-container .scales .scale {
+    flex: 1;
+    height: 3px;
+    border-left: 2px solid var(--color-gray-light);
+}
+
+.time-filter-container .scales .scale:nth-child(6n + 1) {
+    height: 5px;
+}
+
+.time-filter-container .scales .scale:last-child {
+    height: 5px;
+    border-left: 2px solid var(--color-gray-light);
+}
+
+.time-filter-container .scale-hours {
+    display: flex;
+    width: 215px;
+    margin-left: 5px;
+}
+
+.time-filter-container .scale-hour {
+    flex: 1;
+    font-size: 8px;
+    color: var(--color-gray-light);
+}
+
+.time-filter-container .time-range-labels {
+    margin-top: -30px;
+    margin-bottom: 15px;
+    margin-left: -10px;
+}
+
+.time-filter-container .time-range-label {
+    display: inline-block;
+    position: relative;
+
+    width: 50px;
+    border-radius: 7px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+
+    text-align: center;
+    font-size: 10px;
+
+    background-color: var(--color-red-dark);
+    color: var(--text-color-light)
+}
+
+.time-filter-container .time-range-label:after {
+    content: '';
+    width: 0;
+    height: 0;
+    margin-right: -6px;
+    border-style: solid;
+    border-width: 3px 3px 0 3px;
+    border-color: var(--color-red-dark) transparent transparent transparent;
+    left: -15px;
+    top: 20px;
+    position: relative;
+}
+
+.time-filter-container .time-range-label:last-child {
+    margin-left: -48px;
+}
+
+.time-filter-container .time-range-label.bump {
+    top: -15px;
+}
