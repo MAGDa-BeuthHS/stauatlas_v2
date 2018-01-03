@@ -1,80 +1,424 @@
-/**
- * Created by Luise on 03.05.2017.
- */
 const express = require('express');
 const router = express.Router();
+const _ = require('lodash');
+const moment = require('moment');
 const Sequelize = require('sequelize');
+const config = require('./db_config.js');
 
-const dbName = process.env["DB_NAME"] || "masterprojektgeschwindigkeitsdaten";
+let conn = config['dev'];
+//let conn = config['prod'];
 
-const sequelize = new Sequelize(dbName, 'root', '', {
-  host: 'localhost',
-  dialect: 'mysql',
-  define: {
-    timestamps: false  // I don't want timestamp fields by default
-  },
+const sequelize = new Sequelize(conn.db_name, conn.user, conn.password, {
+    host: conn.host,
+    dialect: 'mysql',
+    define: {
+        timestamps: false  // I don't want timestamp fields by default
+    },
 
-  pool: {
-    max: 5,
-    min: 0,
-    idle: 10000
-  }
+    pool: {
+        max: 5,
+        min: 0,
+        idle: 10000
+    }
 });
+
+//Function to format the result:
+let formatResult = function (avgSpeeds) {
+    let result = [];
+    _.each(avgSpeeds, function (val) {
+        val = val.toJSON();
+        let tmp = {
+            sensor_id: val.sensor_id,
+            relativeSpeed: val.avg_speed*100/val.speed_limit.speed_limit,
+            averageSpeed: val.avg_speed,
+            latitude: val.gps_coordinate.latitude,
+            longitude: val.gps_coordinate.longitude,
+            speed_limit: val.speed_limit.speed_limit
+        };
+        result.push(tmp)
+    });
+    console.log("Formatresult, Länge: "+result.length);
+    return result;
+};
+
+let formatResultChange = function (data) {
+
+    // let res = [];
+    // let res1 = _.chain(data).groupBy('sensor_id')
+    // .map((groups) => {
+    // 	return _.chain(groups).groupBy((obj) => {
+    // 		return String(obj.toJSON().timestamp).substring(0,18);
+    // 	})
+    // });
+
+
+    // _.each(res1, (arr) => {
+    // 	res.push(arr);
+    // });
+    // _.each(res1, (subObjs) => {
+    // 	_.each(subObjs, (objs) => {
+    // 		_.each(objs, (val, key) => {
+    // 			res.push(key);
+    // 		})
+    // 	})
+    // });
+    // let groups = _.groupBy(data, 'sensor_id');
+    // _.each(groups, (arr) =>{
+    // 	let subArr = _.groupBy(arr, (obj) => {
+    // 		return String(obj.toJSON().timestamp).substring(0,18);
+    // 	});
+    // 	_.each(subArr, (subObj) => {
+    // 		_.each(subObj, (dataArr) => {
+    // 			let
+    // 		})
+    // 	})
+    // let timeGrouped = _.groupBy(newArr, (obj) => {
+    // 	return obj.timestamp.get('hour');
+    // });
+    // res1.push(subArr);
+    // _.each(timeGrouped, (groupedArr) => {
+    // 	groupedArr[0].avg_speed = _.meanBy(groupedArr, 'avg_speed');
+    // 	res1.push(groupedArr[0]);
+    // });
+
+    // });
+
+    let result = [];
+    _.each(data, function (val) {
+        let tmp = {
+            timestamp: val.timestamp,
+            sensor_id: val.sensor_id,
+            relativeSpeed: val.avg_speed*100/val.speed_limit.speed_limit,
+            averageSpeed: val.avg_speed,
+            latitude: val.gps_coordinate.latitude,
+            longitude: val.gps_coordinate.longitude,
+            speed_limit: val.speed_limit.speed_limit
+        };
+        result.push(tmp)
+    });
+    console.log('Events/Verlauf Resultat-Länge: ', result.length);
+    return result;
+};
 
 sequelize
-.authenticate()
-.then(function(err) {
-  console.log('Connection has been established successfully.');
-})
-.catch(function (err) {
-  console.log('Unable to connect to the database:', err);
-});
+    .authenticate()
+    .then(function() {
+        console.log('Connection has been established successfully.');
+    })
+    .catch(function (err) {
+        console.log('Unable to connect to the database:', err);
+    });
 
 // Sensordata model
 let SensorModel = sequelize.define('sensor_data', {
-  sensor_id: {
-    type: Sequelize.INTEGER,
-    primaryKey: true
-  },
-  speed: {
-    type: Sequelize.FLOAT
-  },
-  timestamp: {
-    type: Sequelize.DATE,
-    primaryKey: true
-  }
-});
-
-/* GET api listing. */
-router.get('/', (req,res) => {
-  console.log('api works');
-  res.send('api works');
-});
-
-router.get('/all/null/undefined/undefined', (req, res) => {
-  res.send([{"sensor_id":371,"relativeSpeed":72.59266666666666,"averageSpeed":21.7778,"latitude":51.0521466520141,"longitude":13.806619436699405,"speed_limit":30},{"sensor_id":370,"relativeSpeed":73.33333333333333,"averageSpeed":22,"latitude":51.05220042752145,"longitude":13.806603793250686,"speed_limit":30},{"sensor_id":505,"relativeSpeed":73.5714,"averageSpeed":36.7857,"latitude":50.9961559958744,"longitude":13.796417324203748,"speed_limit":50},{"sensor_id":1178,"relativeSpeed":74,"averageSpeed":37,"latitude":51.118823986987536,"longitude":13.76635460086739,"speed_limit":50},{"sensor_id":1140,"relativeSpeed":78.2666,"averageSpeed":39.1333,"latitude":51.01132570009828,"longitude":13.808293785150191,"speed_limit":50},{"sensor_id":392,"relativeSpeed":80.35716666666667,"averageSpeed":48.2143,"latitude":51.08413515707626,"longitude":13.691920964779943,"speed_limit":60},{"sensor_id":497,"relativeSpeed":81.53057142857142,"averageSpeed":57.0714,"latitude":51.014748202640966,"longitude":13.722930349632673,"speed_limit":70},{"sensor_id":1180,"relativeSpeed":81.5384,"averageSpeed":40.7692,"latitude":51.11868501821229,"longitude":13.766815342910633,"speed_limit":50},{"sensor_id":284,"relativeSpeed":81.8572,"averageSpeed":40.9286,"latitude":50.998613212272595,"longitude":13.799345373092237,"speed_limit":50},{"sensor_id":393,"relativeSpeed":82.33333333333333,"averageSpeed":49.4,"latitude":51.08415376810778,"longitude":13.691977528256169,"speed_limit":60},{"sensor_id":390,"relativeSpeed":83.11116666666666,"averageSpeed":49.8667,"latitude":51.082098858391994,"longitude":13.693105808204903,"speed_limit":60},{"sensor_id":926,"relativeSpeed":83.4666,"averageSpeed":41.7333,"latitude":51.08219166659042,"longitude":13.699011565394864,"speed_limit":50},{"sensor_id":495,"relativeSpeed":84.28571428571429,"averageSpeed":59,"latitude":51.01454785128215,"longitude":13.722693589598784,"speed_limit":70},{"sensor_id":769,"relativeSpeed":84.5555,"averageSpeed":50.7333,"latitude":51.0697100417635,"longitude":13.689745025057439,"speed_limit":60},{"sensor_id":1139,"relativeSpeed":84.7142,"averageSpeed":42.3571,"latitude":51.01250865594838,"longitude":13.809702723078631,"speed_limit":50},{"sensor_id":285,"relativeSpeed":86.22216666666667,"averageSpeed":51.7333,"latitude":51.07403825446548,"longitude":13.690136533207463,"speed_limit":60},{"sensor_id":292,"relativeSpeed":86.4,"averageSpeed":43.2,"latitude":51.0530555707918,"longitude":13.747407235690654,"speed_limit":50},{"sensor_id":283,"relativeSpeed":88,"averageSpeed":44,"latitude":50.99863147861787,"longitude":13.79937339321802,"speed_limit":50},{"sensor_id":1129,"relativeSpeed":88.1538,"averageSpeed":44.0769,"latitude":51.06464482768679,"longitude":13.740075775936992,"speed_limit":50},{"sensor_id":1130,"relativeSpeed":88.2858,"averageSpeed":44.1429,"latitude":51.0646181751989,"longitude":13.740105031053151,"speed_limit":50},{"sensor_id":498,"relativeSpeed":89.09085714285713,"averageSpeed":62.3636,"latitude":51.01475656671675,"longitude":13.7228731172875,"speed_limit":70},{"sensor_id":389,"relativeSpeed":89.11116666666666,"averageSpeed":53.4667,"latitude":51.081540904463345,"longitude":13.693050165843758,"speed_limit":60},{"sensor_id":491,"relativeSpeed":90.2666,"averageSpeed":45.1333,"latitude":51.02695771877284,"longitude":13.731375752276355,"speed_limit":50},{"sensor_id":1087,"relativeSpeed":90.6,"averageSpeed":90.6,"latitude":51.03798272601713,"longitude":13.625951659860085,"speed_limit":100},{"sensor_id":388,"relativeSpeed":91.15383333333334,"averageSpeed":54.6923,"latitude":51.08154026676432,"longitude":13.692993098881367,"speed_limit":60},{"sensor_id":921,"relativeSpeed":91.3334,"averageSpeed":45.6667,"latitude":51.062020648157926,"longitude":13.687822215398567,"speed_limit":50},{"sensor_id":925,"relativeSpeed":91.3334,"averageSpeed":45.6667,"latitude":51.08222539036853,"longitude":13.698810819816673,"speed_limit":50},{"sensor_id":1179,"relativeSpeed":91.7142,"averageSpeed":45.8571,"latitude":51.11854931619651,"longitude":13.766733258454364,"speed_limit":50},{"sensor_id":1128,"relativeSpeed":92.18180000000001,"averageSpeed":46.0909,"latitude":51.06331984158579,"longitude":13.737244346186666,"speed_limit":50},{"sensor_id":501,"relativeSpeed":92.5714,"averageSpeed":46.2857,"latitude":51.030974761228464,"longitude":13.728785655168213,"speed_limit":50},{"sensor_id":1089,"relativeSpeed":92.5714,"averageSpeed":92.5714,"latitude":51.037855411279324,"longitude":13.62582710302899,"speed_limit":100},{"sensor_id":1181,"relativeSpeed":92.6154,"averageSpeed":46.3077,"latitude":51.118662529314555,"longitude":13.766387463812139,"speed_limit":50},{"sensor_id":499,"relativeSpeed":92.7692,"averageSpeed":46.3846,"latitude":51.031100573698545,"longitude":13.728782214945145,"speed_limit":50},{"sensor_id":504,"relativeSpeed":92.8,"averageSpeed":46.4,"latitude":50.99816079533626,"longitude":13.799057887318117,"speed_limit":50},{"sensor_id":291,"relativeSpeed":93,"averageSpeed":46.5,"latitude":51.05305495986869,"longitude":13.747350202535761,"speed_limit":50},{"sensor_id":502,"relativeSpeed":93.07700000000001,"averageSpeed":46.5385,"latitude":51.03100203094286,"longitude":13.728813420817659,"speed_limit":50},{"sensor_id":287,"relativeSpeed":93.66666666666667,"averageSpeed":56.2,"latitude":51.071633931614684,"longitude":13.689762063776621,"speed_limit":60},{"sensor_id":1131,"relativeSpeed":93.7334,"averageSpeed":46.8667,"latitude":51.06092101878335,"longitude":13.777122668358711,"speed_limit":50},{"sensor_id":506,"relativeSpeed":94.2666,"averageSpeed":47.1333,"latitude":50.996191650158266,"longitude":13.7963879125236,"speed_limit":50},{"sensor_id":369,"relativeSpeed":94.54533333333333,"averageSpeed":28.3636,"latitude":51.05224521619104,"longitude":13.80658838062251,"speed_limit":30},{"sensor_id":1092,"relativeSpeed":95.3334,"averageSpeed":47.6667,"latitude":51.06875200132386,"longitude":13.730847550081137,"speed_limit":50},{"sensor_id":493,"relativeSpeed":95.8462,"averageSpeed":47.9231,"latitude":51.02745275599299,"longitude":13.73143351817703,"speed_limit":50},{"sensor_id":1133,"relativeSpeed":95.8666,"averageSpeed":47.9333,"latitude":51.06091054078535,"longitude":13.776980296378978,"speed_limit":50},{"sensor_id":1117,"relativeSpeed":96.1334,"averageSpeed":48.0667,"latitude":51.099274779964,"longitude":13.715607285332666,"speed_limit":50},{"sensor_id":909,"relativeSpeed":96.2858,"averageSpeed":48.1429,"latitude":51.04756268381564,"longitude":13.721615048925951,"speed_limit":50},{"sensor_id":423,"relativeSpeed":96.30760000000001,"averageSpeed":48.1538,"latitude":51.038714302425326,"longitude":13.740393874494648,"speed_limit":50},{"sensor_id":354,"relativeSpeed":96.6666,"averageSpeed":48.3333,"latitude":51.09944753052504,"longitude":13.735589890579979,"speed_limit":50},{"sensor_id":1091,"relativeSpeed":98,"averageSpeed":49,"latitude":51.06876222607202,"longitude":13.730961408609394,"speed_limit":50},{"sensor_id":496,"relativeSpeed":98.26528571428572,"averageSpeed":68.7857,"latitude":51.0145484739018,"longitude":13.722750574965124,"speed_limit":70},{"sensor_id":286,"relativeSpeed":98.84616666666666,"averageSpeed":59.3077,"latitude":51.07403761541103,"longitude":13.690079475539894,"speed_limit":60},{"sensor_id":513,"relativeSpeed":99.2,"averageSpeed":49.6,"latitude":51.05952509799738,"longitude":13.7666037912647,"speed_limit":50},{"sensor_id":923,"relativeSpeed":99.3334,"averageSpeed":49.6667,"latitude":51.06190238459104,"longitude":13.68769717043785,"speed_limit":50},{"sensor_id":420,"relativeSpeed":99.7142,"averageSpeed":49.8571,"latitude":51.03849193965361,"longitude":13.740613769954589,"speed_limit":50},{"sensor_id":1119,"relativeSpeed":100.1334,"averageSpeed":50.0667,"latitude":51.09866918465125,"longitude":13.716123733971903,"speed_limit":50},{"sensor_id":391,"relativeSpeed":100.5555,"averageSpeed":60.3333,"latitude":51.082089074891634,"longitude":13.693034726746552,"speed_limit":60},{"sensor_id":911,"relativeSpeed":100.7142,"averageSpeed":50.3571,"latitude":51.04709538296303,"longitude":13.721627906388777,"speed_limit":50},{"sensor_id":1221,"relativeSpeed":100.8334,"averageSpeed":50.4167,"latitude":51.01468689973945,"longitude":13.772595477210924,"speed_limit":50},{"sensor_id":1222,"relativeSpeed":100.8572,"averageSpeed":50.4286,"latitude":51.01466847744775,"longitude":13.772553211500126,"speed_limit":50},{"sensor_id":1143,"relativeSpeed":100.92299999999999,"averageSpeed":50.4615,"latitude":51.07306290732856,"longitude":13.765758999535617,"speed_limit":50},{"sensor_id":288,"relativeSpeed":101.66666666666667,"averageSpeed":61,"latitude":51.071634570802665,"longitude":13.689819118481175,"speed_limit":60},{"sensor_id":1116,"relativeSpeed":101.7142,"averageSpeed":50.8571,"latitude":51.028309949760605,"longitude":13.7867900111217,"speed_limit":50},{"sensor_id":770,"relativeSpeed":102,"averageSpeed":61.2,"latitude":51.06970956236085,"longitude":13.689702235804797,"speed_limit":60},{"sensor_id":910,"relativeSpeed":102.30760000000001,"averageSpeed":51.1538,"latitude":51.04755307380092,"longitude":13.721558270357564,"speed_limit":50},{"sensor_id":394,"relativeSpeed":102.5334,"averageSpeed":51.2667,"latitude":51.03059550748376,"longitude":13.7511486782582,"speed_limit":50},{"sensor_id":503,"relativeSpeed":102.6154,"averageSpeed":51.3077,"latitude":50.99817833017207,"longitude":13.799014698365761,"speed_limit":50},{"sensor_id":1088,"relativeSpeed":102.81819999999999,"averageSpeed":102.8182,"latitude":51.03795576735189,"longitude":13.625952456906731,"speed_limit":100},{"sensor_id":281,"relativeSpeed":103,"averageSpeed":51.5,"latitude":50.998373345120825,"longitude":13.799622226289499,"speed_limit":50},{"sensor_id":1134,"relativeSpeed":103.6666,"averageSpeed":51.8333,"latitude":51.06091113731581,"longitude":13.777037339822895,"speed_limit":50},{"sensor_id":290,"relativeSpeed":103.7334,"averageSpeed":51.8667,"latitude":51.05177901024643,"longitude":13.747398870000973,"speed_limit":50},{"sensor_id":421,"relativeSpeed":103.8334,"averageSpeed":51.9167,"latitude":51.038519206603546,"longitude":13.740641547012624,"speed_limit":50},{"sensor_id":1141,"relativeSpeed":104.1334,"averageSpeed":52.0667,"latitude":51.07342413309843,"longitude":13.765064500008384,"speed_limit":50},{"sensor_id":1114,"relativeSpeed":104.7692,"averageSpeed":52.3846,"latitude":51.02877633899279,"longitude":13.785822762772368,"speed_limit":50},{"sensor_id":418,"relativeSpeed":104.8572,"averageSpeed":52.4286,"latitude":51.06048938864903,"longitude":13.860781725114556,"speed_limit":50},{"sensor_id":289,"relativeSpeed":104.9334,"averageSpeed":52.4667,"latitude":51.0517794684154,"longitude":13.747441643692337,"speed_limit":50},{"sensor_id":1080,"relativeSpeed":105.3334,"averageSpeed":52.6667,"latitude":51.04733008323248,"longitude":13.688436806767001,"speed_limit":50},{"sensor_id":1132,"relativeSpeed":105.4,"averageSpeed":52.7,"latitude":51.06092057141928,"longitude":13.777079885765128,"speed_limit":50},{"sensor_id":1138,"relativeSpeed":105.7142,"averageSpeed":52.8571,"latitude":51.05547039747576,"longitude":13.777679799206622,"speed_limit":50},{"sensor_id":916,"relativeSpeed":105.8334,"averageSpeed":52.9167,"latitude":51.0535948908064,"longitude":13.718368323373106,"speed_limit":50},{"sensor_id":924,"relativeSpeed":105.8462,"averageSpeed":52.9231,"latitude":51.06192934382697,"longitude":13.687696408571666,"speed_limit":50},{"sensor_id":1077,"relativeSpeed":106.3334,"averageSpeed":53.1667,"latitude":51.03917871995552,"longitude":13.653805478244317,"speed_limit":50},{"sensor_id":417,"relativeSpeed":106.4286,"averageSpeed":53.2143,"latitude":51.060462427662955,"longitude":13.860782386415043,"speed_limit":50},{"sensor_id":1135,"relativeSpeed":106.5334,"averageSpeed":53.2667,"latitude":51.0554894141786,"longitude":13.777779140641776,"speed_limit":50},{"sensor_id":1144,"relativeSpeed":106.6154,"averageSpeed":53.3077,"latitude":51.073099004526554,"longitude":13.765772308332613,"speed_limit":50},{"sensor_id":508,"relativeSpeed":107.07700000000001,"averageSpeed":53.5385,"latitude":50.993659538547675,"longitude":13.850253359860654,"speed_limit":50},{"sensor_id":514,"relativeSpeed":107.6,"averageSpeed":53.8,"latitude":51.059579318937224,"longitude":13.766630880105224,"speed_limit":50},{"sensor_id":355,"relativeSpeed":107.69239999999999,"averageSpeed":53.8462,"latitude":51.099456979845876,"longitude":13.73563246304579,"speed_limit":50},{"sensor_id":914,"relativeSpeed":107.7334,"averageSpeed":53.8667,"latitude":51.053532297606964,"longitude":13.718398575527315,"speed_limit":50},{"sensor_id":1182,"relativeSpeed":107.7334,"averageSpeed":53.8667,"latitude":51.12060535868599,"longitude":13.763093464043726,"speed_limit":50},{"sensor_id":492,"relativeSpeed":107.8462,"averageSpeed":53.9231,"latitude":51.02696732388598,"longitude":13.731432507867254,"speed_limit":50},{"sensor_id":913,"relativeSpeed":107.8462,"averageSpeed":53.9231,"latitude":51.05349682026335,"longitude":13.718442342070045,"speed_limit":50},{"sensor_id":500,"relativeSpeed":107.8572,"averageSpeed":53.9286,"latitude":51.03107314902088,"longitude":13.728740197815691,"speed_limit":50},{"sensor_id":1090,"relativeSpeed":108,"averageSpeed":108,"latitude":51.03789152368684,"longitude":13.625840293147318,"speed_limit":100},{"sensor_id":1137,"relativeSpeed":108.1666,"averageSpeed":54.0833,"latitude":51.05546081456991,"longitude":13.77762299892498,"speed_limit":50},{"sensor_id":922,"relativeSpeed":108.5,"averageSpeed":54.25,"latitude":51.06199368892104,"longitude":13.687822977194156,"speed_limit":50},{"sensor_id":422,"relativeSpeed":109.2,"averageSpeed":54.6,"latitude":51.03874156942655,"longitude":13.74042165155333,"speed_limit":50},{"sensor_id":1219,"relativeSpeed":109.2858,"averageSpeed":54.6429,"latitude":51.01459598487557,"longitude":13.772498122004981,"speed_limit":50},{"sensor_id":1184,"relativeSpeed":109.8334,"averageSpeed":54.9167,"latitude":51.12072852291229,"longitude":13.763690072086945,"speed_limit":50},{"sensor_id":507,"relativeSpeed":110.1666,"averageSpeed":55.0833,"latitude":50.99349004480976,"longitude":13.850385741839132,"speed_limit":50},{"sensor_id":509,"relativeSpeed":110.7142,"averageSpeed":55.3571,"latitude":51.06482373356921,"longitude":13.676515579949294,"speed_limit":50},{"sensor_id":494,"relativeSpeed":110.7272,"averageSpeed":55.3636,"latitude":51.02744315087689,"longitude":13.73137676199478,"speed_limit":50},{"sensor_id":1220,"relativeSpeed":110.8572,"averageSpeed":55.4286,"latitude":51.01461425760483,"longitude":13.772526140995438,"speed_limit":50},{"sensor_id":1093,"relativeSpeed":110.90900000000002,"averageSpeed":55.4545,"latitude":51.02349490466133,"longitude":13.852095754060596,"speed_limit":50},{"sensor_id":511,"relativeSpeed":111.6,"averageSpeed":55.8,"latitude":51.06467979029177,"longitude":13.676505416815797,"speed_limit":50},{"sensor_id":1115,"relativeSpeed":111.8334,"averageSpeed":55.9167,"latitude":51.02874908259956,"longitude":13.785794964741093,"speed_limit":50},{"sensor_id":912,"relativeSpeed":112,"averageSpeed":56,"latitude":51.04710499294076,"longitude":13.721684684414223,"speed_limit":50},{"sensor_id":915,"relativeSpeed":112,"averageSpeed":56,"latitude":51.053630368120636,"longitude":13.718324556680503,"speed_limit":50},{"sensor_id":182,"relativeSpeed":112.30760000000001,"averageSpeed":56.1538,"latitude":51.028077228340635,"longitude":13.747666890671693,"speed_limit":50},{"sensor_id":368,"relativeSpeed":112.44433333333333,"averageSpeed":33.7333,"latitude":51.05244615619639,"longitude":13.807781239662273,"speed_limit":30},{"sensor_id":395,"relativeSpeed":112.5714,"averageSpeed":56.2857,"latitude":51.03060495082861,"longitude":13.751191191115856,"speed_limit":50},{"sensor_id":396,"relativeSpeed":112.7692,"averageSpeed":56.3846,"latitude":51.03068780966864,"longitude":13.751374287363547,"speed_limit":50},{"sensor_id":1136,"relativeSpeed":112.8888,"averageSpeed":56.4444,"latitude":51.05548881805517,"longitude":13.77772210384374,"speed_limit":50},{"sensor_id":1142,"relativeSpeed":114.5334,"averageSpeed":57.2667,"latitude":51.07338788520649,"longitude":13.765036927043022,"speed_limit":50},{"sensor_id":352,"relativeSpeed":115.7334,"averageSpeed":57.8667,"latitude":51.09991668083403,"longitude":13.735748421454998,"speed_limit":50},{"sensor_id":1094,"relativeSpeed":115.8,"averageSpeed":57.9,"latitude":51.02340587376754,"longitude":13.852183470707477,"speed_limit":50},{"sensor_id":184,"relativeSpeed":115.8666,"averageSpeed":57.9333,"latitude":51.028323817038476,"longitude":13.747189840022495,"speed_limit":50},{"sensor_id":185,"relativeSpeed":116.6154,"averageSpeed":58.3077,"latitude":51.0282785782689,"longitude":13.747162549387852,"speed_limit":50},{"sensor_id":1078,"relativeSpeed":117.2858,"averageSpeed":58.6429,"latitude":51.04747837453136,"longitude":13.688033319252629,"speed_limit":50},{"sensor_id":1076,"relativeSpeed":117.3334,"averageSpeed":58.6667,"latitude":51.039210726021714,"longitude":13.653462352772392,"speed_limit":50},{"sensor_id":1183,"relativeSpeed":119.2,"averageSpeed":59.6,"latitude":51.12057870083934,"longitude":13.763122741920645,"speed_limit":50},{"sensor_id":1082,"relativeSpeed":119.58333333333333,"averageSpeed":71.75,"latitude":51.04452333031834,"longitude":13.649558046902726,"speed_limit":60},{"sensor_id":1185,"relativeSpeed":120.25,"averageSpeed":60.125,"latitude":51.12075518090196,"longitude":13.76366079443791,"speed_limit":50},{"sensor_id":397,"relativeSpeed":120.2858,"averageSpeed":60.1429,"latitude":51.03067836638975,"longitude":13.751331774391982,"speed_limit":50},{"sensor_id":1083,"relativeSpeed":121.78566666666666,"averageSpeed":73.0714,"latitude":51.0445058516419,"longitude":13.649601334589077,"speed_limit":60},{"sensor_id":510,"relativeSpeed":122.6666,"averageSpeed":61.3333,"latitude":51.06481442439582,"longitude":13.67648731308765,"speed_limit":50},{"sensor_id":282,"relativeSpeed":122.92299999999999,"averageSpeed":61.4615,"latitude":50.99835493258448,"longitude":13.799579964423092,"speed_limit":50},{"sensor_id":1085,"relativeSpeed":123.84616666666666,"averageSpeed":74.3077,"latitude":51.04430930545861,"longitude":13.649706865620255,"speed_limit":60},{"sensor_id":512,"relativeSpeed":124,"averageSpeed":62,"latitude":51.06469824722589,"longitude":13.676547688926238,"speed_limit":50},{"sensor_id":353,"relativeSpeed":124.9334,"averageSpeed":62.4667,"latitude":51.09990707729686,"longitude":13.735691575912792,"speed_limit":50},{"sensor_id":1079,"relativeSpeed":128.4616,"averageSpeed":64.2308,"latitude":51.047433282395694,"longitude":13.688020331817183,"speed_limit":50},{"sensor_id":183,"relativeSpeed":130.3076,"averageSpeed":65.1538,"latitude":51.028104341006795,"longitude":13.74768041514639,"speed_limit":50},{"sensor_id":1081,"relativeSpeed":134.2858,"averageSpeed":67.1429,"latitude":51.047375015418,"longitude":13.68843553836437,"speed_limit":50},{"sensor_id":1084,"relativeSpeed":134.72216666666665,"averageSpeed":80.8333,"latitude":51.04449735924922,"longitude":13.64964436108296,"speed_limit":60},{"sensor_id":1118,"relativeSpeed":141.3334,"averageSpeed":70.6667,"latitude":51.09924719376076,"longitude":13.715550942714561,"speed_limit":50}])
-})
-
-// Get all tempolimits
-router.get('/tempolimits', (req, res) => {
-  SensorModel.findAll({
-    where: {
-      sensor_id: 1080,
-      speed: {
-        gt: 95
-      }
+    sensor_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true
     },
-    limit: 1000
-  })
-  .then(function(col) {
-    if(col) {
-      console.log(col.length);
-      res.send(col)
-    } else {
-      res.send('error')
+    speed: {
+        type: Sequelize.FLOAT
+    },
+    timestamp: {
+        type: Sequelize.DATE,
+        primaryKey: true
     }
-  })
 });
 
+// GPS Coordinates model
+let GPS_Data = sequelize.define('gps_coordinates', {
+    sensor_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true
+    },
+    latitude: {
+        type: Sequelize.DOUBLE
+    },
+    longitude: {
+        type: Sequelize.DOUBLE
+    }
+});
+SensorModel.belongsTo(GPS_Data, {foreignKey: 'sensor_id'});
+
+// Speed_limit model
+let Speed_Limits = sequelize.define('speed_limits', {
+    sensor_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true
+    },
+    speed_limit: {
+        type: Sequelize.FLOAT
+    }
+});
+SensorModel.belongsTo(Speed_Limits, {foreignKey: 'sensor_id'});
+
+
+router.get('/change/:date/:precision', function (req, res) {
+    let date = moment();
+    if (req.params.date !== 'null') {
+        date = moment(req.params.date);
+    }
+    date.set('year', 2014);
+    date.set('minute', 0);
+    date.set('second', 0);
+    date.set('millisecond', 0);
+
+
+    let findArr = [];
+    for (let i = 0; i < 24; i+=parseInt(req.params.precision)) {
+        let tmp = date.clone();
+        tmp.set('hour', i);
+        tmp.add(1, 'hours');
+        if(tmp.isDST()) tmp.add(1, 'hours');
+        findArr.push({
+            timestamp: {
+                $between: [tmp.toDate(), (tmp.add(0, 'minutes')).toDate()]
+            }
+        })
+    }
+
+    SensorModel.findAll({
+        include: [
+            {
+                model: Speed_Limits,
+                where: { sensor_id: Sequelize.col('sensor_data.sensor_id') }
+            },
+            {
+                model: GPS_Data,
+                where: { sensor_id: Sequelize.col('sensor_data.sensor_id') }
+            }
+        ],
+        attributes: ['sensor_id', [ sequelize.fn('AVG', sequelize.col('speed')), 'avg_speed' ], 'timestamp'],
+        where: {
+            speed: {
+                $gt: 0
+            },
+            $or: findArr
+        },
+        group: ['timestamp', 'sensor_id']
+    })
+        .then(function (data) {
+            let result = [];
+            _.each(data, function (val) {
+                val = val.toJSON();
+                let tmp = {
+                    timestamp: val.timestamp,
+                    sensor_id: val.sensor_id,
+                    relativeSpeed: val.avg_speed*100/val.speed_limit.speed_limit,
+                    averageSpeed: val.avg_speed,
+                    latitude: val.gps_coordinate.latitude,
+                    longitude: val.gps_coordinate.longitude,
+                    speed_limit: val.speed_limit.speed_limit
+                };
+                result.push(tmp)
+            });
+            console.log('Verlauf Resultat Länge: ', result.length);
+
+            res.send(_.sortBy(result, ['timestamp', 'relativeSpeed']))
+        })
+});
+
+router.get('/range/:time/:range/:days', function (req, res) {
+    let dateArr = [];
+    let days = req.params.days.split(',');
+    let time = moment(req.params.time);
+    days.forEach(function (day) {
+        let dates = [];
+        let startdate = moment().set('year', 2014).startOf('year').startOf('month')
+            .day(day).set('hour', time.get('hour')).set('minute', time.get('minute'));
+        if (startdate.get('year') < 2014) {
+            startdate.add(7, 'd');
+        }
+        while (startdate.get('year') < 2015) {
+            dates.push(startdate.clone());
+            startdate.add(7, 'd');
+        }
+        _.each(dates, function (date) {
+            date.add(1, 'hour');
+            if (date.isDST()) date.add(1, 'hour');
+            dateArr.push({
+                timestamp: {
+                    $between: [date.toDate(), date.add(req.params.range, 'minutes').toDate()]
+                }
+            })
+        });
+    });
+
+
+    // use dateArr to find data in db
+    SensorModel.findAll({
+        include: [
+            {
+                model: Speed_Limits,
+                where: { sensor_id: Sequelize.col('sensor_data.sensor_id') }
+            },
+            {
+                model: GPS_Data,
+                where: { sensor_id: Sequelize.col('sensor_data.sensor_id') }
+            }
+        ],
+        attributes: ['sensor_id', [ sequelize.fn('AVG', sequelize.col('speed')), 'avg_speed' ]],
+        where: {
+            speed: {
+                $gt: 0
+            },
+            $or: dateArr
+        },
+        group: ['sensor_id']
+    })
+        .then(function (data) {
+            let result = formatResult(data);
+            res.send(_.sortBy(result, ['relativeSpeed']))
+        });
+});
+
+router.get('/change/:startdate/:duration/:precision', function (req, res) {
+
+    let startdate = moment().set('hour', 0);
+
+    if (req.params.startdate !== 'null') {
+        startdate = moment(req.params.startdate);
+    }
+    if(req.params.precision === 'null') req.params.precision = 1;
+    startdate.set('year', 2014);
+    startdate.set('minute', 0);
+    startdate.set('second', 0);
+    startdate.set('millisecond', 0);
+
+    let endDate = startdate.clone().add(req.params.duration, 'hours');
+
+    let findArr = [];
+
+    let tmpDate = startdate.clone();
+    while(tmpDate.diff(endDate, 'seconds') < 0) {
+        let tmp = tmpDate.clone();
+        tmp.add(1, 'hours');
+        if(tmp.isDST()) tmp.add(1, 'hours');
+        findArr.push({
+            timestamp: {
+                $between: [tmp.clone().toDate(), (tmp.clone().add(0, 'minutes')).toDate()]
+            }
+        });
+        tmpDate.add(1, 'hour');
+    }
+
+    SensorModel.findAll({
+        include: [
+            {
+                model: Speed_Limits,
+                where: { sensor_id: Sequelize.col('sensor_data.sensor_id') }
+            },
+            {
+                model: GPS_Data,
+                where: { sensor_id: Sequelize.col('sensor_data.sensor_id') }
+            }
+        ],
+        attributes: [
+            'sensor_id',
+            [ sequelize.fn('AVG', sequelize.col('speed')), 'avg_speed' ],
+            'timestamp'],
+        where: {
+            speed: {
+                $gt: 0
+            },
+            $or: findArr
+        },
+        group: [
+            'timestamp',
+            'sensor_id'
+        ]
+    })
+        .then(function (data) {
+
+            let result = [];
+            _.each(data, function (val) {
+                val = val.toJSON();
+                let tmp = {
+                    timestamp: val.timestamp,
+                    sensor_id: val.sensor_id,
+                    relativeSpeed: val.avg_speed*100/val.speed_limit.speed_limit,
+                    averageSpeed: val.avg_speed,
+                    latitude: val.gps_coordinate.latitude,
+                    longitude: val.gps_coordinate.longitude,
+                    speed_limit: val.speed_limit.speed_limit
+                };
+                result.push(tmp)
+            });
+            console.log('Verlauf Resultat Länge: ', result.length);
+
+            res.send(_.sortBy(result, ['timestamp', 'relativeSpeed']))
+        })
+});
+
+
+router.get('/all/:time/:top10/:filter', function (req, res) {
+    let date;
+    let filter, sepIndex, filterMin, filterMax;
+
+    if(req.params.filter !== "undefined") {
+        filter = req.params.filter;
+        sepIndex = filter.indexOf(",");
+        filterMin = filter.substr(0, sepIndex);
+        filterMax = filter.substr(sepIndex + 1, filter.length - 1);
+    }
+
+    if (req.params.time !== 'null') {
+        date = moment(req.params.time);
+    } else {
+        date = moment().add(1, 'hours');
+        if(date.isDST()) date.add(1, 'hours');
+    }
+
+    date.set('year', 2014);
+
+    SensorModel.findAll({
+        include: [
+            {
+                model: Speed_Limits,
+                where: { sensor_id: Sequelize.col('sensor_data.sensor_id') }
+            },
+            {
+                model: GPS_Data,
+                where: { sensor_id: Sequelize.col('sensor_data.sensor_id') }
+            }
+        ],
+        attributes: ['sensor_id', [ sequelize.fn('AVG', sequelize.col('speed')), 'avg_speed' ]],
+        where: {
+            speed: {
+                $gt: 0
+            },
+            timestamp: {
+                $between: [date.clone().toDate(), date.clone().add(15, 'minutes').toDate()]
+            }
+        },
+        group: ['sensor_id']
+    })
+        .then(function (avgSpeeds) {
+
+            let result = formatResult(avgSpeeds);
+            console.log("vor dem Filtern: " +result.length);
+
+            //Ergebnisfilter
+            let filterResult = [];
+
+            if(req.params.filter !== "undefined"){
+                result.forEach(function(currVal){
+                    if(currVal.relativeSpeed >= filterMin && currVal.relativeSpeed <= filterMax)
+                        filterResult.push(currVal);
+                });
+                console.log("nach dem Filtern: "+filterResult.length);
+
+            }
+            else filterResult = result;
+
+
+            console.log('top10:' + req.params.top10);
+            if (req.params.top10 === "true" ) {
+                res.send(_.sortBy(filterResult, ['relativeSpeed']).slice(0,10));
+            } else {
+                res.send(_.sortBy(filterResult, ['relativeSpeed']))
+            }
+
+        })
+});
 
 module.exports = router;
