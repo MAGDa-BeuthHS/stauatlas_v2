@@ -56,11 +56,13 @@ class BottomBar extends Component {
 							handleOnDateClick={handleOnDateClick} />
 					</div>
 
-					<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
-						<span
-							className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
-							aria-hidden="true"/>
-					</a>
+					<div className="bottombar-toggle">
+						<a onClick={this.props.handleViewSidebar}>
+							<span
+								className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
+								aria-hidden="true"/>
+						</a>
+					</div>
 				</div>
 
 			</div>
