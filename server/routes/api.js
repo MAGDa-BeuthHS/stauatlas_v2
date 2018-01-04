@@ -91,11 +91,11 @@ let formatResultChange = function (data) {
 		let tmp = {
 			timestamp: val.timestamp,
 			sensor_id: val.sensor_id,
-			relativeSpeed: val.avg_speed * 100 / val.speed_limit.speed_limit,
+			relativeSpeed: val.avg_speed * 100 / val.sensor_speed_limit.speed_limit,
 			averageSpeed: val.avg_speed,
-			latitude: val.gps_coordinate.latitude,
-			longitude: val.gps_coordinate.longitude,
-			speed_limit: val.speed_limit.speed_limit
+			latitude: val.sensor_gps_coordinate.latitude,
+			longitude: val.sensor_gps_coordinate.longitude,
+			speed_limit: val.sensor_speed_limit.speed_limit
 		};
 		result.push(tmp);
 	});
@@ -377,14 +377,31 @@ router.get('/all/:time/:top10/:filter', function (req, res) {
 		include: [
 			{
 				model: Speed_Limits,
-				where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				// where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				where: Sequelize.where(
+					Sequelize.col('sensor_speed_limit.sensor_id'),
+					Sequelize.col('sensor_data.sensor_id'))
 			},
 			{
 				model: GPS_Data,
-				where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				// where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				where: Sequelize.where(
+					Sequelize.col('sensor_gps_coordinate.sensor_id'),
+					Sequelize.col('sensor_data.sensor_id'))
 			}
+		//	where: {
+		// 	projectId: Sequelize.col('projects.id')
+		// }
+		//
+		//	where: Sequelize.where(
+		// 	Sequelize.col('projects.assignments.person.imputations.project_id'),
+		// 	Sequelize.col('projects.id')
+		// )
 		],
-		attributes: ['sensor_id', [sequelize.fn('AVG', sequelize.col('speed')), 'avg_speed']],
+		attributes: [
+			// ['sensor_data.sensor_id', 'sensor_id'],
+			'sensor_id',
+			[sequelize.fn('AVG', sequelize.col('speed')), 'avg_speed']],
 		where: {
 			speed: {
 				$gt: 0
@@ -393,10 +410,11 @@ router.get('/all/:time/:top10/:filter', function (req, res) {
 				$between: [date.clone().toDate(), date.clone().add(15, 'minutes').toDate()]
 			}
 		},
-		group: ['sensor_id']
+		group: ['sensor_speed_limit.sensor_id', 'sensor_gps_coordinate.sensor_id', 'sensor_data.sensor_id']
 	})
 		.then(function (avgSpeeds) {
 
+			console.log(avgSpeeds);
 			let result = formatResult(avgSpeeds);
 			console.log('vor dem Filtern: ' + result.length);
 
