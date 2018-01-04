@@ -26,7 +26,7 @@ class BottomBar extends Component {
 	handleSelectClick = (event) => {
 		const selected = event.target.value;
 		this.setState(() => {
-			return {selected: selected};
+			return {selected};
 		});
 	};
 
