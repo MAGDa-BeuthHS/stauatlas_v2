@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker';
 import DayFilter from '../DayFilter/DayFilter';
 import './bottom-bar-options.css';
-import {TimeFilter} from '../TimeFilter/TimeFilter';
+import { TimeFilter } from '../TimeFilter/TimeFilter';
 
 const propTypes = {
 	handleOnDateClick: PropTypes.func.isRequired,
@@ -11,7 +11,7 @@ const propTypes = {
 };
 
 const BottomBarOptions = (props) => {
-	const {selected, handleOnDateClick} = props;
+	const { selected, handleOnDateClick } = props;
 
 	if (selected === 'general') {
 		return (

@@ -43,7 +43,7 @@
 
 .bottom-bar.closed .bottombar-placeholder {
     display: inline-flex;
-    width: 245px;
+    width: 230px;
 }
 
 .bottom-bar-content {
@@ -60,7 +60,7 @@
 .general-options-selector {
     cursor: pointer;
     color: var(--color-gray-dark);
-    line-height: 30px;
+    line-height: 26px;
     margin-right: 6px;
 }
 
