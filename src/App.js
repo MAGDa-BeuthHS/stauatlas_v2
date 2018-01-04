@@ -36,7 +36,7 @@ export class App extends Component {
 		super(props);
 		this.state = {
 			bottomBarOpen: false,
-			circleRadius: 111,
+			circleRadius: 170,
 			traffic: [],
 			filteredTraffic: []
 		};

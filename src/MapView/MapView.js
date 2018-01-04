@@ -19,7 +19,7 @@ const propTypes = {
 	circleRadius: PropTypes.number.isRequired,
 	position: PropTypes.arrayOf(PropTypes.number).isRequired,
 	traffic: PropTypes.arrayOf(PropTypes.shape({
-		averageSpeed: PropTypes.number,
+		averageSpeed: PropTypes.string,
 		latitude: PropTypes.number,
 		longitude: PropTypes.number,
 		relativeSpeed: PropTypes.number,
@@ -53,14 +53,14 @@ export const MapView = (props) => {
 
 			<Legend filterTrafficByColor={filterTrafficByColor} />
 
-			{traffic.map(light => (
+			{traffic.map(sensor => (
 				<Circle
-					key={light.sensor_id}
-					center={[light.latitude, light.longitude]}
+					key={sensor.sensor_id}
+					center={[sensor.latitude, sensor.longitude]}
 					radius={circleRadius}
-					color={light.color}
-					className={`color-${light.color} traffic-light-circle`}
-					fillColor={light.color}
+					color={sensor.color}
+					className={`color-${sensor.color} traffic-light-circle`}
+					fillColor={sensor.color}
 					fillOpacity={0.4}
 				/>
 			))}

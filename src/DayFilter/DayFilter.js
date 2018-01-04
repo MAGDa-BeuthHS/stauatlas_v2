@@ -4,8 +4,9 @@ import moment from 'moment';
 
 import './day-filter.css';
 
+// TODO: pass activeFilter and set as required
 const propTypes = {
-	activeFilter: PropTypes.object.isRequired,
+	activeFilter: PropTypes.object,
 	setFilter: PropTypes.func.isRequired
 };
 
