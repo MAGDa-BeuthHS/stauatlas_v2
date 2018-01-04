@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker';
 import DayFilter from '../DayFilter/DayFilter';
-import './bottom-bar-options.css';
 import { TimeFilter } from '../TimeFilter/TimeFilter';
+
+import './bottom-bar-options.css';
 
 const propTypes = {
 	handleOnDateClick: PropTypes.func.isRequired,
@@ -19,6 +21,9 @@ const BottomBarOptions = (props) => {
 				<DayFilter setFilter={() => {
 				}}/>
 				<TimeFilter/>
+				<a className="play-selected">
+					<span className="fa fa-fw fa-2x fa-play"/>
+				</a>
 			</div>
 		);
 	} else if (selected === 'period') {
@@ -29,6 +34,9 @@ const BottomBarOptions = (props) => {
 					handleChangeDateEnd={handleOnDateClick}
 				/>
 				<TimeFilter/>
+				<a className="play-selected">
+					<span className="fa fa-fw fa-2x fa-play"/>
+				</a>
 			</div>
 		);
 	} else {
