@@ -13,6 +13,7 @@ const propTypes = {
 	handleViewSidebar: PropTypes.func.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 };
+
 class BottomBar extends Component {
 	constructor(props) {
 		super(props);
