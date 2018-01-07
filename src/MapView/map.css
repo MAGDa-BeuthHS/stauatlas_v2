@@ -16,6 +16,13 @@
 	border-radius: 50px;
 }
 
+.location-btn {
+	cursor: pointer;
+	top: 2em;
+	left: 2em;
+	padding: 6px;
+}
+
 .leaflet-bar a,
 .leaflet-bar a:hover {
 	border-color: var(--color-gray-lighter);
