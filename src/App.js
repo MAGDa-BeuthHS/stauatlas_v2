@@ -38,8 +38,12 @@ export class App extends Component {
 			bottomBarOpen: false,
 			circleRadius: 170,
 			traffic: [],
-			filteredTraffic: []
+			filteredTraffic: [],
+			dresdenPosition: [51.050407, 13.737262],
+			fetchingPosition: false,
+			position: undefined,
 		};
+
 		this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
 		this.resetTraffic = this.resetTraffic.bind(this);
 		this.handleViewSidebar = this.handleViewSidebar.bind(this);
@@ -47,17 +51,22 @@ export class App extends Component {
 		this.handleMapZoom = this.handleMapZoom.bind(this);
 	}
 
+	componentWillMount () {
+		if (typeof window !== 'object') {
+			return;
+		}
+		if (!('geolocation' in window.navigator)) {
+			return;
+		}
+
+		this.getCurrentPosition();
+	}
+
+	componentWillUnmount () {
+		this.willUnmount = true;
+	}
+
 	componentDidMount() {
-		/*
-     [{
-     averageSpeed: 35,
-     latitude:     51.118823986987536,
-     longitude:    13.76635460086739,
-     relativeSpeed:70,
-     sensor_id:    1178,
-     speed_limit:  50,
-     }]
-     */
 		getTrafficInfos()
 			.then((traffic) => {
 				App.setColor(traffic);
@@ -74,6 +83,33 @@ export class App extends Component {
 				});
 			});
 	}
+
+	getCurrentPosition = () => {
+		this.setState({ fetchingPosition: true });
+
+		return window.navigator.geolocation.getCurrentPosition(
+			position => {
+				if (this.willUnmount) return;
+				this.setState((prevState) => {
+					if(prevState.position !== position.coords){
+						return {
+							position: [
+								position.coords.latitude,
+								position.coords.longitude,
+							],
+							fetchingPosition: true
+						};
+					}
+				});
+			},
+			(error) => console.log(error.message),
+			{ enableHighAccuracy: false,
+				timeout: Infinity,
+				maximumAge: 0
+			}
+		);
+	}
+
 
 	resetTraffic() {
 		this.setState((prevState) => {
@@ -134,7 +170,7 @@ export class App extends Component {
 				/>
 
 				<MapView
-					position={[51.050407, 13.737262]}
+					position={this.state.position ? this.state.position : this.state.dresdenPosition}
 					circleRadius={this.state.circleRadius}
 					handleZoomend={this.handleMapZoom}
 					traffic={this.state.filteredTraffic}
