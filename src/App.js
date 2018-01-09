@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import './App.css';
 
-import { MapView } from './MapView/MapView';
+import {MapView} from './MapView/MapView';
 import BottomBar from './BottomBar/BottomBar';
-import { getTrafficInfos } from './trafficService';
+import {getDailyTrafficProgress, getTrafficInfos} from './trafficService';
+import moment from 'moment';
 
 const zoomRadius = {
 	11: 170,
@@ -18,7 +19,7 @@ const zoomRadius = {
 
 export class App extends Component {
 	static setColor(traffic) {
-		traffic.map((t) => {
+		return traffic.map((t) => {
 			if (Math.round(t.relativeSpeed) >= 85) {
 				t.color = 'green';
 			} else if (Math.round(t.relativeSpeed) < 85 && Math.round(t.relativeSpeed) >= 60) {
@@ -42,6 +43,9 @@ export class App extends Component {
 			dresdenPosition: [51.050407, 13.737262],
 			fetchingPosition: false,
 			position: undefined,
+			isPlaying: false,
+			playData: null,
+			playDate: null,
 		};
 
 		this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
@@ -49,9 +53,13 @@ export class App extends Component {
 		this.handleViewSidebar = this.handleViewSidebar.bind(this);
 		this.handleOnDateClick = this.handleOnDateClick.bind(this);
 		this.handleMapZoom = this.handleMapZoom.bind(this);
+		this.togglePlaying = this.togglePlaying.bind(this);
+
+		this.play = this.play.bind(this);
+		setInterval(this.play, 1000);
 	}
 
-	componentWillMount () {
+	componentWillMount() {
 		if (typeof window !== 'object') {
 			return;
 		}
@@ -62,7 +70,7 @@ export class App extends Component {
 		this.getCurrentPosition();
 	}
 
-	componentWillUnmount () {
+	componentWillUnmount() {
 		this.willUnmount = true;
 	}
 
@@ -85,13 +93,13 @@ export class App extends Component {
 	}
 
 	getCurrentPosition = () => {
-		this.setState({ fetchingPosition: true });
+		this.setState({fetchingPosition: true});
 
 		return window.navigator.geolocation.getCurrentPosition(
 			position => {
 				if (this.willUnmount) return;
 				this.setState((prevState) => {
-					if(prevState.position !== position.coords){
+					if (prevState.position !== position.coords) {
 						return {
 							position: [
 								position.coords.latitude,
@@ -103,17 +111,18 @@ export class App extends Component {
 				});
 			},
 			(error) => console.log(error.message),
-			{ enableHighAccuracy: false,
+			{
+				enableHighAccuracy: false,
 				timeout: Infinity,
 				maximumAge: 0
 			}
 		);
-	}
+	};
 
 
 	resetTraffic() {
 		this.setState((prevState) => {
-			if(prevState.filteredTraffic !== this.state.traffic) {
+			if (prevState.filteredTraffic !== this.state.traffic) {
 				return {
 					filteredTraffic: this.state.traffic
 				};
@@ -122,12 +131,12 @@ export class App extends Component {
 	}
 
 	filterTrafficByColor(color) {
-		if(color === '') {
+		if (color === '') {
 			this.resetTraffic();
 		} else {
 			const filteredTraffic = this.state.traffic.filter((traffic) => traffic.color === color);
 			this.setState((prevState) => {
-				if(prevState.filteredTraffic !== filteredTraffic) {
+				if (prevState.filteredTraffic !== filteredTraffic) {
 					return {
 						filteredTraffic
 					};
@@ -160,11 +169,58 @@ export class App extends Component {
 		}));
 	}
 
+	togglePlaying() {
+		this.setState(prevState => ({
+			isPlaying: !prevState.isPlaying,
+		}));
+	}
+
+	play() {
+		const precision = 2;
+		const {playDate, playData, isPlaying} = this.state;
+
+		if (!isPlaying) {
+			return;
+		}
+
+		if (!playDate) {
+			const date = moment()
+				.set('year', 2014)
+				.set('minute', 0)
+				.set('second', 0)
+				.set('millisecond', 0);
+
+			this.setState({playDate: date});
+
+			getDailyTrafficProgress(date, 1)
+				.then(playData => this.setState({
+					playData: App.setColor(playData)
+				}));
+
+			return;
+		}
+
+		let playIndex = playDate.get('hour');
+		playIndex = (playIndex + precision) % 24;
+		const nextDate = playDate.clone().set('hour', playIndex);
+
+		const timestamp = playDate.toISOString();
+		const filteredTraffic = playData.filter(
+			data => data.timestamp === timestamp);
+
+		this.setState({
+			playDate: nextDate,
+			filteredTraffic,
+		});
+	}
+
 	render() {
 		return (
 			<div className="stauatlas-app">
 				<BottomBar
 					isOpen={this.state.bottomBarOpen}
+					isPlaying={this.state.isPlaying}
+					togglePlaying={this.togglePlaying}
 					handleViewSidebar={this.handleViewSidebar}
 					handleOnDateClick={this.handleOnDateClick}
 				/>
