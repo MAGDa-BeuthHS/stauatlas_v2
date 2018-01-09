@@ -30,13 +30,14 @@ let formatResult = function (avgSpeeds) {
 	let result = [];
 	_.each(avgSpeeds, function (val) {
 		val = val.toJSON();
+		// console.log(val);
 		let tmp = {
 			sensor_id: val.sensor_id,
-			relativeSpeed: val.avg_speed * 100 / val.speed_limit.speed_limit,
+			relativeSpeed: val.avg_speed * 100 / val.sensor_speed_limit.speed_limit,
 			averageSpeed: val.avg_speed,
-			latitude: val.gps_coordinate.latitude,
-			longitude: val.gps_coordinate.longitude,
-			speed_limit: val.speed_limit.speed_limit
+			latitude: val.sensor_gps_coordinate.latitude,
+			longitude: val.sensor_gps_coordinate.longitude,
+			speed_limit: val.sensor_speed_limit.speed_limit
 		};
 		result.push(tmp);
 	});
@@ -414,7 +415,7 @@ router.get('/all/:time/:top10/:filter', function (req, res) {
 	})
 		.then(function (avgSpeeds) {
 
-			console.log(avgSpeeds);
+			// console.log(avgSpeeds);
 			let result = formatResult(avgSpeeds);
 			console.log('vor dem Filtern: ' + result.length);
 
