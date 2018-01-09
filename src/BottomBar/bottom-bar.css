@@ -3,6 +3,7 @@
     bottom: 2em;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
+    height: 35px;
 
     /* fix chrome margin */
     -webkit-margin-start: 5px;
@@ -30,17 +31,20 @@
     cursor: pointer;
     color: var(--color-gray-dark);
     float: right;
-    border-left: 2px solid var(--color-gray);
+    background-color: var(--color-gray);
+    border-bottom-right-radius: 50%;
+    border-top-right-radius: 50%;
+    height: 41px;
+    margin: -3px -6px;
 }
-
-.bottom-bar.closed .bottombar-placeholder {
-    display: inline-flex;
-    width: 245px;
+.bottombar-toggle > a > .fa {
+    margin-top: 6px;
 }
 
 .bottom-bar-content {
     display: inline-flex;
     margin-top: 5px;
+    margin-right: 6px;
 }
 
 .bottom-bar-content i.fa {
@@ -51,7 +55,7 @@
 .general-options-selector {
     cursor: pointer;
     color: var(--color-gray-dark);
-    line-height: 30px;
+    line-height: 26px;
     margin-right: 6px;
 }
 
@@ -79,17 +83,7 @@ select:focus, select:active {
     .bottom-bar.open {
         width: 200px;
     }
-
-    .bottom-bar-options {
-        width: 155px;
-    }
-
     .general-options-selector {
         font-size: 10px;
-    }
-
-    .bottom-bar-options i.fa {
-        font-size: 10px;
-        margin-left: 5px;
     }
 }

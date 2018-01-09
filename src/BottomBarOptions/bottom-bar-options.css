@@ -1,7 +1,19 @@
-.bottom-bar-options {
-  width: auto;
+.bottom-bar.closed .bottombar-placeholder {
+  width: 230px;
 }
 
 .bottom-bar-filters {
   display: flex;
+  margin-left: 6px;
+}
+
+.play-selected {
+  cursor: pointer;
+  color: var(--color-gray-dark);
+  margin-right: 12px;
+  margin-left: -12px;
+}
+
+.play-selected > .fa{
+  margin-top: 6px;
 }

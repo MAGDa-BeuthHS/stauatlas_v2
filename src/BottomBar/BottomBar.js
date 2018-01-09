@@ -13,6 +13,7 @@ const propTypes = {
 	handleViewSidebar: PropTypes.func.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 };
+
 class BottomBar extends Component {
 	constructor(props) {
 		super(props);
@@ -26,7 +27,7 @@ class BottomBar extends Component {
 	handleSelectClick = (event) => {
 		const selected = event.target.value;
 		this.setState(() => {
-			return {selected: selected};
+			return {selected};
 		});
 	};
 
@@ -56,11 +57,13 @@ class BottomBar extends Component {
 							handleOnDateClick={handleOnDateClick} />
 					</div>
 
-					<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
-						<span
-							className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
-							aria-hidden="true"/>
-					</a>
+					<div className="bottombar-toggle">
+						<a onClick={this.props.handleViewSidebar}>
+							<span
+								className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
+								aria-hidden="true"/>
+						</a>
+					</div>
 				</div>
 
 			</div>

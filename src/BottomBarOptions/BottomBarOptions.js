@@ -1,17 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker';
 import DayFilter from '../DayFilter/DayFilter';
+import { TimeFilter } from '../TimeFilter/TimeFilter';
+import OptionButton from '../OptionButton/OptionButton';
+
 import './bottom-bar-options.css';
-import {TimeFilter} from '../TimeFilter/TimeFilter';
 
 const propTypes = {
 	handleOnDateClick: PropTypes.func.isRequired,
 	selected: PropTypes.string.isRequired,
 };
 
+const handleAction = () => {
+	console.log('action ');
+}
+
 const BottomBarOptions = (props) => {
-	const {selected, handleOnDateClick} = props;
+	const { selected, handleOnDateClick } = props;
 
 	if (selected === 'general') {
 		return (
@@ -19,6 +26,8 @@ const BottomBarOptions = (props) => {
 				<DayFilter setFilter={() => {
 				}}/>
 				<TimeFilter/>
+
+				<OptionButton handleAction={handleAction}/>
 			</div>
 		);
 	} else if (selected === 'period') {
@@ -29,6 +38,8 @@ const BottomBarOptions = (props) => {
 					handleChangeDateEnd={handleOnDateClick}
 				/>
 				<TimeFilter/>
+
+				<OptionButton handleAction={handleAction}/>
 			</div>
 		);
 	} else {
