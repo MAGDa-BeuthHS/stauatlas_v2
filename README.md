@@ -114,7 +114,7 @@ export DB_NAME=<your db name>
 npm install
 ```
 
-##Configure SSH for Postgres-DB
+##Configure SSH for remote Postgres-DB
 
 The PostgresSQL-Server at Beuth Hochschule can only be accessed inside the Beuth network or via a SSH-Tunnel. 
 Use for example Putty in Windows.
@@ -125,7 +125,9 @@ Host name: compute.beuth-hochschule.de
 Port: 22
 ```
 
-Then configure port forwarding for SSH from local port ``5433`` to ``dbl46.beuth-hochschule.de:5432``. 
+Then configure port forwarding for SSH from local port ``5433`` to ``dbl46.beuth-hochschule.de:5432``.
+ 
+Set ``let conn = config['postgres_remote'];`` in line 11 in ``api.js``.
 
 ## Start
 

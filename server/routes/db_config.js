@@ -27,6 +27,14 @@ module.exports = {
 		port: '5432',
 		dialect: 'postgres',
 	},
+	postgres_remote: {
+		db_name: 'postgres',
+		host: 'localhost',
+		user: 'postgres',
+		password: '1234',
+		port: '5433',
+		dialect: 'postgres',
+	},
 
 
 };
