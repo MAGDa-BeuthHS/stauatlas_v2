@@ -5,34 +5,20 @@
 
 module.exports = {
 
-	dev: {
-		db_name: process.env['DB_NAME'] || 'masterprojektgeschwindigkeitsdaten',
-		host: 'localhost',
-		user: 'root',
-		password: '',
-		dialect: 'mysql'
-	},
-	prod: {
-		db_name: 'db_name',
-		host: 'dbhost.beuth-hochschule.de',
-		user: 'user',
-		password: 'password',
-		dialect: 'mysql'
-	},
-	postgres_local: {
-		db_name: 'postgres',
-		host: 'localhost',
-		user: 'postgres',
-		password: '1234',
-		port: '5432',
-		dialect: 'postgres',
-	},
-	postgres_remote: {
+	postgres_portfw: {
 		db_name: 'postgres',
 		host: 'localhost',
 		user: 'postgres',
 		password: '1234',
 		port: '5433',
+		dialect: 'postgres',
+	},
+	postgres: {
+		db_name: 'postgres',
+		host: 'localhost',
+		user: 'postgres',
+		password: '1234',
+		port: '5432',
 		dialect: 'postgres',
 	},
 

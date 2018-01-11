@@ -6,9 +6,8 @@ const moment = require('moment');
 const Sequelize = require('sequelize');
 const config = require('./db_config.js');
 
-// let conn = config['dev'];
-//let conn = config['prod'];
-let conn = config['postgres_local'];
+// let conn = config['postgres_portfw'];
+let conn = config['postgres'];
 
 const sequelize = new Sequelize(conn.db_name, conn.user, conn.password, {
 	host: conn.host,
@@ -40,6 +39,7 @@ let formatResult = function (avgSpeeds) {
 			speed_limit: val.sensor_speed_limit.speed_limit
 		};
 		result.push(tmp);
+
 	});
 	console.log('Formatresult, Länge: ' + result.length);
 	return result;
@@ -184,11 +184,15 @@ router.get('/change/:date/:precision', function (req, res) {
 		include: [
 			{
 				model: Speed_Limits,
-				where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				where: Sequelize.where(
+					Sequelize.col('sensor_speed_limit.sensor_id'),
+					Sequelize.col('sensor_data.sensor_id'))
 			},
 			{
 				model: GPS_Data,
-				where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				where: Sequelize.where(
+					Sequelize.col('sensor_gps_coordinate.sensor_id'),
+					Sequelize.col('sensor_data.sensor_id'))
 			}
 		],
 		attributes: ['sensor_id', [sequelize.fn('AVG', sequelize.col('speed')), 'avg_speed'], 'timestamp'],
@@ -198,7 +202,7 @@ router.get('/change/:date/:precision', function (req, res) {
 			},
 			$or: findArr
 		},
-		group: ['timestamp', 'sensor_id']
+		group: ['timestamp', 'sensor_speed_limit.sensor_id', 'sensor_gps_coordinate.sensor_id', 'sensor_data.sensor_id']
 	})
 		.then(function (data) {
 			let result = [];
@@ -207,11 +211,11 @@ router.get('/change/:date/:precision', function (req, res) {
 				let tmp = {
 					timestamp: val.timestamp,
 					sensor_id: val.sensor_id,
-					relativeSpeed: val.avg_speed * 100 / val.speed_limit.speed_limit,
+					relativeSpeed: val.avg_speed * 100 / val.sensor_speed_limit.speed_limit,
 					averageSpeed: val.avg_speed,
-					latitude: val.gps_coordinate.latitude,
-					longitude: val.gps_coordinate.longitude,
-					speed_limit: val.speed_limit.speed_limit
+					latitude: val.sensor_gps_coordinate.latitude,
+					longitude: val.sensor_gps_coordinate.longitude,
+					speed_limit: val.sensor_speed_limit.speed_limit
 				};
 				result.push(tmp);
 			});
@@ -253,11 +257,15 @@ router.get('/range/:time/:range/:days', function (req, res) {
 		include: [
 			{
 				model: Speed_Limits,
-				where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				where: Sequelize.where(
+					Sequelize.col('sensor_speed_limit.sensor_id'),
+					Sequelize.col('sensor_data.sensor_id'))
 			},
 			{
 				model: GPS_Data,
-				where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				where: Sequelize.where(
+					Sequelize.col('sensor_gps_coordinate.sensor_id'),
+					Sequelize.col('sensor_data.sensor_id'))
 			}
 		],
 		attributes: ['sensor_id', [sequelize.fn('AVG', sequelize.col('speed')), 'avg_speed']],
@@ -267,7 +275,7 @@ router.get('/range/:time/:range/:days', function (req, res) {
 			},
 			$or: dateArr
 		},
-		group: ['sensor_id']
+		group: ['sensor_speed_limit.sensor_id', 'sensor_gps_coordinate.sensor_id', 'sensor_data.sensor_id']
 	})
 		.then(function (data) {
 			let result = formatResult(data);
@@ -305,15 +313,23 @@ router.get('/change/:startdate/:duration/:precision', function (req, res) {
 		tmpDate.add(1, 'hour');
 	}
 
+	console.log(startdate);
+	console.log(endDate);
+	//TODO irgendwas stimmt mit den timestamps in der abfrage nicht
+
 	SensorModel.findAll({
 		include: [
 			{
 				model: Speed_Limits,
-				where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				where: Sequelize.where(
+					Sequelize.col('sensor_speed_limit.sensor_id'),
+					Sequelize.col('sensor_data.sensor_id'))
 			},
 			{
 				model: GPS_Data,
-				where: {sensor_id: Sequelize.col('sensor_data.sensor_id')}
+				where: Sequelize.where(
+					Sequelize.col('sensor_gps_coordinate.sensor_id'),
+					Sequelize.col('sensor_data.sensor_id'))
 			}
 		],
 		attributes: [
@@ -328,7 +344,7 @@ router.get('/change/:startdate/:duration/:precision', function (req, res) {
 		},
 		group: [
 			'timestamp',
-			'sensor_id'
+			'sensor_speed_limit.sensor_id', 'sensor_gps_coordinate.sensor_id', 'sensor_data.sensor_id'
 		]
 	})
 		.then(function (data) {
@@ -339,11 +355,11 @@ router.get('/change/:startdate/:duration/:precision', function (req, res) {
 				let tmp = {
 					timestamp: val.timestamp,
 					sensor_id: val.sensor_id,
-					relativeSpeed: val.avg_speed * 100 / val.speed_limit.speed_limit,
+					relativeSpeed: val.avg_speed * 100 / val.sensor_speed_limit.speed_limit,
 					averageSpeed: val.avg_speed,
-					latitude: val.gps_coordinate.latitude,
-					longitude: val.gps_coordinate.longitude,
-					speed_limit: val.speed_limit.speed_limit
+					latitude: val.sensor_gps_coordinate.latitude,
+					longitude: val.sensor_gps_coordinate.longitude,
+					speed_limit: val.sensor_speed_limit.speed_limit
 				};
 				result.push(tmp);
 			});
@@ -390,14 +406,6 @@ router.get('/all/:time/:top10/:filter', function (req, res) {
 					Sequelize.col('sensor_gps_coordinate.sensor_id'),
 					Sequelize.col('sensor_data.sensor_id'))
 			}
-		//	where: {
-		// 	projectId: Sequelize.col('projects.id')
-		// }
-		//
-		//	where: Sequelize.where(
-		// 	Sequelize.col('projects.assignments.person.imputations.project_id'),
-		// 	Sequelize.col('projects.id')
-		// )
 		],
 		attributes: [
 			// ['sensor_data.sensor_id', 'sensor_id'],

@@ -125,9 +125,7 @@ Host name: compute.beuth-hochschule.de
 Port: 22
 ```
 
-Then configure port forwarding for SSH from local port ``5433`` to ``dbl46.beuth-hochschule.de:5432``.
- 
-Set ``let conn = config['postgres_remote'];`` in line 11 in ``api.js``.
+Set ``let conn = config['postgres'];`` in ``api.js``.
 
 ## Start
 
