@@ -14,7 +14,6 @@ export async function getTrafficInfos(option, top10, filter) {
 
 	return fetch(url)
 		.then(response => response.json())
-		.then(trafficData => trafficData)
 		.catch((error) => {
 			// eslint-disable-next-line no-console
 			console.error(error);
@@ -25,7 +24,13 @@ export function getDailyTrafficProgress(date, precision) {
 	date = moment(date).add(1, 'hours').toISOString();
 	// eslint-disable-next-line no-console
 	console.log(`Datum: ${date}`);
-	return fetch(`${API_BASE}change/${date}/${precision}`);
+
+	return fetch(`${API_BASE}change/${date}/${precision}`)
+		.then(response => response.json())
+		.catch((error) => {
+			// eslint-disable-next-line no-console
+			console.error(error);
+		});
 }
 
 export function getRangeInfos(time, range, days) {

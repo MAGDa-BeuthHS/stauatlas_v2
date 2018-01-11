@@ -3,22 +3,20 @@ import PropTypes from 'prop-types';
 
 import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker';
 import DayFilter from '../DayFilter/DayFilter';
-import { TimeFilter } from '../TimeFilter/TimeFilter';
-import OptionButton from '../OptionButton/OptionButton';
+import {TimeFilter} from '../TimeFilter/TimeFilter';
+import PlayButton from '../PlayButton/PlayButton';
 
 import './bottom-bar-options.css';
 
 const propTypes = {
 	handleOnDateClick: PropTypes.func.isRequired,
 	selected: PropTypes.string.isRequired,
+	isPlaying: PropTypes.bool.isRequired,
+	togglePlaying: PropTypes.func.isRequired,
 };
 
-const handleAction = () => {
-	console.log('action ');
-}
-
 const BottomBarOptions = (props) => {
-	const { selected, handleOnDateClick } = props;
+	const {selected, handleOnDateClick, isPlaying, togglePlaying} = props;
 
 	if (selected === 'general') {
 		return (
@@ -27,7 +25,9 @@ const BottomBarOptions = (props) => {
 				}}/>
 				<TimeFilter/>
 
-				<OptionButton handleAction={handleAction}/>
+				<PlayButton
+					isPlaying={isPlaying}
+					togglePlaying={togglePlaying}/>
 			</div>
 		);
 	} else if (selected === 'period') {
@@ -39,7 +39,9 @@ const BottomBarOptions = (props) => {
 				/>
 				<TimeFilter/>
 
-				<OptionButton handleAction={handleAction}/>
+				<PlayButton
+					isPlaying={isPlaying}
+					togglePlaying={togglePlaying}/>
 			</div>
 		);
 	} else {
@@ -51,4 +53,5 @@ const BottomBarOptions = (props) => {
 };
 
 BottomBarOptions.propTypes = propTypes;
+
 export default BottomBarOptions;

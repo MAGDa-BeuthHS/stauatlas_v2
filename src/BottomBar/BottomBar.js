@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import BottomBarOptions from '../BottomBarOptions/BottomBarOptions';
@@ -12,6 +12,8 @@ const propTypes = {
 	handleOnDateClick: PropTypes.func.isRequired,
 	handleViewSidebar: PropTypes.func.isRequired,
 	isOpen: PropTypes.bool.isRequired,
+	isPlaying: PropTypes.bool.isRequired,
+	togglePlaying: PropTypes.func.isRequired,
 };
 
 class BottomBar extends Component {
@@ -32,7 +34,7 @@ class BottomBar extends Component {
 	};
 
 	render() {
-		const { isOpen, handleOnDateClick } = this.props;
+		const {isOpen, isPlaying, togglePlaying, handleOnDateClick} = this.props;
 
 		const openClass = isOpen ? 'open' : 'closed';
 		const arrowClass = isOpen ? 'left' : 'right';
@@ -54,7 +56,9 @@ class BottomBar extends Component {
 
 						<BottomBarOptions
 							selected={this.state.selected}
-							handleOnDateClick={handleOnDateClick} />
+							handleOnDateClick={handleOnDateClick}
+							isPlaying={isPlaying}
+							togglePlaying={togglePlaying}/>
 					</div>
 
 					<div className="bottombar-toggle">
