@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Circle, Map, TileLayer, ZoomControl } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
@@ -19,7 +19,7 @@ const propTypes = {
 	circleRadius: PropTypes.number.isRequired,
 	position: PropTypes.arrayOf(PropTypes.number).isRequired,
 	traffic: PropTypes.arrayOf(PropTypes.shape({
-		averageSpeed: PropTypes.number,
+		averageSpeed: PropTypes.string,
 		latitude: PropTypes.number,
 		longitude: PropTypes.number,
 		relativeSpeed: PropTypes.number,
@@ -31,42 +31,60 @@ const propTypes = {
 	handleZoomend: PropTypes.func.isRequired,
 };
 
-export const MapView = (props) => {
-	const {
-		circleRadius, handleZoomend,
-		position, traffic, filterTrafficByColor
-	} = props;
+export class MapView extends Component {
 
-	return (
-		<Map
-			center={position}
-			zoom={13}
-			minZoom={11}
-			maxZoom={18}
-			onZoomend={handleZoomend}
-			zoomControl={false}>
-			<TileLayer
-				url={url}
-				attribution={attribution}
-			/>
-			<ZoomControl position="topright" />
+	setPosition = () => {
+		this.refs.map.leafletElement.panTo(this.props.position); //eslint-disable-line
+	};
 
-			<Legend filterTrafficByColor={filterTrafficByColor} />
+	render() {
+		const {
+			circleRadius, handleZoomend, position,
+			traffic, filterTrafficByColor
+		} = this.props;
 
-			{traffic.map(light => (
-				<Circle
-					key={light.sensor_id}
-					center={[light.latitude, light.longitude]}
-					radius={circleRadius}
-					color={light.color}
-					className={`color-${light.color} traffic-light-circle`}
-					fillColor={light.color}
-					fillOpacity={0.4}
+		const map = 'map';
+
+		return (
+			<Map
+				ref={map}
+				center={position}
+				zoom={13}
+				minZoom={11}
+				maxZoom={18}
+				onZoomend={handleZoomend}
+				zoomControl={false}>
+				<TileLayer
+					url={url}
+					attribution={attribution}
 				/>
-			))}
+				<ZoomControl position="topright" />
 
-		</Map>
-	);
-};
+				<div className="box location-btn">
+					<a
+						className="btn-icon"
+						onClick={this.setPosition}
+						title="Lokalisieren" >
+						<span className="fa fa-fw fa-lg fa-dot-circle-o"/>
+					</a>
+				</div>
+				<Legend filterTrafficByColor={filterTrafficByColor} />
+
+				{traffic.map(sensor => (
+					<Circle
+						key={sensor.sensor_id}
+						center={[sensor.latitude, sensor.longitude]}
+						radius={circleRadius}
+						color={sensor.color}
+						className={`color-${sensor.color} traffic-light-circle`}
+						fillColor={sensor.color}
+						fillOpacity={0.4}
+					/>
+				))}
+
+			</Map>
+		);
+	}
+}
 
 MapView.propTypes = propTypes;

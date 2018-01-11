@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
 import BottomBarOptions from '../BottomBarOptions/BottomBarOptions';
@@ -12,7 +12,10 @@ const propTypes = {
 	handleOnDateClick: PropTypes.func.isRequired,
 	handleViewSidebar: PropTypes.func.isRequired,
 	isOpen: PropTypes.bool.isRequired,
+	isPlaying: PropTypes.bool.isRequired,
+	togglePlaying: PropTypes.func.isRequired,
 };
+
 class BottomBar extends Component {
 	constructor(props) {
 		super(props);
@@ -26,19 +29,19 @@ class BottomBar extends Component {
 	handleSelectClick = (event) => {
 		const selected = event.target.value;
 		this.setState(() => {
-			return {selected: selected};
+			return {selected};
 		});
 	};
 
 	render() {
-		const { isOpen, handleOnDateClick } = this.props;
+		const {isOpen, isPlaying, togglePlaying, handleOnDateClick} = this.props;
 
 		const openClass = isOpen ? 'open' : 'closed';
 		const arrowClass = isOpen ? 'left' : 'right';
 
 		return (
 			<div className="bottom-bar-container">
-				<div className={`box bottom-bar ${openClass}`}>
+				<div className={`box bottom-bar ${openClass} ${this.state.selected}`}>
 					<div className="bottom-bar-content">
 						<div className="general-options-selector">
 							<select
@@ -53,14 +56,18 @@ class BottomBar extends Component {
 
 						<BottomBarOptions
 							selected={this.state.selected}
-							handleOnDateClick={handleOnDateClick} />
+							handleOnDateClick={handleOnDateClick}
+							isPlaying={isPlaying}
+							togglePlaying={togglePlaying}/>
 					</div>
 
-					<a className="bottombar-toggle" onClick={this.props.handleViewSidebar}>
-						<span
-							className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
-							aria-hidden="true"/>
-					</a>
+					<div className="bottombar-toggle">
+						<a onClick={this.props.handleViewSidebar}>
+							<span
+								className={`fa fa-2x fa-fw fa-angle-double-${arrowClass}`}
+								aria-hidden="true"/>
+						</a>
+					</div>
 				</div>
 
 			</div>

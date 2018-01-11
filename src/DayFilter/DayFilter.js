@@ -4,8 +4,9 @@ import moment from 'moment';
 
 import './day-filter.css';
 
+// TODO: pass activeFilter and set as required
 const propTypes = {
-	activeFilter: PropTypes.object.isRequired,
+	activeFilter: PropTypes.object,
 	setFilter: PropTypes.func.isRequired
 };
 
@@ -19,7 +20,7 @@ function getWeekDays() {
 const filter = getWeekDays();
 const activeFilter = moment();
 
-const FilterBar = ({ setFilter }) => (
+const DayFilter = ({ setFilter }) => (
 	<div className="day-filter">
 		{filter.map(f => {
 			return (
@@ -37,5 +38,5 @@ const FilterBar = ({ setFilter }) => (
 	</div>
 );
 
-FilterBar.propTypes = propTypes;
-export default FilterBar;
+DayFilter.propTypes = propTypes;
+export default DayFilter;

@@ -16,10 +16,17 @@
 	border-radius: 50px;
 }
 
+.location-btn {
+	cursor: pointer;
+	top: 2em;
+	left: 2em;
+	padding: 6px;
+}
+
 .leaflet-bar a,
 .leaflet-bar a:hover {
-	border-color: var(--color-gray-light);
-	background-color: var(--color-gray-light);
+	border-color: var(--color-gray-lighter);
+	background-color: var(--color-gray-lighter);
 	color: #585555;
 	border-bottom: 1px solid #585555;
 	width: 30px;
@@ -51,5 +58,5 @@
 
 .traffic-light-circle {
 	stroke-width: 1;
-	stroke: var(--color-gray-light)
+	stroke: var(--color-gray-lighter)
 }

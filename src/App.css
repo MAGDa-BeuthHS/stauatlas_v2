@@ -1,10 +1,13 @@
 .btn-icon {
   background: none;
-  color: white;
   border: none;
-  padding: 6px 12px;
   vertical-align: middle;
 }
+
+.btn-icon > .fa {
+  color: var(--color-gray-dark);
+}
+
 .btn-icon:focus {
   outline: none;
 }
@@ -15,9 +18,9 @@
 
 .box {
   padding: 3px 6px;
-  background-color: var(--color-gray-light);
-  border-color: var(--color-gray-light);
-  z-index: 401;
+  background-color: var(--color-gray-lighter);
+  border-color: var(--color-gray-lighter);
+  z-index: 411;
   position: absolute;
   border-radius: 50px;
 }
