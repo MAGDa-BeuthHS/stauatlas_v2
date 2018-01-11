@@ -11,7 +11,7 @@ Download the [https://fb.me/react-devtools](React DevTools) for a better develop
 
 ## Install
 
-### Install MySQL
+### Install MySQL (Optional for use with MySql instead of Postgres)
 First you have to install a local MySQL database
 
 **For Ubuntu:**
@@ -114,7 +114,23 @@ export DB_NAME=<your db name>
 npm install
 ```
 
+##Configure SSH for remote Postgres-DB
+
+The PostgresSQL-Server at Beuth Hochschule can only be accessed inside the Beuth network or via a SSH-Tunnel. 
+Use for example Putty in Windows.
+
+
+```
+Host name: compute.beuth-hochschule.de
+Port: 22
+```
+
+Set ``let conn = config['postgres'];`` in ``api.js``.
+
 ## Start
+
+For access to the remote **Postgres-DB** open the configured SSH-Connection and login with your HRZ account. 
+
 For starting the **front-end server** use
 
 ```
