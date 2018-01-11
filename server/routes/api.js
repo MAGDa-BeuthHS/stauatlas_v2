@@ -113,6 +113,7 @@ sequelize
 		console.log('Unable to connect to the database:', err);
 	});
 
+
 // Sensordata model
 let SensorModel = sequelize.define('sensor_data', {
 	sensor_id: {
@@ -127,6 +128,8 @@ let SensorModel = sequelize.define('sensor_data', {
 		primaryKey: true
 	}
 });
+
+
 
 // GPS Coordinates model
 let GPS_Data = sequelize.define('sensor_gps_coordinates', {
@@ -154,6 +157,89 @@ let Speed_Limits = sequelize.define('sensor_speed_limits', {
 	}
 });
 SensorModel.belongsTo(Speed_Limits, {foreignKey: 'sensor_id'});
+
+// RoadsOSM Model
+let RoadsOSMModel = sequelize.define('roads_osm', {
+	gid: {
+		type: Sequelize.INTEGER,
+		primaryKey: true
+	},
+	osm_id: {
+		type: Sequelize.CHAR(11)
+	},
+	name: {
+		type: Sequelize.CHAR(48)
+	},
+	ref: {
+		type: Sequelize.CHAR(16)
+	},
+	type: {
+		type: Sequelize.CHAR(16)
+	},
+	oneway: {
+		type: Sequelize.SMALLINT
+	},
+	bridge: {
+		type: Sequelize.SMALLINT
+	},
+	tunnel: {
+		type: Sequelize.SMALLINT
+	},
+	maxspeed: {
+		type: Sequelize.SMALLINT
+	},
+	geom: {
+		type: Sequelize.GEOMETRY
+	},
+	is_route: {
+		type: Sequelize.SMALLINT
+	}
+});
+
+// Avg_Speed model
+let Avg_Speed = sequelize.define('road_avg_speed', {
+	gid: {
+		type: Sequelize.INTEGER,
+		primaryKey: true
+	},
+	direction: {
+		type: Sequelize.INTEGER
+	},
+	avg: {
+		type: Sequelize.INTEGER
+	}
+});
+RoadsOSMModel.belongsTo(Avg_Speed, {foreignKey: 'gid'});
+
+// Avg_Speed_angle model
+let Avg_Speed_Angle = sequelize.define('road_avg_speed_angle', {
+	gid: {
+		type: Sequelize.INTEGER,
+		primaryKey: true
+	},
+	direction: {
+		type: Sequelize.INTEGER
+	},
+	avg: {
+		type: Sequelize.INTEGER
+	}
+});
+RoadsOSMModel.belongsTo(Avg_Speed_Angle, {foreignKey: 'gid'});
+
+// Avg_Speed_dist model
+let Avg_Speed_Dist = sequelize.define('road_avg_speed_dist', {
+	gid: {
+		type: Sequelize.INTEGER,
+		primaryKey: true
+	},
+	direction: {
+		type: Sequelize.INTEGER
+	},
+	avg: {
+		type: Sequelize.INTEGER
+	}
+});
+RoadsOSMModel.belongsTo(Avg_Speed_Dist, {foreignKey: 'gid'});
 
 
 router.get('/change/:date/:precision', function (req, res) {
@@ -449,6 +535,44 @@ router.get('/all/:time/:top10/:filter', function (req, res) {
 			}
 
 		});
+});
+
+router.get('/avg', function (req, res) {
+	
+	RoadsOSMModel.findAll({
+		include: [
+			{
+				model: Avg_Speed,
+				where: Sequelize.where(
+					Sequelize.col('road_avg_speed.gid'),
+					Sequelize.col('roads_osm.gid')
+				)
+			},
+			{
+				model: Avg_Speed_Angle,
+				where: Sequelize.where(
+					Sequelize.col('road_avg_speed_angle.gid'),
+					Sequelize.col('roads_osm.gid')
+				)
+			},
+			{
+				model: Avg_Speed_Dist,
+				where: Sequelize.where(
+					Sequelize.col('road_avg_speed_dist.gid'),
+					Sequelize.col('roads_osm.gid')
+				)
+			}
+		],
+		where: {
+			name: {
+				$ne: null
+			}
+		},
+		group: ['road_avg_speed.gid', 'road_avg_speed_angle.gid', 'road_avg_speed_dist.gid']
+	})
+	.then(function (roadsOsm) {
+		console.log(roadsOsm);
+	});
 });
 
 module.exports = router;
