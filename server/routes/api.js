@@ -194,6 +194,8 @@ let RoadsOSMModel = sequelize.define('roads_osm', {
 	is_route: {
 		type: Sequelize.SMALLINT
 	}
+}, {
+	freezeTableName: true
 });
 
 // Avg_Speed model
@@ -208,38 +210,10 @@ let Avg_Speed = sequelize.define('road_avg_speed', {
 	avg: {
 		type: Sequelize.INTEGER
 	}
+}, {
+	freezeTableName: true
 });
 RoadsOSMModel.belongsTo(Avg_Speed, {foreignKey: 'gid'});
-
-// Avg_Speed_angle model
-let Avg_Speed_Angle = sequelize.define('road_avg_speed_angle', {
-	gid: {
-		type: Sequelize.INTEGER,
-		primaryKey: true
-	},
-	direction: {
-		type: Sequelize.INTEGER
-	},
-	avg: {
-		type: Sequelize.INTEGER
-	}
-});
-RoadsOSMModel.belongsTo(Avg_Speed_Angle, {foreignKey: 'gid'});
-
-// Avg_Speed_dist model
-let Avg_Speed_Dist = sequelize.define('road_avg_speed_dist', {
-	gid: {
-		type: Sequelize.INTEGER,
-		primaryKey: true
-	},
-	direction: {
-		type: Sequelize.INTEGER
-	},
-	avg: {
-		type: Sequelize.INTEGER
-	}
-});
-RoadsOSMModel.belongsTo(Avg_Speed_Dist, {foreignKey: 'gid'});
 
 
 router.get('/change/:date/:precision', function (req, res) {
@@ -537,8 +511,8 @@ router.get('/all/:time/:top10/:filter', function (req, res) {
 		});
 });
 
-router.get('/avg', function (req, res) {
-	
+router.get('/roads/avg', function (req, res) {
+
 	RoadsOSMModel.findAll({
 		include: [
 			{
@@ -547,32 +521,36 @@ router.get('/avg', function (req, res) {
 					Sequelize.col('road_avg_speed.gid'),
 					Sequelize.col('roads_osm.gid')
 				)
-			},
-			{
-				model: Avg_Speed_Angle,
-				where: Sequelize.where(
-					Sequelize.col('road_avg_speed_angle.gid'),
-					Sequelize.col('roads_osm.gid')
-				)
-			},
-			{
-				model: Avg_Speed_Dist,
-				where: Sequelize.where(
-					Sequelize.col('road_avg_speed_dist.gid'),
-					Sequelize.col('roads_osm.gid')
-				)
 			}
 		],
 		where: {
-			name: {
-				$ne: null
+			type: {
+				$or : ['motorway','trunk','primary','secondary','tertiary']
+			},
+			maxspeed: {
+				$ne : null
 			}
-		},
-		group: ['road_avg_speed.gid', 'road_avg_speed_angle.gid', 'road_avg_speed_dist.gid']
+		}
 	})
-	.then(function (roadsOsm) {
-		console.log(roadsOsm);
-	});
+		.then(function (avgRoads) {
+
+			let result = [];
+			_.each(avgRoads, function (val) {
+				val = val.toJSON();
+				// console.log(val);
+				let tmp = {
+					road_id: val.gid,
+					relativeSpeed: val.road_avg_speed.avg * 100 / val.maxspeed,
+					averageSpeed: val.road_avg_speed.avg,
+					speed_limit: val.maxspeed,
+					coordinates: val.geom
+				};
+				result.push(tmp);
+
+			});
+			console.log('Formatresult, Länge: ' + result.length);
+			res.send(_.sortBy(result, ['speed_limit']));
+		});
 });
 
 module.exports = router;
