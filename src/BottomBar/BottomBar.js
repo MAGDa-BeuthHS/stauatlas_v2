@@ -3,18 +3,11 @@ import PropTypes from 'prop-types';
 
 import BottomBarOptions from '../BottomBarOptions/BottomBarOptions';
 import './bottom-bar.css';
+import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker';
 
 const GENERAL = 'general';
 const PERIOD = 'period';
 const ACTUAL = 'actual';
-
-const propTypes = {
-	handleOnDateClick: PropTypes.func.isRequired,
-	handleViewSidebar: PropTypes.func.isRequired,
-	isOpen: PropTypes.bool.isRequired,
-	isPlaying: PropTypes.bool.isRequired,
-	togglePlaying: PropTypes.func.isRequired,
-};
 
 class BottomBar extends Component {
 	constructor(props) {
@@ -34,7 +27,7 @@ class BottomBar extends Component {
 	};
 
 	render() {
-		const {isOpen, isPlaying, togglePlaying, handleOnDateClick} = this.props;
+		const {isOpen, isPlaying, togglePlaying, datePicker} = this.props;
 
 		const openClass = isOpen ? 'open' : 'closed';
 		const arrowClass = isOpen ? 'left' : 'right';
@@ -56,7 +49,7 @@ class BottomBar extends Component {
 
 						<BottomBarOptions
 							selected={this.state.selected}
-							handleOnDateClick={handleOnDateClick}
+							datePicker={datePicker}
 							isPlaying={isPlaying}
 							togglePlaying={togglePlaying}/>
 					</div>
@@ -75,5 +68,12 @@ class BottomBar extends Component {
 	}
 }
 
-BottomBar.propTypes = propTypes;
+BottomBar.propTypes = {
+	datePicker: PropTypes.shape(HolidayDatePicker.propTypes).isRequired,
+	handleViewSidebar: PropTypes.func.isRequired,
+	isOpen: PropTypes.bool.isRequired,
+	isPlaying: PropTypes.bool.isRequired,
+	togglePlaying: PropTypes.func.isRequired,
+};
+
 export default BottomBar;

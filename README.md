@@ -125,6 +125,8 @@ Host name: compute.beuth-hochschule.de
 Port: 22
 ```
 
+Command to run on linux/mac: `ssh -D 8080 -C yourusername@compute.beuth-hochschule.de` for http proxy, or just use direct port forwarding: `ssh -f yourusername@compute.beuth-hochschule.de -L 5433:dbl46.beuth-hochschule.de:5432 -N`
+
 Set ``let conn = config['postgres'];`` in ``api.js``.
 
 ## Start

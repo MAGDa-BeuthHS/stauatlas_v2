@@ -1,26 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
 import 'moment/locale/de';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './holidayDatePicker.css';
 
-import  { holidays, events } from '../utils/holidays';
+import {events, holidays} from '../utils/holidays';
 
 const highlightWithRanges = [
-	{ 'holiday-datepicker__holiday': holidays },
-	{ 'holiday-datepicker__event': events }
+	{'holiday-datepicker__holiday': holidays},
+	{'holiday-datepicker__event': events}
 ];
-
-const startDate = moment();
-const endDate = moment().add(7, 'days');
-
-const propTypes = {
-	handleChangeDateStart: PropTypes.func.isRequired,
-	handleChangeDateEnd: PropTypes.func.isRequired,
-};
 
 const HolidayDatePickerLegend = () => (
 	<div className="holiday-datepicker-legend">
@@ -35,14 +26,14 @@ const HolidayDatePickerLegend = () => (
 	</div>
 );
 
-const HolidayDatePicker = ({handleChangeDateStart, handleChangeDateEnd}) => {
+const HolidayDatePicker = ({startDate, endDate, onChangeStartDate, onChangeEndDate}) => {
 	return (
 		<div className="holiday-datepickers">
 			<DatePicker
 				selected={startDate}
 				selectsStartstartDate={startDate}
 				endDate={endDate}
-				onChange={handleChangeDateStart}
+				onChange={onChangeStartDate}
 				dateFormat="DD.MM.YYYY"
 				calendarClassName="holiday-datepicker"
 				placeholderText="Click to select a date"
@@ -58,7 +49,7 @@ const HolidayDatePicker = ({handleChangeDateStart, handleChangeDateEnd}) => {
 				selectsEnd
 				startDate={startDate}
 				endDate={endDate}
-				onChange={handleChangeDateEnd}
+				onChange={onChangeEndDate}
 				dateFormat="DD.MM.YYYY"
 				calendarClassName="holiday-datepicker"
 				placeholderText="Click to select a date"
@@ -72,5 +63,11 @@ const HolidayDatePicker = ({handleChangeDateStart, handleChangeDateEnd}) => {
 	);
 };
 
-HolidayDatePicker.propTypes = propTypes;
+HolidayDatePicker.propTypes = {
+	startDate: PropTypes.object.isRequired,
+	endDate: PropTypes.object.isRequired,
+	onChangeStartDate: PropTypes.func.isRequired,
+	onChangeEndDate: PropTypes.func.isRequired,
+};
+
 export default HolidayDatePicker;

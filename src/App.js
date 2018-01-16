@@ -46,12 +46,15 @@ export class App extends Component {
 			isPlaying: false,
 			playData: null,
 			playDate: null,
+			startDate: moment(),
+			endDate: moment().add(7, 'days'),
 		};
 
 		this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
 		this.resetTraffic = this.resetTraffic.bind(this);
 		this.handleViewSidebar = this.handleViewSidebar.bind(this);
-		this.handleOnDateClick = this.handleOnDateClick.bind(this);
+		this.onChangeStartDate = this.onChangeStartDate.bind(this);
+		this.onChangeEndDate = this.onChangeEndDate.bind(this);
 		this.handleMapZoom = this.handleMapZoom.bind(this);
 		this.togglePlaying = this.togglePlaying.bind(this);
 
@@ -162,11 +165,12 @@ export class App extends Component {
 		}));
 	}
 
-	// dummy
-	handleOnDateClick() {
-		this.setState(prevState => ({
-			bottomBarOpen: prevState.bottomBarOpen,
-		}));
+	onChangeStartDate(startDate) {
+		this.setState({startDate});
+	}
+
+	onChangeEndDate(endDate) {
+		this.setState({endDate});
 	}
 
 	togglePlaying() {
@@ -215,6 +219,13 @@ export class App extends Component {
 	}
 
 	render() {
+		const datePicker = {
+			startDate: this.state.startDate,
+			endDate: this.state.endDate,
+			onChangeStartDate: this.onChangeStartDate,
+			onChangeEndDate: this.onChangeEndDate,
+		};
+
 		return (
 			<div className="stauatlas-app">
 				<BottomBar
@@ -222,7 +233,7 @@ export class App extends Component {
 					isPlaying={this.state.isPlaying}
 					togglePlaying={this.togglePlaying}
 					handleViewSidebar={this.handleViewSidebar}
-					handleOnDateClick={this.handleOnDateClick}
+					datePicker={datePicker}
 				/>
 
 				<MapView
