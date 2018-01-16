@@ -7,29 +7,13 @@ import 'moment/locale/de';
 import 'react-datepicker/dist/react-datepicker.css';
 import './holidayDatePicker.css';
 
+import  { holidays, events } from '../utils/holidays';
+
 const highlightWithRanges = [
-	{
-		'holiday-datepicker__holiday': [
-			moment('23.12.2017', 'DD.MM.YYYY'),
-			moment('24.12.2017', 'DD.MM.YYYY'),
-			moment('25.12.2017', 'DD.MM.YYYY'),
-			moment('26.12.2017', 'DD.MM.YYYY'),
-			moment('27.12.2017', 'DD.MM.YYYY'),
-			moment('28.12.2017', 'DD.MM.YYYY'),
-			moment('29.12.2017', 'DD.MM.YYYY'),
-			moment('30.12.2017', 'DD.MM.YYYY'),
-			moment('31.12.2017', 'DD.MM.YYYY'),
-			moment('01.01.2018', 'DD.MM.YYYY'),
-			moment('02.01.2018', 'DD.MM.YYYY'),]
-	},
-	{
-		'holiday-datepicker__event': [
-			moment().add(1, 'days'),
-			moment().add(2, 'days'),
-			moment().add(3, 'days'),
-			moment().add(4, 'days')]
-	}
+	{ 'holiday-datepicker__holiday': holidays },
+	{ 'holiday-datepicker__event': events }
 ];
+
 const startDate = moment();
 const endDate = moment().add(7, 'days');
 
