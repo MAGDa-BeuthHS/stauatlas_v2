@@ -61,3 +61,14 @@
 	stroke-width: 1;
 	stroke: var(--color-gray-lighter)
 }
+
+.title {
+	position: relative;
+	top: 1em;
+	left: 1em;
+	z-index: 401;
+	font-weight: normal;
+	font-size: 33px;
+	text-shadow: 1px 1px var(--color-gray);
+	color: var(--text-color-light);
+}
