@@ -8,8 +8,9 @@
 	top: 2em;
 	right: 3em;
 }
-.leaflet-control-zoom leaflet-bar leaflet-control {
-	margin: 0;
+
+.leaflet-right .leaflet-control {
+	margin-right: 0;
 }
 
 .leaflet-right .leaflet-control {
@@ -18,8 +19,8 @@
 
 .location-btn {
 	cursor: pointer;
-	top: 2em;
-	left: 2em;
+	top: 10em;
+	right: 3em;
 	padding: 6px;
 }
 
