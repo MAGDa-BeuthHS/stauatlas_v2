@@ -166,11 +166,25 @@ export class App extends Component {
 	}
 
 	onChangeStartDate(startDate) {
-		this.setState({startDate});
+		if(this.state.endDate > startDate) {
+			this.setState(() => ({
+				endDate: startDate,
+				startDate
+			}));
+		} else {
+			this.setState({startDate});
+		}
 	}
 
 	onChangeEndDate(endDate) {
-		this.setState({endDate});
+		if(endDate < this.state.startDate) {
+			this.setState(() => ({
+				startDate: endDate,
+				endDate
+			}));
+		} else {
+			this.setState({endDate});
+		}
 	}
 
 	togglePlaying() {
