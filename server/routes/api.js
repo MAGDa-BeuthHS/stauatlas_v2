@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
@@ -14,7 +13,7 @@ const sequelize = new Sequelize(conn.db_name, conn.user, conn.password, {
 	port: conn.port,
 	dialect: conn.dialect,
 	define: {
-		timestamps: false  // I don't want timestamp fields by default
+		timestamps: false  // I don't want timestamp fiels by default
 	},
 
 	pool: {

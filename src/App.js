@@ -63,12 +63,8 @@ export class App extends Component {
 	}
 
 	componentWillMount() {
-		if (typeof window !== 'object') {
-			return;
-		}
-		if (!('geolocation' in window.navigator)) {
-			return;
-		}
+		if (typeof window !== 'object') return;
+		if (!('geolocation' in window.navigator)) return;
 
 		this.getCurrentPosition();
 	}
