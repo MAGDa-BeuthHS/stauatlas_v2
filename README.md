@@ -26,7 +26,7 @@ Port: 22
 ```
 
 Command to run on linux/mac:
-```ssh -D 8080 -C yourusername@compute.beuth-hochschule.de```
+```ssh -L 5432:dbl46.beuth-hochschule.de:5432 username@compute.beuth-hochschule.de```
 
 for http proxy, or just use direct port forwarding:
 ```ssh -f yourusername@compute.beuth-hochschule.de -L 5433:dbl46.beuth-hochschule.de:5432 -N```
