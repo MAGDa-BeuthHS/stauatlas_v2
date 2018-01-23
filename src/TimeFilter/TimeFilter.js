@@ -25,11 +25,6 @@ export class TimeFilter extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			start: 0,
-			end: 24,
-		};
-
 		this.onStart = this.onStart.bind(this);
 		this.onEnd = this.onEnd.bind(this);
 		this.onMove = this.onMove.bind(this);
@@ -49,13 +44,6 @@ export class TimeFilter extends Component {
 		const hours = this.convertXToHours(e.pageX);
 
 		this.updateStart(hours);
-	}
-
-	updateStart(hours) {
-		hours = capHours(hours);
-		this.setState({start: hours, end: hours});
-
-		this.started = true;
 	}
 
 	onMove(e) {
@@ -78,12 +66,21 @@ export class TimeFilter extends Component {
 		this.started = false;
 	}
 
+	updateStart(hours) {
+		hours = capHours(hours);
+
+		this.props.onChangeStart(hours);
+		this.props.onChangeEnd(hours);
+
+		this.started = true;
+	}
+
 	updateEnd(hours) {
 		hours = capHours(hours);
-		if (hours > this.state.start) {
-			this.setState({end: hours});
+		if (hours > this.props.start) {
+			this.props.onChangeEnd(hours);
 		} else {
-			this.setState({start: hours});
+			this.props.onChangeStart(hours);
 		}
 	}
 
@@ -93,7 +90,7 @@ export class TimeFilter extends Component {
 	}
 
 	render() {
-		const {start, end} = this.state;
+		const {start, end} = this.props;
 
 		return <div className="time-filter-container">
 			<TimeRangeLabels start={start} end={end}/>
@@ -118,6 +115,13 @@ export class TimeFilter extends Component {
 	}
 
 }
+
+TimeFilter.propTypes = {
+	start: PropTypes.number.isRequired,
+	end: PropTypes.number.isRequired,
+	onChangeStart: PropTypes.func.isRequired,
+	onChangeEnd: PropTypes.func.isRequired,
+};
 
 const Scales = () =>
 	<div className="scales">
@@ -224,6 +228,6 @@ const TimeRangeLabels = ({start, end}) => {
 };
 
 TimeRangeLabels.propTypes = {
-	start: PropTypes.number,
-	end: PropTypes.number,
+	start: PropTypes.number.isRequired,
+	end: PropTypes.number.isRequired,
 };

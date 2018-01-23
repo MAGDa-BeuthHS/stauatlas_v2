@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import BottomBarOptions from '../BottomBarOptions/BottomBarOptions';
 import './bottom-bar.css';
 import HolidayDatePicker from '../HolidayDatePicker/HolidayDatePicker';
+import {TimeFilter} from '../TimeFilter/TimeFilter';
 
 const GENERAL = 'general';
 const PERIOD = 'period';
@@ -27,7 +28,7 @@ class BottomBar extends Component {
 	};
 
 	render() {
-		const {isOpen, isPlaying, togglePlaying, datePicker} = this.props;
+		const {isOpen, isPlaying, togglePlaying, datePicker, timeFilter} = this.props;
 
 		const openClass = isOpen ? 'open' : 'closed';
 		const arrowClass = isOpen ? 'left' : 'right';
@@ -50,6 +51,7 @@ class BottomBar extends Component {
 						<BottomBarOptions
 							selected={this.state.selected}
 							datePicker={datePicker}
+							timeFilter={timeFilter}
 							isPlaying={isPlaying}
 							togglePlaying={togglePlaying}/>
 					</div>
@@ -70,6 +72,7 @@ class BottomBar extends Component {
 
 BottomBar.propTypes = {
 	datePicker: PropTypes.shape(HolidayDatePicker.propTypes).isRequired,
+	timeFilter: PropTypes.shape(TimeFilter.propTypes).isRequired,
 	handleViewSidebar: PropTypes.func.isRequired,
 	isOpen: PropTypes.bool.isRequired,
 	isPlaying: PropTypes.bool.isRequired,

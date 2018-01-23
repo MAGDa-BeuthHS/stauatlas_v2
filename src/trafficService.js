@@ -36,8 +36,17 @@ export function getDailyTrafficProgress(date, precision) {
 export function getRangeInfos(time, range, days) {
 	// eslint-disable-next-line no-console
 	console.log(`/api/range/${time}/${range}/${days}`);
+
 	return fetch(`${API_BASE}range/${time}/${range}/${days}`);
 }
-export function getDailyTrafficProgressDur(startdate, duration) {
-	return fetch(`${API_BASE}change/${startdate}/${duration}/null`);
+export function getDailyTrafficProgressDur(startDate, endDate, precision) {
+	const date = moment(startDate).toISOString();
+	const duration = moment.duration(endDate.diff(startDate)).asHours();
+
+	return fetch(`${API_BASE}change/${date}/${duration}/${precision}`)
+		.then(response => response.json())
+		.catch((error) => {
+			// eslint-disable-next-line no-console
+			console.error(error);
+		});
 }

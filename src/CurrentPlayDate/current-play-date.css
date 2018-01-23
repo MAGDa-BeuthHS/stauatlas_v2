@@ -1,0 +1,9 @@
+.current-play-date {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 6rem;
+    z-index: 10000;
+    background-color: var(--color-gray-lighter);
+    padding: 0.7rem;
+    border-radius: 1.5rem;
+}
