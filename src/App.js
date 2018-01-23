@@ -202,7 +202,7 @@ export class App extends Component {
 		}));
 	}
 
-	travelBackInTimeTo2014(date) {
+	static travelBackInTimeTo2014(date) {
 		return date.clone()
 			.set('year', 2014)
 			.set('minute', 0)
@@ -214,8 +214,8 @@ export class App extends Component {
 		const precision = 2;
 
 		const dayLength = Math.ceil(this.state.endHour - this.state.startHour) + 1;
-		const startDate = this.travelBackInTimeTo2014(this.state.startDate);
-		const endDate = this.travelBackInTimeTo2014(this.state.endDate);
+		const startDate = App.travelBackInTimeTo2014(this.state.startDate);
+		const endDate = App.travelBackInTimeTo2014(this.state.endDate);
 
 		const {playDate, playData, isPlaying} = this.state;
 
@@ -224,9 +224,7 @@ export class App extends Component {
 		}
 
 		if (!playDate) {
-			const date = this.travelBackInTimeTo2014(moment());
-
-			this.setState({playDate: date});
+			this.setState({playDate: startDate});
 
 			getDailyTrafficProgressDur(
 				startDate,
