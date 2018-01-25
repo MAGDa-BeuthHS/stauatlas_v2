@@ -5,7 +5,7 @@ import './current-play-date.css';
 
 export const CurrentPlayDate = ({playDate}) =>
 	playDate ?
-		<div className="current-play-date">
+		<div className="box current-play-date">
 			{playDate.format('DD.MM.YYYY hh:mm')}
 		</div> :
 		'';

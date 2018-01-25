@@ -3,7 +3,7 @@ import './App.css';
 
 import {MapView} from './MapView/MapView';
 import BottomBar from './BottomBar/BottomBar';
-import {getDailyTrafficProgressDur, getTrafficInfos} from './trafficService';
+import { getAllTrafficSensors, getTrafficProgressForDuration } from './trafficService';
 import moment from 'moment';
 import {CurrentPlayDate} from './CurrentPlayDate/CurrentPlayDate';
 
@@ -49,8 +49,8 @@ export class App extends Component {
 			playDate: null,
 			startDate: moment(),
 			endDate: moment().add(7, 'days'),
-			startHour: 0,
-			endHour: 24,
+			startHour: 9,
+			endHour: 18,
 		};
 
 		this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
@@ -79,7 +79,7 @@ export class App extends Component {
 	}
 
 	componentDidMount() {
-		getTrafficInfos()
+		getAllTrafficSensors()
 			.then((traffic) => {
 				App.setColor(traffic);
 
@@ -123,7 +123,6 @@ export class App extends Component {
 		);
 	};
 
-
 	resetTraffic() {
 		this.setState((prevState) => {
 			if (prevState.filteredTraffic !== this.state.traffic) {
@@ -166,6 +165,7 @@ export class App extends Component {
 		}));
 	}
 
+	// handles datepicker StartDate change
 	onChangeStartDate(startDate) {
 		if(this.state.endDate > startDate) {
 			this.setState(() => ({
@@ -177,6 +177,7 @@ export class App extends Component {
 		}
 	}
 
+	// handles datepicker EndDate change
 	onChangeEndDate(endDate) {
 		if(endDate < this.state.startDate) {
 			this.setState(() => ({
@@ -202,6 +203,7 @@ export class App extends Component {
 		}));
 	}
 
+	// Our data is from 2014...
 	static travelBackInTimeTo2014(date) {
 		return date.clone()
 			.set('year', 2014)
@@ -226,7 +228,7 @@ export class App extends Component {
 		if (!playDate) {
 			this.setState({playDate: startDate});
 
-			getDailyTrafficProgressDur(
+			getTrafficProgressForDuration(
 				startDate,
 				endDate,
 				1,

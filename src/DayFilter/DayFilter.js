@@ -1,42 +1,54 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+// import moment from 'moment';
 
 import './day-filter.css';
 
 // TODO: pass activeFilter and set as required
 const propTypes = {
-	activeFilter: PropTypes.object,
 	setFilter: PropTypes.func.isRequired
 };
 
-function getWeekDays() {
-	const filters = [];
-	for (let i = 0; i <= 6; i++) {
-		filters.push(moment().add(i, 'days'));
-	}
-	return filters;
-}
-const filter = getWeekDays();
-const activeFilter = moment();
 
-const DayFilter = ({ setFilter }) => (
-	<div className="day-filter">
-		{filter.map(f => {
-			return (
-				<span
-					onClick={() => setFilter(f)}
-					key={f}>
-					<span
-						className={`filter ${f.date() === activeFilter.date() && 'active'}`}
-					>
-						{moment(f).format('dd')}
-					</span>
-				</span>
-			);
-		})}
-	</div>
-);
+class DayFilter extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			weekDays: ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'],
+			activeFilter: null
+		};
+
+		this.handleSetFilter = this.handleSetFilter.bind(this);
+	}
+
+	handleSetFilter = (activeFilter) => {
+		this.setState((prevState) => {
+			if( prevState.activeFilter !== activeFilter) {
+				return { activeFilter };
+			}
+		});
+		this.props.setFilter(activeFilter);
+	};
+
+	render() {
+		return (
+			<div className="day-filter">
+				{this.state.weekDays.map(day => {
+					return (
+						<span
+							onClick={this.handleSetFilter.bind(this, day)}
+							key={day}
+							className={`filter ${day === this.state.activeFilter && 'active'}`}
+						>
+							{day}
+						</span>
+					);
+				})}
+			</div>
+		);
+	}
+}
+
 
 DayFilter.propTypes = propTypes;
 export default DayFilter;

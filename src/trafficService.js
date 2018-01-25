@@ -3,14 +3,13 @@ import moment from 'moment';
 
 const API_BASE = 'http://localhost:4200/api/';
 
-export async function getTrafficInfos(option, top10, filter) {
+// get all sensor-points in Dresden.
+export async function getAllTrafficSensors() {
 	let url = `${API_BASE}all/`;
 
-	// TODO: null or undefined?
+	// TODO: WTF? null or undefined?
 	// I'm sure we can use a better url?
-	url += option ? `${option}/` : 'null/';
-	url += top10 ? `${top10}/` : 'undefined/';
-	url += filter ? `${filter}/` : 'undefined/';
+	url += 'null/undefined/undefined/';
 
 	return fetch(url)
 		.then(response => response.json())
@@ -39,7 +38,7 @@ export function getRangeInfos(time, range, days) {
 
 	return fetch(`${API_BASE}range/${time}/${range}/${days}`);
 }
-export function getDailyTrafficProgressDur(startDate, endDate, precision) {
+export function getTrafficProgressForDuration(startDate, endDate, precision) {
 	const date = moment(startDate).toISOString();
 	const duration = moment.duration(endDate.diff(startDate)).asHours();
 
