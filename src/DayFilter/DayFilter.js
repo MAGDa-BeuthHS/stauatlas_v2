@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import moment from 'moment';
 
 import './day-filter.css';
 
@@ -8,7 +7,6 @@ import './day-filter.css';
 const propTypes = {
 	setFilter: PropTypes.func.isRequired
 };
-
 
 class DayFilter extends Component {
 	constructor(props) {
@@ -33,12 +31,12 @@ class DayFilter extends Component {
 	render() {
 		return (
 			<div className="day-filter">
-				{this.state.weekDays.map(day => {
+				{this.state.weekDays.map((day, dayIndex) => {
 					return (
 						<span
-							onClick={this.handleSetFilter.bind(this, day)}
-							key={day}
-							className={`filter ${day === this.state.activeFilter && 'active'}`}
+							onClick={this.handleSetFilter.bind(this, dayIndex)}
+							key={dayIndex}
+							className={`filter ${dayIndex === this.state.activeFilter && 'active'}`}
 						>
 							{day}
 						</span>

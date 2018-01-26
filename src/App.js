@@ -3,7 +3,7 @@ import './App.css';
 
 import {MapView} from './MapView/MapView';
 import BottomBar from './BottomBar/BottomBar';
-import { getAllTrafficSensors, getTrafficProgressForDuration } from './trafficService';
+import {getAllTrafficSensors, getTrafficProgressForDuration} from './trafficService';
 import moment from 'moment';
 import {CurrentPlayDate} from './CurrentPlayDate/CurrentPlayDate';
 
@@ -62,6 +62,7 @@ export class App extends Component {
 		this.onChangeEndHour = this.onChangeEndHour.bind(this);
 		this.handleMapZoom = this.handleMapZoom.bind(this);
 		this.togglePlaying = this.togglePlaying.bind(this);
+		this.setDayFilter = this.setDayFilter.bind(this);
 
 		this.play = this.play.bind(this);
 		setInterval(this.play, 1000);
@@ -167,7 +168,7 @@ export class App extends Component {
 
 	// handles datepicker StartDate change
 	onChangeStartDate(startDate) {
-		if(this.state.endDate > startDate) {
+		if (this.state.endDate > startDate) {
 			this.setState(() => ({
 				endDate: startDate,
 				startDate
@@ -179,7 +180,7 @@ export class App extends Component {
 
 	// handles datepicker EndDate change
 	onChangeEndDate(endDate) {
-		if(endDate < this.state.startDate) {
+		if (endDate < this.state.startDate) {
 			this.setState(() => ({
 				startDate: endDate,
 				endDate
@@ -201,6 +202,18 @@ export class App extends Component {
 		this.setState(prevState => ({
 			isPlaying: !prevState.isPlaying,
 		}));
+	}
+
+	setDayFilter(dayIndex) {
+		const date = this.state.startDate
+			.clone()
+			.set('weekDay', dayIndex);
+
+		this.setState({
+			startDate: date,
+			endDate: date,
+			playDate: this.state.playDate && date,
+		});
 	}
 
 	// Our data is from 2014...
@@ -291,6 +304,7 @@ export class App extends Component {
 					handleViewSidebar={this.handleViewSidebar}
 					datePicker={datePicker}
 					timeFilter={timeFilter}
+					setDayFilter={this.setDayFilter}
 				/>
 
 				<CurrentPlayDate

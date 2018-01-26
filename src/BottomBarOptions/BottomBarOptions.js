@@ -9,13 +9,12 @@ import PlayButton from '../PlayButton/PlayButton';
 import './bottom-bar-options.css';
 
 const BottomBarOptions = (props) => {
-	const {selected, datePicker, timeFilter, isPlaying, togglePlaying} = props;
+	const {selected, datePicker, timeFilter, isPlaying, togglePlaying, setDayFilter} = props;
 
 	if (selected === 'general') {
 		return (
 			<div className="bottom-bar-filters">
-				<DayFilter setFilter={() => {
-				}}/>
+				<DayFilter setFilter={setDayFilter}/>
 				<TimeFilter {...timeFilter}/>
 
 				<PlayButton
@@ -47,6 +46,7 @@ const BottomBarOptions = (props) => {
 BottomBarOptions.propTypes = {
 	datePicker: PropTypes.shape(HolidayDatePicker.propTypes).isRequired,
 	timeFilter: PropTypes.shape(TimeFilter.propTypes).isRequired,
+	setDayFilter: PropTypes.func.isRequired,
 	selected: PropTypes.string.isRequired,
 	isPlaying: PropTypes.bool.isRequired,
 	togglePlaying: PropTypes.func.isRequired,
