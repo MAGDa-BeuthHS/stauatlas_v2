@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const express = require('express');
 const router = express.Router();
 const _ = require('lodash');
@@ -44,64 +45,6 @@ let formatResult = function (avgSpeeds) {
 	return result;
 };
 
-// let formatResultChange = function (data) {
-//
-// 	// let res = [];
-// 	// let res1 = _.chain(data).groupBy('sensor_id')
-// 	// .map((groups) => {
-// 	// 	return _.chain(groups).groupBy((obj) => {
-// 	// 		return String(obj.toJSON().timestamp).substring(0,18);
-// 	// 	})
-// 	// });
-//
-//
-// 	// _.each(res1, (arr) => {
-// 	// 	res.push(arr);
-// 	// });
-// 	// _.each(res1, (subObjs) => {
-// 	// 	_.each(subObjs, (objs) => {
-// 	// 		_.each(objs, (val, key) => {
-// 	// 			res.push(key);
-// 	// 		})
-// 	// 	})
-// 	// });
-// 	// let groups = _.groupBy(data, 'sensor_id');
-// 	// _.each(groups, (arr) =>{
-// 	// 	let subArr = _.groupBy(arr, (obj) => {
-// 	// 		return String(obj.toJSON().timestamp).substring(0,18);
-// 	// 	});
-// 	// 	_.each(subArr, (subObj) => {
-// 	// 		_.each(subObj, (dataArr) => {
-// 	// 			let
-// 	// 		})
-// 	// 	})
-// 	// let timeGrouped = _.groupBy(newArr, (obj) => {
-// 	// 	return obj.timestamp.get('hour');
-// 	// });
-// 	// res1.push(subArr);
-// 	// _.each(timeGrouped, (groupedArr) => {
-// 	// 	groupedArr[0].avg_speed = _.meanBy(groupedArr, 'avg_speed');
-// 	// 	res1.push(groupedArr[0]);
-// 	// });
-//
-// 	// });
-//
-// 	let result = [];
-// 	_.each(data, function (val) {
-// 		let tmp = {
-// 			timestamp: val.timestamp,
-// 			sensor_id: val.sensor_id,
-// 			relativeSpeed: val.avg_speed * 100 / val.sensor_speed_limit.speed_limit,
-// 			averageSpeed: val.avg_speed,
-// 			latitude: val.sensor_gps_coordinate.latitude,
-// 			longitude: val.sensor_gps_coordinate.longitude,
-// 			speed_limit: val.sensor_speed_limit.speed_limit
-// 		};
-// 		result.push(tmp);
-// 	});
-// 	console.log('Events/Verlauf Resultat-Länge: ', result.length);
-// 	return result;
-// };
 
 sequelize
 	.authenticate()
