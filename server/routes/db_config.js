@@ -5,7 +5,7 @@
 
 module.exports = {
 
-	postgres_portfw: {
+	postgres_5433: {
 		db_name: 'postgres',
 		host: 'localhost',
 		user: 'postgres',

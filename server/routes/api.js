@@ -6,7 +6,7 @@ const moment = require('moment');
 const Sequelize = require('sequelize');
 const config = require('./db_config.js');
 
-// let conn = config['postgres_portfw'];
+// let conn = config['postgres_5433'];
 let conn = config['postgres'];
 
 const sequelize = new Sequelize(conn.db_name, conn.user, conn.password, {
@@ -517,12 +517,16 @@ router.get('/roads/avg', function (req, res) {
 		include: [
 			{
 				model: Avg_Speed,
+				attributes: ['avg'],
 				where: Sequelize.where(
 					Sequelize.col('road_avg_speed.gid'),
 					Sequelize.col('roads_osm.gid')
 				)
 			}
 		],
+		// attributes: [
+		// 	'type','maxspeed','geom'
+		// ],
 		where: {
 			type: {
 				$or : ['motorway','trunk','primary','secondary','tertiary']
@@ -530,7 +534,10 @@ router.get('/roads/avg', function (req, res) {
 			maxspeed: {
 				$ne : null
 			}
-		}
+		},
+		order: [
+			['type']
+		]
 	})
 		.then(function (avgRoads) {
 
@@ -549,7 +556,7 @@ router.get('/roads/avg', function (req, res) {
 
 			});
 			console.log('Formatresult, Länge: ' + result.length);
-			res.send(_.sortBy(result, ['speed_limit']));
+			res.send(result);
 		});
 });
 
