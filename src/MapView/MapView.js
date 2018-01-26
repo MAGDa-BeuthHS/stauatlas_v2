@@ -60,6 +60,8 @@ export class MapView extends Component {
 				/>
 				<ZoomControl position="topright" />
 
+				<span className="title">Stauatlas</span>
+
 				<div className="box location-btn">
 					<a
 						className="btn-icon"

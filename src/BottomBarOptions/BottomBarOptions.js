@@ -8,22 +8,14 @@ import PlayButton from '../PlayButton/PlayButton';
 
 import './bottom-bar-options.css';
 
-const propTypes = {
-	handleOnDateClick: PropTypes.func.isRequired,
-	selected: PropTypes.string.isRequired,
-	isPlaying: PropTypes.bool.isRequired,
-	togglePlaying: PropTypes.func.isRequired,
-};
-
 const BottomBarOptions = (props) => {
-	const {selected, handleOnDateClick, isPlaying, togglePlaying} = props;
+	const {selected, datePicker, timeFilter, isPlaying, togglePlaying, setDayFilter} = props;
 
 	if (selected === 'general') {
 		return (
 			<div className="bottom-bar-filters">
-				<DayFilter setFilter={() => {
-				}}/>
-				<TimeFilter/>
+				<DayFilter setFilter={setDayFilter}/>
+				<TimeFilter {...timeFilter}/>
 
 				<PlayButton
 					isPlaying={isPlaying}
@@ -34,10 +26,9 @@ const BottomBarOptions = (props) => {
 		return (
 			<div className="bottom-bar-filters">
 				<HolidayDatePicker
-					handleChangeDateStart={handleOnDateClick}
-					handleChangeDateEnd={handleOnDateClick}
+					{...datePicker}
 				/>
-				<TimeFilter/>
+				<TimeFilter {...timeFilter}/>
 
 				<PlayButton
 					isPlaying={isPlaying}
@@ -52,6 +43,13 @@ const BottomBarOptions = (props) => {
 	}
 };
 
-BottomBarOptions.propTypes = propTypes;
+BottomBarOptions.propTypes = {
+	datePicker: PropTypes.shape(HolidayDatePicker.propTypes).isRequired,
+	timeFilter: PropTypes.shape(TimeFilter.propTypes).isRequired,
+	setDayFilter: PropTypes.func.isRequired,
+	selected: PropTypes.string.isRequired,
+	isPlaying: PropTypes.bool.isRequired,
+	togglePlaying: PropTypes.func.isRequired,
+};
 
 export default BottomBarOptions;

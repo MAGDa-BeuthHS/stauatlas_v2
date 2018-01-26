@@ -3,8 +3,9 @@ import './App.css';
 
 import {MapView} from './MapView/MapView';
 import BottomBar from './BottomBar/BottomBar';
-import {getDailyTrafficProgress, getTrafficInfos} from './trafficService';
+import {getAllTrafficSensors, getTrafficProgressForDuration} from './trafficService';
 import moment from 'moment';
+import {CurrentPlayDate} from './CurrentPlayDate/CurrentPlayDate';
 
 const zoomRadius = {
 	11: 170,
@@ -46,26 +47,30 @@ export class App extends Component {
 			isPlaying: false,
 			playData: null,
 			playDate: null,
+			startDate: moment(),
+			endDate: moment().add(7, 'days'),
+			startHour: 9,
+			endHour: 18,
 		};
 
 		this.filterTrafficByColor = this.filterTrafficByColor.bind(this);
 		this.resetTraffic = this.resetTraffic.bind(this);
 		this.handleViewSidebar = this.handleViewSidebar.bind(this);
-		this.handleOnDateClick = this.handleOnDateClick.bind(this);
+		this.onChangeStartDate = this.onChangeStartDate.bind(this);
+		this.onChangeEndDate = this.onChangeEndDate.bind(this);
+		this.onChangeStartHour = this.onChangeStartHour.bind(this);
+		this.onChangeEndHour = this.onChangeEndHour.bind(this);
 		this.handleMapZoom = this.handleMapZoom.bind(this);
 		this.togglePlaying = this.togglePlaying.bind(this);
+		this.setDayFilter = this.setDayFilter.bind(this);
 
 		this.play = this.play.bind(this);
 		setInterval(this.play, 1000);
 	}
 
 	componentWillMount() {
-		if (typeof window !== 'object') {
-			return;
-		}
-		if (!('geolocation' in window.navigator)) {
-			return;
-		}
+		if (typeof window !== 'object') return;
+		if (!('geolocation' in window.navigator)) return;
 
 		this.getCurrentPosition();
 	}
@@ -75,7 +80,7 @@ export class App extends Component {
 	}
 
 	componentDidMount() {
-		getTrafficInfos()
+		getAllTrafficSensors()
 			.then((traffic) => {
 				App.setColor(traffic);
 
@@ -119,7 +124,6 @@ export class App extends Component {
 		);
 	};
 
-
 	resetTraffic() {
 		this.setState((prevState) => {
 			if (prevState.filteredTraffic !== this.state.traffic) {
@@ -162,11 +166,36 @@ export class App extends Component {
 		}));
 	}
 
-	// dummy
-	handleOnDateClick() {
-		this.setState(prevState => ({
-			bottomBarOpen: prevState.bottomBarOpen,
-		}));
+	// handles datepicker StartDate change
+	onChangeStartDate(startDate) {
+		if (this.state.endDate > startDate) {
+			this.setState(() => ({
+				endDate: startDate,
+				startDate
+			}));
+		} else {
+			this.setState({startDate});
+		}
+	}
+
+	// handles datepicker EndDate change
+	onChangeEndDate(endDate) {
+		if (endDate < this.state.startDate) {
+			this.setState(() => ({
+				startDate: endDate,
+				endDate
+			}));
+		} else {
+			this.setState({endDate});
+		}
+	}
+
+	onChangeStartHour(startHour) {
+		this.setState({startHour});
+	}
+
+	onChangeEndHour(endHour) {
+		this.setState({endHour});
 	}
 
 	togglePlaying() {
@@ -175,8 +204,34 @@ export class App extends Component {
 		}));
 	}
 
+	setDayFilter(dayIndex) {
+		const date = this.state.startDate
+			.clone()
+			.set('weekDay', dayIndex);
+
+		this.setState({
+			startDate: date,
+			endDate: date,
+			playDate: this.state.playDate && date,
+		});
+	}
+
+	// Our data is from 2014...
+	static travelBackInTimeTo2014(date) {
+		return date.clone()
+			.set('year', 2014)
+			.set('minute', 0)
+			.set('second', 0)
+			.set('millisecond', 0);
+	}
+
 	play() {
 		const precision = 2;
+
+		const dayLength = Math.ceil(this.state.endHour - this.state.startHour) + 1;
+		const startDate = App.travelBackInTimeTo2014(this.state.startDate);
+		const endDate = App.travelBackInTimeTo2014(this.state.endDate);
+
 		const {playDate, playData, isPlaying} = this.state;
 
 		if (!isPlaying) {
@@ -184,25 +239,36 @@ export class App extends Component {
 		}
 
 		if (!playDate) {
-			const date = moment()
-				.set('year', 2014)
-				.set('minute', 0)
-				.set('second', 0)
-				.set('millisecond', 0);
+			this.setState({playDate: startDate});
 
-			this.setState({playDate: date});
-
-			getDailyTrafficProgress(date, 1)
-				.then(playData => this.setState({
-					playData: App.setColor(playData)
-				}));
+			getTrafficProgressForDuration(
+				startDate,
+				endDate,
+				1,
+			).then(playData => this.setState({
+				playData: App.setColor(playData)
+			}));
 
 			return;
 		}
 
-		let playIndex = playDate.get('hour');
-		playIndex = (playIndex + precision) % 24;
-		const nextDate = playDate.clone().set('hour', playIndex);
+		if (!playData) {
+			return;
+		}
+
+		const playIndex = Math.max(0, playDate.get('hour') - this.state.startHour);
+		const nextPlayIndex = Math.min((playIndex + precision) % dayLength, this.state.endHour);
+		const hour = nextPlayIndex + this.state.startHour;
+		let nextDate = playDate.clone().set('hour', hour);
+
+		if (nextPlayIndex < playIndex) {
+			nextDate = nextDate.add(1, 'day');
+		}
+
+		if (nextDate.isAfter(endDate)) {
+			nextDate = startDate;
+			nextDate.set('hour', hour);
+		}
 
 		const timestamp = playDate.toISOString();
 		const filteredTraffic = playData.filter(
@@ -215,6 +281,20 @@ export class App extends Component {
 	}
 
 	render() {
+		const datePicker = {
+			startDate: this.state.startDate,
+			endDate: this.state.endDate,
+			onChangeStartDate: this.onChangeStartDate,
+			onChangeEndDate: this.onChangeEndDate,
+		};
+
+		const timeFilter = {
+			start: this.state.startHour,
+			end: this.state.endHour,
+			onChangeStart: this.onChangeStartHour,
+			onChangeEnd: this.onChangeEndHour,
+		};
+
 		return (
 			<div className="stauatlas-app">
 				<BottomBar
@@ -222,7 +302,13 @@ export class App extends Component {
 					isPlaying={this.state.isPlaying}
 					togglePlaying={this.togglePlaying}
 					handleViewSidebar={this.handleViewSidebar}
-					handleOnDateClick={this.handleOnDateClick}
+					datePicker={datePicker}
+					timeFilter={timeFilter}
+					setDayFilter={this.setDayFilter}
+				/>
+
+				<CurrentPlayDate
+					playDate={this.state.playDate}
 				/>
 
 				<MapView

@@ -8,8 +8,9 @@
 	top: 2em;
 	right: 3em;
 }
-.leaflet-control-zoom leaflet-bar leaflet-control {
-	margin: 0;
+
+.leaflet-right .leaflet-control {
+	margin-right: 0;
 }
 
 .leaflet-right .leaflet-control {
@@ -18,8 +19,8 @@
 
 .location-btn {
 	cursor: pointer;
-	top: 2em;
-	left: 2em;
+	top: 10em;
+	right: 3em;
 	padding: 6px;
 }
 
@@ -59,4 +60,15 @@
 .traffic-light-circle {
 	stroke-width: 1;
 	stroke: var(--color-gray-lighter)
+}
+
+.title {
+	position: relative;
+	top: 1em;
+	left: 1em;
+	z-index: 401;
+	font-weight: normal;
+	font-size: 33px;
+	text-shadow: 1px 1px var(--color-gray);
+	color: var(--text-color-light);
 }

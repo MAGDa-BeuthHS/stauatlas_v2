@@ -1,42 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
 import 'moment/locale/de';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './holidayDatePicker.css';
 
-const highlightWithRanges = [
-	{
-		'holiday-datepicker__holiday': [
-			moment('23.12.2017', 'DD.MM.YYYY'),
-			moment('24.12.2017', 'DD.MM.YYYY'),
-			moment('25.12.2017', 'DD.MM.YYYY'),
-			moment('26.12.2017', 'DD.MM.YYYY'),
-			moment('27.12.2017', 'DD.MM.YYYY'),
-			moment('28.12.2017', 'DD.MM.YYYY'),
-			moment('29.12.2017', 'DD.MM.YYYY'),
-			moment('30.12.2017', 'DD.MM.YYYY'),
-			moment('31.12.2017', 'DD.MM.YYYY'),
-			moment('01.01.2018', 'DD.MM.YYYY'),
-			moment('02.01.2018', 'DD.MM.YYYY'),]
-	},
-	{
-		'holiday-datepicker__event': [
-			moment().add(1, 'days'),
-			moment().add(2, 'days'),
-			moment().add(3, 'days'),
-			moment().add(4, 'days')]
-	}
-];
-const startDate = moment();
-const endDate = moment().add(7, 'days');
+import {events, holidays} from '../utils/holidays';
 
-const propTypes = {
-	handleChangeDateStart: PropTypes.func.isRequired,
-	handleChangeDateEnd: PropTypes.func.isRequired,
-};
+const highlightWithRanges = [
+	{'holiday-datepicker__holiday': holidays},
+	{'holiday-datepicker__event': events}
+];
 
 const HolidayDatePickerLegend = () => (
 	<div className="holiday-datepicker-legend">
@@ -51,14 +26,14 @@ const HolidayDatePickerLegend = () => (
 	</div>
 );
 
-const HolidayDatePicker = ({handleChangeDateStart, handleChangeDateEnd}) => {
+const HolidayDatePicker = ({startDate, endDate, onChangeStartDate, onChangeEndDate}) => {
 	return (
 		<div className="holiday-datepickers">
 			<DatePicker
 				selected={startDate}
 				selectsStartstartDate={startDate}
 				endDate={endDate}
-				onChange={handleChangeDateStart}
+				onChange={onChangeStartDate}
 				dateFormat="DD.MM.YYYY"
 				calendarClassName="holiday-datepicker"
 				placeholderText="Click to select a date"
@@ -74,7 +49,7 @@ const HolidayDatePicker = ({handleChangeDateStart, handleChangeDateEnd}) => {
 				selectsEnd
 				startDate={startDate}
 				endDate={endDate}
-				onChange={handleChangeDateEnd}
+				onChange={onChangeEndDate}
 				dateFormat="DD.MM.YYYY"
 				calendarClassName="holiday-datepicker"
 				placeholderText="Click to select a date"
@@ -88,5 +63,11 @@ const HolidayDatePicker = ({handleChangeDateStart, handleChangeDateEnd}) => {
 	);
 };
 
-HolidayDatePicker.propTypes = propTypes;
+HolidayDatePicker.propTypes = {
+	startDate: PropTypes.object.isRequired,
+	endDate: PropTypes.object.isRequired,
+	onChangeStartDate: PropTypes.func.isRequired,
+	onChangeEndDate: PropTypes.func.isRequired,
+};
+
 export default HolidayDatePicker;
