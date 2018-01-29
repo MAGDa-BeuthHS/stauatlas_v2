@@ -459,7 +459,6 @@ router.get('/roads/avg', function (req, res) {
 		include: [
 			{
 				model: Avg_Speed,
-				attributes: ['avg'],
 				where: Sequelize.where(
 					Sequelize.col('road_avg_speed.gid'),
 					Sequelize.col('roads_osm.gid')
@@ -489,6 +488,7 @@ router.get('/roads/avg', function (req, res) {
 				// console.log(val);
 				let tmp = {
 					road_id: val.gid,
+					direction: val.road_avg_speed.direction,
 					relativeSpeed: val.road_avg_speed.avg * 100 / val.maxspeed,
 					averageSpeed: val.road_avg_speed.avg,
 					speed_limit: val.maxspeed,
