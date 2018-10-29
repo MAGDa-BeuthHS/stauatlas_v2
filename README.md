@@ -17,19 +17,18 @@ npm install
 
 **Configure SSH for remote Postgres-DB**
 
-The PostgresSQL-Server at Beuth Hochschule can only be accessed inside the Beuth network or via a SSH-Tunnel.
 Use for example Putty in Windows.
 
 ```
-Host name: compute.beuth-hochschule.de
+Host name: your_host
 Port: 22
 ```
 
 Command to run on linux/mac:
-```ssh -L 5432:dbl46.beuth-hochschule.de:5432 username@compute.beuth-hochschule.de```
+```ssh -L 5432:dbyour_host:5432 username@your_host```
 
 for http proxy, or just use direct port forwarding:
-```ssh -f yourusername@compute.beuth-hochschule.de -L 5433:dbl46.beuth-hochschule.de:5432 -N```
+```ssh -f yourusername@your_host -L 5433:your_dbhost:5432 -N```
 
 
 ## Start
